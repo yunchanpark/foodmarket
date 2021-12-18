@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<!-- head -->
+<th:block th:include="@{/layout/admin/includes/head.html}"></th:block>
+<!-- head 끝 -->
+<body class="sb-nav-fixed">
+    <!--header menu-->
+	<th:block th:include="@{/layout/admin/includes/header.html}"></th:block>
+    <!--header menu 끝-->
+	<!-- 본문 -->
+    <div id="layoutSidenav">
+        <!--sidebar-->
+		<th:block th:include="@{/layout/admin/includes/sidebar.html}"></th:block>
+        <!--sidebar 끝-->
+        <!--content-->
+        <div id="layoutSidenav_content">
+            <main>
+                <!--내용 입력-->
+
+
+
+
+
+
+                <!--내용 입력 끝-->
+            </main>
+            <!--footer-->
+			<th:block th:include="@{/layout/admin/includes/footer.html}"></th:block>
+            <!--footer 끝-->
+        </div>
+        <!--content 끝-->
+    </div>
+	<!-- 본문 끝 -->
+    <!--plugin-->
+	<th:block th:include="@{/layout/admin/includes/plugin.html}"></th:block>
+    <!--plugin끝-->
+</body>
+</html>

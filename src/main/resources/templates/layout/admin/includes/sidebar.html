@@ -1,0 +1,92 @@
+<div id="layoutSidenav_nav">
+	<nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+	    <div class="sb-sidenav-menu">
+	        <div class="nav">
+	            <div class="sb-sidenav-menu-heading">바로가기</div>
+	            <a class="nav-link" th:href="@{/}">
+	                <span class="sb-nav-link-icon">
+	                    <i class="fas fa-tachometer-alt"></i>
+	                </span>
+	                쇼핑몰 바로가기
+	            </a>
+	            <div class="sb-sidenav-menu-heading">관리</div>
+	            <a class="nav-link collapsed" th:href="@{/}" data-bs-toggle="collapse"
+	                data-bs-target="#collapseProduct" aria-expanded="false" aria-controls="collapseProduct">
+	                <span class="sb-nav-link-icon icon-w">
+	                    <i class="fas fa-utensils"></i>
+	                </span>
+	                상품관리
+	                <span class="sb-sidenav-collapse-arrow">
+	                    <i class="fas fa-angle-down"></i>
+	                </span>
+	            </a>
+	            <div class="collapse" id="collapseProduct" aria-labelledby="headingOne"
+	                data-bs-parent="#sidenavAccordion">
+	                <nav class="sb-sidenav-menu-nested nav">
+	                    <a class="nav-link" th:href="@{/}">상품등록</a>
+	                    <a class="nav-link" th:href="@{/}">상품리스트</a>
+	                </nav>
+	            </div>
+	            <a class="nav-link collapsed" th:href="@{/}" data-bs-toggle="collapse"
+	                data-bs-target="#collapseOrder" aria-expanded="false" aria-controls="collapseOrder">
+	                <span class="sb-nav-link-icon icon-w">
+	                    <i class="fas fa-shopping-cart"></i>
+	                </span>
+	                주문관리
+	                <span class="sb-sidenav-collapse-arrow">
+	                    <i class="fas fa-angle-down"></i>
+	                </span>
+	            </a>
+	            <div class="collapse" id="collapseOrder" aria-labelledby="headingOne"
+	                data-bs-parent="#sidenavAccordion">
+	                <nav class="sb-sidenav-menu-nested nav">
+	                    <a class="nav-link" th:href="@{/}">주문내역</a>
+	                </nav>
+	            </div>
+	            <a class="nav-link collapsed" th:href="@{/}" data-bs-toggle="collapse"
+	                data-bs-target="#collapseUser" aria-expanded="false" aria-controls="collapseUser">
+	                <span class="sb-nav-link-icon icon-w">
+	                    <i class="fas fa-user"></i>
+	                </span>
+	                사용자관리
+	                <span class="sb-sidenav-collapse-arrow">
+	                    <i class="fas fa-angle-down"></i>
+	                </span>
+	            </a>
+	            <div class="collapse" id="collapseUser" aria-labelledby="headingOne"
+	                data-bs-parent="#sidenavAccordion">
+	                <nav class="sb-sidenav-menu-nested nav">
+	                    <a class="nav-link" th:href="@{/}">회원관리</a>
+	                    <a class="nav-link" th:href="@{/}">운영자관리</a>
+	                    <a class="nav-link" th:href="@{/}">적립금관리</a>
+	                </nav>
+	            </div>
+	            <a class="nav-link collapsed" th:href="@{/}" data-bs-toggle="collapse"
+	                data-bs-target="#collapseSupport" aria-expanded="false" aria-controls="collapseSupport">
+	                <span class="sb-nav-link-icon icon-w">
+	                    <i class="fas fa-location-arrow"></i>
+	                </span>
+	                게시판관리
+	                <span class="sb-sidenav-collapse-arrow">
+	                    <i class="fas fa-angle-down"></i>
+	                </span>
+	            </a>
+	            <div class="collapse" id="collapseSupport" aria-labelledby="headingOne"
+	                data-bs-parent="#sidenavAccordion">
+	                <nav class="sb-sidenav-menu-nested nav">
+	                    <a class="nav-link" th:href="@{/}">상품후기관리</a>
+	                    <a class="nav-link" th:href="@{/}">1:1문의관리</a>
+	                    <a class="nav-link" th:href="@{/}">공지사항관리</a>
+	                </nav>
+	            </div>
+	            <div class="sb-sidenav-menu-heading">차트</div>
+	            <a class="nav-link" th:href="@{/}">
+	                <span class="sb-nav-link-icon">
+	                	<i class="fas fa-chart-area"></i>
+	                </span>
+	                통계
+	            </a>
+	        </div>
+	    </div>
+	</nav>
+</div>

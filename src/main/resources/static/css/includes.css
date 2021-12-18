@@ -1,0 +1,394 @@
+@charset "UTF-8";
+/* 기본 설정 */
+:root {
+    --bs-text-1: #333333;
+    --bs-text-2: #666666;
+    --bs-text-3: #c2bfbf;
+    --bs-border-1: #f4f4f4;
+    --bs-border-2: #dddfe1;
+    --bs-border-3: #dddddd;
+    --bs-content-1: #D8D8D8;
+    --bs-purple: #5F0080;
+    --bg-1: #f7f7f7;
+}
+
+*,
+*::after,
+*::before {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+li {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+.box_inner {
+    width: 1050px;
+    margin: 0 auto;
+}
+/* 기본 설정 */
+
+/* Header */
+header {
+    width: 100%;
+    height: 160px;
+}
+
+/* 상단메뉴 */
+.top_gnb {
+    position: relative;
+    height: 37px;
+}
+
+.top_gnb_menu {
+    position: absolute;
+    width: 197px;
+    right: 0;
+}
+
+.top_gnb_menu li {
+    float: left;
+    width: 64px;
+    height: 37px;
+    text-align: center;
+    line-height: 37px;
+}
+
+.top_gnb_menu>li::after {
+    content: "|";
+    float: right;
+    display: block;
+    color: var(--bs-content-1);
+    font-size: 13px;
+}
+
+.top_gnb_menu>li:last-child {
+    width: 67px;
+    padding-left: 3px;
+}
+
+.top_gnb_menu li:last-child::after {
+    content: none;
+}
+
+.top_gnb_menu li a {
+    height: 37px;
+    font-size: 12px;
+    font-weight: bold;
+    color: var(--bs-text-1);
+    cursor: pointer;
+}
+
+.top_gnb_menu>li:first-child a {
+    height: 37px;
+    font-size: 12px;
+    color: var(--bs-purple);
+}
+
+.service_sub_menu {
+    position: absolute;
+    right: 0;
+    width: 90px;
+    height: 120px;
+    border: 1px solid var(--bs-border-3);
+    display: none;
+}
+
+.service_sub_menu li {
+    text-align: left;
+    padding-left: 13px;
+    cursor: pointer;
+}
+
+.top_gnb_menu li:last-child:hover .service_sub_menu {
+    display: block;
+}
+/* 상단메뉴 끝 */
+
+/* 로고 logo_gnb */
+.logo_gnb {
+    border-bottom: none;
+}
+
+.logo_gnb img {
+    height: 130px;
+    display: block;
+    margin: 0 auto;
+}
+/* 로고 logo_gnb 끝*/
+
+/* 하단 메뉴 */
+.txt {
+    font-size: 16px;
+    color: var(--bs-text-1);
+    font-weight: 600;
+    letter-spacing: -0.3px;
+}
+
+.bottom_gnb {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 76px;
+    border-bottom: 1px solid var(--bs-border-1);
+    background-color: white;
+    z-index: 200;
+}
+
+.bottom_gnb_main {
+    height: 75px;
+    display: flex;
+}
+
+.bottom_gnb_main ul li {
+    float: left;
+    height: 75px;
+    line-height: 75px;
+}
+
+.menu1 {
+    width: 168px;
+    display: block;
+}
+
+.bottom_gnb_main ul li+li {
+    width: 140px;
+    text-align: center;
+}
+
+.menu1 img {
+    float: left;
+    width: 18px;
+    height: 22px;
+    margin-right: 14px;
+    margin-top: 27px;
+}
+
+.bottom_gnb_main ul div {
+    display: block;
+    float: left;
+    height: 55px;
+}
+
+.word_search {
+    position: relative;
+    width: 242px;
+    height: 75px;
+    display: block;
+}
+
+.word_search>input[type="text"] {
+    position: absolute;
+    top: 50%;
+    margin-top: -18px;
+    width: 242px;
+    height: 36px;
+    border: none;
+    border-radius: 20px;
+    background-color: var(--bg-1);
+    padding-left: 20px;
+    outline: none;
+    font-size: 12px;
+}
+
+.word_search>input[type="text"]::placeholder {
+    font-weight: 600;
+    color: var(--bs-text-3);
+}
+
+.word_search>input[type="text"]:focus {
+    background-color: white;
+    border: 1px solid var(--bs-text-3);
+}
+
+.search_btn {
+    position: absolute;
+    top: 50%;
+    margin-top: -18px;
+    width: 36px;
+    height: 36px;
+    right: 5px;
+}
+
+.inner_cart_count {
+    position: relative;
+    width: 80px;
+}
+
+.cart_ico {
+    position: absolute;
+    top: 50%;
+    margin-top: -15px;
+    width: 36px;
+    height: 36px;
+    right: 5px;
+}
+
+.search_del {
+    position: absolute;
+    right: 40px;
+    top: 50%;
+    margin-top: -18px;
+    width: 36px;
+    height: 36px;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    opacity: 0;
+}
+
+.cart_count {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    right: 0;
+    top: 50%;
+    margin-top: -14px;
+    font-size: 12px;
+    font-weight: bold;
+    text-align: center;
+    border: 2px solid white;
+    border-radius: 100%;
+    background-color: var(--bs-purple);
+    color: white;
+}
+
+.cloud {
+	position: relative;
+	bottom: -80px;
+	right: -50px;
+	z-index: 10;
+	opacity: 0;
+}
+
+.cart_title {
+    position: relative;
+    display: block;
+    right: 15px;
+    bottom: -75px;
+    width: 120px;
+    color: var(--bs-text-1);
+    font-size: 14px;
+    font-weight: 800;
+    text-align: center;
+    line-height: 35px;
+    height: 70px;
+    border: 1px solid var(--bs-border-3);
+    background-color: rgba(255, 255, 255, 0.5);
+    opacity: 0;
+}
+
+.service_sub_category {
+    position: relative;
+    width: 168px;
+    display: none;
+    z-index: 100;
+}
+
+
+.service_sub_category li {
+    border: 1px solid var(--bs-border-3);
+    border-top: none;
+    background-color: white;
+    width: 168px;
+    height: 50px;
+    text-align: left;
+    padding-left: 10px;
+    line-height: 50px;
+}
+
+.service_sub_category li:first-child {
+    border-top: 1px solid var(--bs-border-3);
+}
+
+.service_sub_category li a {
+    font-size: 13px;
+    line-height: 13px;
+    font-weight: 800;
+}
+
+.service_sub_category li:hover {
+    background: rgb(246, 246, 246);
+    cursor: pointer;
+
+}
+
+.service_sub_category li:hover a {
+    color: var(--bs-purple);
+}
+
+.bottom_gnb_menu li:first-child:hover #service_sub_category {
+    display: block;
+}
+/* 하단 메뉴 끝*/
+/* Header 끝 */
+
+/* Footer */
+footer {
+    clear: both;
+    margin-bottom: 0;
+    background-color: white;
+    border-top: 1px solid var(--bs-border-3);
+    margin-bottom: 60px;
+    padding-left: 20px;
+}
+
+footer .foot_area {
+    position: relative;
+}
+
+footer .foot_area .foot_list {
+    padding-top: 25px;
+    padding-bottom: 25px;
+}
+
+footer .foot_area .foot_list li {
+    float: left;
+}
+
+footer .foot_area .foot_list li:first-child::after {
+    content: "|";
+    display: inline-block;
+    padding: 0 10px;
+    font-size: 10px;
+    color: black;
+    position: relative;
+    top: -2px;
+}
+
+footer .foot_area .foot_list li a {
+    font-weight: bold;
+    font-size: 15px;
+    color: black;
+}
+
+footer .foot_area h2 {
+    padding-top: 25px;
+    font-size: 14px;
+    color: var(--bs-text-2);
+}
+
+footer .foot_area .addr {
+    padding-top: 5px;
+    line-height: 1.4;
+    font-size: 13px;
+    color: var(--bs-text-2);
+}
+
+footer .foot_area .addr .space0 {
+    letter-spacing: 0;
+}
+
+footer .foot_area .copy {
+    padding-top: 3px;
+    font-size: 13px;
+    color: var(--bs-text-2);
+    letter-spacing: 0;
+}
+/* Footer 끝 */
