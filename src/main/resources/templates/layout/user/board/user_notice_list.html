@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<!-- head -->
+<th:block th:include="@{/layout/user/includes/head.html}"></th:block>
+<link rel="stylesheet" type="text/css" href="/css/user_board.css">
+
+<!-- head 끝 -->
+
+<body>
+	<div class="wrap">
+		<!-- header -->
+		<th:block th:include="@{/layout/user/includes/header.html}"></th:block>
+		<!-- header 끝 -->
+
+		<!-- section -->
+		<section>
+			<th:block th:include="@{/layout/admin/includes/menubar.html}"></th:block>
+
+
+			<!-- 내용 입력 -->
+			<div class="notice">
+				<div class="notice_title">공지사항</div>
+				<div class="notice_content">
+					<table class="notice_content_table">
+						<thead>
+							<tr>
+								<th>번호</th>
+								<th>제목</th>
+								<th>작성자</th>
+								<th>작성일</th>
+								<th>조회수</th>
+							</tr>
+						</thead>
+						<tbody>
+<!--  							<c:when test="${empty list || fn:length(list) == 0 }">
+                                        데이터가 없습니다<br>
+							</c:when>
+-->	
+									<tr th:each="dto: ${list}">
+										<td>[[${dto.noticeNo }]]</td>
+										<td><a href="user_notice_view.do?notice_no=${dto.notice_no }">[[${dto.notice_title }]]</a></td>          
+										<td>[[${dto.id }]]</td>
+										<td>[[${#temporals.format(dto.regDate, 'yyyy-MM-dd HH:mm:ss') }]]</td>
+										<td>[[${dto.viewCnt }]]</td>
+									</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+			<!-- 내용 입력 끝 -->
+		</section>
+		<!-- section 끝 -->
+
+		<!-- footer -->
+		<th:block th:include="@{/layout/user/includes/footer.html}"></th:block>
+		<!-- footer 끝 -->
+	</div>
+	<!-- plugin -->
+	<th:block th:include="@{/layout/user/includes/plugin.html}"></th:block>
+	<!-- plugin 끝 -->
+</body>
+
+</html>

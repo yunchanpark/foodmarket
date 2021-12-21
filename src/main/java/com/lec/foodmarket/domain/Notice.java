@@ -27,6 +27,7 @@ import lombok.ToString;
 @ToString(callSuper=true)
 @EqualsAndHashCode(callSuper=true)
 @Entity(name="notice")
+
 public class Notice extends BaseEntity implements Auditable {
 	
 	// 기본키 공지사항 번호
@@ -39,7 +40,7 @@ public class Notice extends BaseEntity implements Auditable {
 	@ManyToOne
 	@NonNull
 	@NotNull
-	@JoinColumn(name="id")
+	@JoinColumn(name="uid")
 	private Member id;
 	
 	// 공지사항 제목(Null 허용x)
@@ -57,6 +58,8 @@ public class Notice extends BaseEntity implements Auditable {
 	// 공지사항 조회수(기본값 0)
 	@Column(name="notice_viewcnt", columnDefinition="integer default 0")
 	private int viewCnt;
+
+
 }
 
 

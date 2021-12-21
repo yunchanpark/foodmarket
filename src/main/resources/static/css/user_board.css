@@ -1,0 +1,291 @@
+@charset "UTF-8";
+
+
+/* 모바일 부분 */
+
+/* 테블릿 버전 */
+@media (min-width: 600px) and (max-width: 799px) {
+    
+}
+/* 테블릿 버전 끝 */
+
+/* pc 화면 */
+@media (min-width: 800px) {
+
+	* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+a {
+    text-decoration: none;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+
+/* notice_list.jsp*/
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+a {
+    text-decoration: none;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+
+/* notice_list.jsp*/
+.content {
+    display: flex;
+    width: 1050px;
+    margin: 0 auto;
+    padding-top: 50px;
+    height: 1200px;
+    margin-top:100px;
+}
+
+.service_center {
+    width: 180px;
+    margin-right: 70px;
+    text-align: center;
+    
+}
+
+.list_menubar tr th a {
+    display: block;
+    width: 180px;
+}
+
+.list_menubar tr th {
+    border: 1px solid rgb(189, 186, 186);
+    padding: 15px 0;
+}
+
+.list_menubar th:hover{
+    background-color: #faf4fc;
+}
+
+.notice_content {
+    position: relative;
+    width: 820px;
+}
+
+.notice_title {
+    width: 820px;
+    padding: 5px 0 34px;
+    font-size: 24px;
+    color: #333333;
+}
+
+.notice_content_table {
+    width: 820px;
+}
+
+.notice_content_table thead tr th, 
+.notice_content_table tbody tr td {
+    border: 1px solid #000;
+    border-left: none;
+    border-right: none;
+}
+
+.notice_content_table thead tr th {
+    border-top: 2px solid #522772;
+    color: #4C4C4C;
+    font-size: 12px;
+    padding: 20px 0;
+    height: 57px;
+}
+
+.notice_content_table tbody tr td,  
+.notice_content_table tbody tr td a{
+    height: 73px;
+    font-size: 12px;
+    padding: 20px 0 20px 0;
+    color: #555555;
+    text-align: center;
+}
+/*
+.notice_content_table tbody tr td:nth-child(2),
+.notice_content_table tbody tr td a {
+    text-align: left;
+}
+*/
+
+.btn {
+    position: absolute;
+    right: 50px;
+    margin-top: 50px;
+    width: 100px;
+    height: 35px;
+    border-radius: 8px;
+    border: none;
+    background: #337ab7;
+    color: #FFFFFF;
+    font-size: 14px;
+    cursor: pointer;
+    line-height: normal;
+}
+
+/*고객센터 리스트 제목*/
+.service_center_title{
+    font-size: 28px;
+    padding: 5px 0px 35px 1px;
+}
+
+
+
+
+/* notice_write.jsp*/
+.lab{
+    width: 100px;
+    height: 50px;
+    font-size: 20px;
+    display: inline-block;
+    text-align: center;
+    line-height: 50px;
+}
+
+.form-control{
+    width: 650px;
+    height: 50px;
+    vertical-align:middle;
+}
+
+.total{
+    margin-top: 5px;
+    
+}
+
+.notice_list_title{
+    vertical-align: center;
+}
+
+#notice_content{
+    height: 600px;
+}
+
+.lab_content{
+    margin: auto; 
+    vertical-align: middle;
+    
+}
+  
+.write_save{
+    right: 160px;
+}
+  
+  
+/* notice_view.jsp*/
+/* 상단:  번호, 작성일, 조회수 */
+.notice_regdate{
+    text-align: right;
+    margin-left: 400px;
+    vertical-align: middle;
+} 
+
+.notice_viewcnt{
+	text-align: right;
+    margin-left: 50px;
+}
+
+.notice_norevi{
+	height: 30px;
+	vertical-align: middle;
+}
+
+.notice_view_writer{
+	width: 700px;
+}
+
+/* 제목, 작성자, 내용 */
+.view_lab{
+    width: 120px;
+/*  height: 40px;  */
+	height: 55px;
+    font-size: 20px;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+/*  margin-top: 15px; */
+	line-height: 55px;
+    
+}
+
+.notice_view_tic{
+	width: 650px;
+	height: 55px;
+	display : inline-block;
+	line-height: 55px;
+}
+
+
+
+.mb-3{
+	display : inline-block;
+}
+
+
+
+/* view 버튼 */
+.notice_view_update_btn{
+    right: 160px;
+}
+  
+.notice_view_list_btn{
+ 	right: 380px
+ }
+  
+.notice_view_delete_btn{
+ 	right: 270px
+ }
+  
+ .notice_view_write_btn{
+ 	right: 50px
+ }
+/* view 버튼 끝*/
+  
+  
+/* update 버튼 */
+.notice_update_success_btn{
+	right: 50px
+}
+
+.notice_update_back{
+	right: 160px
+}
+
+.notice_update_list{
+	right: 270px
+}
+	
+
+/* update 버튼 끝*/
+
+  
+  
+  
+  
+/* inquiry */
+.inquiry_write_images{
+	top: 600px
+}
+  
+.inquiry_content{
+	position: relative;
+    width: 820px;
+    height: 600px;
+}
+
+  
+}
+/* pc 화면 끝 */
+

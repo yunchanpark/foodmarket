@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<!-- head -->
+<th:block th:include="@{/layout/admin/includes/head.html}"></th:block>
+<link rel="stylesheet" type="text/css" href="/css/board.css">
+<script th:src="@{/js/total.js}"></script>
+
+
+<!-- head 끝 -->
+<body class="sb-nav-fixed">
+	<!--header menu-->
+	<th:block th:include="@{/layout/admin/includes/header.html}"></th:block>
+	<!--header menu 끝-->
+	<!-- 본문 -->
+	<div id="layoutSidenav">
+		<!--sidebar-->
+		<th:block th:include="@{/layout/admin/includes/sidebar.html}"></th:block>
+		<!--sidebar 끝-->
+		<!--content-->
+		<div id="layoutSidenav_content">
+			<main>
+
+				<!--내용 입력-->
+				<div class="page-body">
+					<div class="main-hd">
+						<h2>통계</h2>
+					</div>
+					<div class="statistics-wrap">
+						<div class="tab-menu main-hd">
+							<ul>
+								<li class="now"><a th:href="@{/layout/admin/board/total}"
+									class="js-changeTab" data-page='sales'>매출</a></li>
+								<li><a th:href="@{/layout/admin/board/total2}"
+									class="js-changeTab" data-page='product'>상품</a></li>
+							</ul>
+						</div>
+						<div class="sect-cont mt-30 pd-none">
+							<div class="box-setting of-h">
+								<ul class="arr-align">
+									<li class="w40per calendar"><label> <input
+											type="date" name="startDate"
+											class="js-datepicker hasDatepicker" value="2021-12-21"
+											autocomplete="off" id="dp1640081573072">
+									</label> <span>~</span> <label> <input type="date"
+											name="endDate" class="js-datepicker hasDatepicker"
+											value="2021-12-21" autocomplete="off" id="dp1640081573073">
+
+									</label></li>
+									<li class="w40per period-6x intervalArea"><a
+										href="javascript:;" data-interval="day" data-interval_date="0"
+										class="btn-toggle now js-selectInterval">오늘</a> <a
+										href="javascript:;" data-interval="day"
+										data-interval_date="-1" class="btn-toggle js-selectInterval">어제</a>
+										<a href="javascript:;" data-interval="week"
+										data-interval_date="-1" class="btn-toggle js-selectInterval">1주일</a>
+										<a href="javascript:;" data-interval="month"
+										data-interval_date="-1" class="btn-toggle js-selectInterval">1개월</a>
+										<a href="javascript:;" data-interval="month"
+										data-interval_date="-3" class="btn-toggle js-selectInterval">3개월</a>
+										<a href="javascript:;" data-interval="month"
+										data-interval_date="-6" class="btn-toggle js-selectInterval">6개월</a>
+									</li>
+								</ul>
+							</div>
+							<!-- .box-setting -->
+						</div>
+
+
+						<div id="salesTab" class="tab-cont">
+							<div class="sect-cont mt-30 pd-none">
+								<div class="box-setting pd-none">
+									<ul class="today-status">
+										<li>
+											<dl>
+												<dd class="txt-black">
+													<span class="title">매출</span> <span class="totalPrice">0</span>원
+												</dd>
+											</dl>
+										</li>
+										<li class="last">
+											<dl>
+												<dd class="txt-black">
+													<span class="title">방문자수</span> <span class="visitorCnt">6</span>명
+												</dd>
+											</dl>
+										</li>
+									</ul>
+									<ul class="today-status last">
+										<li>
+											<dl>
+												<dd class="txt-black">
+													<span class="title">결제건수</span> <span class="payCnt">0</span>건
+												</dd>
+											</dl>
+										</li>
+										<li class="last">
+											<dl>
+												<dd class="txt-black">
+													<span class="title">환불건수</span> <span class="refundCnt">0</span>건
+												</dd>
+											</dl>
+										</li>
+									</ul>
+								</div>
+								<!-- .box-setting -->
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!--내용 입력 끝-->
+			</main>
+			<!--footer-->
+			<th:block th:include="@{/layout/admin/includes/footer.html}"></th:block>
+			<!--footer 끝-->
+		</div>
+		<!--content 끝-->
+	</div>
+	<!-- 본문 끝 -->
+	<!--plugin-->
+	<th:block th:include="@{/layout/admin/includes/plugin.html}"></th:block>
+	<!--plugin끝-->
+</body>
+<!-- <script type="text/javascript" th:src="@{/js/total.js}"></script>  -->
+
+</html>

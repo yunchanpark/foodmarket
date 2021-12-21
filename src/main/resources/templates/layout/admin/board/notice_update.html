@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<!-- head -->
+<th:block th:include="@{/layout/admin/includes/head.html}"></th:block>
+<link rel="stylesheet" type="text/css" href="/css/board.css">
+
+<!-- head 끝 -->
+<body class="sb-nav-fixed">
+	<!--header menu-->
+	<th:block th:include="@{/layout/admin/includes/header.html}"></th:block>
+	<!--header menu 끝-->
+	<!-- 본문 -->
+	<div id="layoutSidenav">
+		<!--sidebar-->
+		<th:block th:include="@{/layout/admin/includes/sidebar.html}"></th:block>
+		<!--sidebar 끝-->
+		<!--content-->
+		<div id="layoutSidenav_content">
+			<main>
+
+				<!--내용 입력-->
+				<div class="page-body">
+					<div class="main-hd">
+						<h2>공지사항 수정</h2>
+					</div>
+<!-- 				
+					<div class="tab-menu main-hd">
+						<ul>
+							<li class=""><a
+								th:href="@{/layout/admin/board/inquiry_list}">1:1문의 관리</a></li>
+							<li class=""><a th:href="@{/layout/admin/board/notice_list}">공지사항
+									관리</a></li>
+						</ul>
+					</div>
+-->				
+				</div>
+
+
+				<form name="frm" action="notice_writeOk" method="post" onsubmit="return chkSubmit()">
+					<div class="mb-3">
+						<label for="id">작성자:</label> <input type="text"
+							class="form-control" id="id" placeholder="작성자를 입력하세요" th:value="${member.uid }"
+							name="id">
+					</div>
+					<div class="mb-3 mt-3">
+						<label for="title">제목:</label> <input type="text"
+							class="form-control" id="title" placeholder="제목을 입력하세요"
+							name="title">
+					</div>
+					<div class="mb-3 mt-3">
+						<label for="content">내용:</label>
+						<textarea class="form-control" rows="5" id="content"
+							placeholder="내용을 입력하세요" name="content"></textarea>
+					</div>
+					
+
+					<button type="submit" class="btn btn-outline-dark">수정완료</button>
+					<button type="button" class="btn btn-outline-dark"
+						onclick="location.href='/layout/admin/board/notice_list'">돌아가기</button>
+				</form>
+
+
+				<!--내용 입력 끝-->
+			</main>
+			<!--footer-->
+			<th:block th:include="@{/layout/admin/includes/footer.html}"></th:block>
+			<!--footer 끝-->
+		</div>
+		<!--content 끝-->
+	</div>
+	<!-- 본문 끝 -->
+	<!--plugin-->
+	<th:block th:include="@{/layout/admin/includes/plugin.html}"></th:block>
+	<!--plugin끝-->
+</body>
+</html>

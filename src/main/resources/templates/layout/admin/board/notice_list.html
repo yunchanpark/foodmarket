@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<!-- head -->
+<th:block th:include="@{/layout/admin/includes/head.html}"></th:block>
+<link rel="stylesheet" type="text/css" href="/css/board.css">
+
+
+<!-- head 끝 -->
+<body class="sb-nav-fixed">
+	<!--header menu-->
+	<th:block th:include="@{/layout/admin/includes/header.html}"></th:block>
+	<!--header menu 끝-->
+	<!-- 본문 -->
+	<div id="layoutSidenav">
+		<!--sidebar-->
+		<th:block th:include="@{/layout/admin/includes/sidebar.html}"></th:block>
+		<!--sidebar 끝-->
+		<!--content-->
+		<div id="layoutSidenav_content">
+			<main>
+
+				<!--내용 입력-->
+				<div class="page-body">
+					<div class="main-hd">
+						<h2>공지사항관리</h2>
+					</div>
+
+					<!-- 				
+					<div class="tab-menu main-hd">
+						<ul>
+							<li class=""><a
+								th:href="@{/layout/admin/board/inquiry_list}">1:1문의 관리</a></li>
+							<li class=""><a th:href="@{/layout/admin/board/notice_list}">공지사항
+									관리</a></li>
+						</ul>
+					</div>
+-->
+
+					<div class="sect-cont mt-30">
+						<button type="button"
+							class="btn-h52-blue w180 mr-20 btn-add-notice"
+							onclick="location.href = '/layout/admin/board/notice_write'">공지사항
+							등록</button>
+						<span class="fc-gray">FoodMarket 공지사항을 등록할 수 있습니다.</span>
+					</div>
+					<div class="sect-top mt-30">
+						<form id="searchForm">
+							<input type="hidden" name="page" value="1">
+							<div class="tbl-setting">
+								<table>
+									<caption></caption>
+									<colgroup>
+										<col class="w140">
+										<col>
+									</colgroup>
+									<tbody>
+										<tr>
+											<th class="txt-l">문의일</th>
+											<td>
+												<ul class="arr-align">
+													<li class="w40per period-6x"><a href="javascript:;"
+														class="btn-toggle btn-dateterm" sdate="2021-12-19"
+														edate="2021-12-19">오늘</a> <a href="javascript:;"
+														class="btn-toggle btn-dateterm" sdate="2021-12-18"
+														edate="2021-12-18">어제</a> <a href="javascript:;"
+														class="btn-toggle btn-dateterm now" sdate="2021-12-12"
+														edate="2021-12-19">1주일</a> <a href="javascript:;"
+														class="btn-toggle btn-dateterm" sdate="2021-11-19"
+														edate="2021-12-19">1개월</a> <a href="javascript:;"
+														class="btn-toggle btn-dateterm" sdate="2021-09-19"
+														edate="2021-12-19">3개월</a> <a href="javascript:;"
+														class="btn-toggle btn-dateterm" sdate="2021-06-19"
+														edate="2021-12-19">6개월</a></li>
+													<li class="w40per calendar"><label> <input
+															type="date" name="startDate" value="2021-12-12"
+															id="dp1639908421652" class="hasDatepicker">
+													</label> <span>~</span> <label> <input type="date"
+															name="endDate" value="2021-12-19" id="dp1639908421653"
+															class="hasDatepicker">
+													</label></li>
+												</ul>
+											</td>
+										</tr>
+
+										<tr>
+											<th class="txt-l">키워드</th>
+											<td>
+												<ul class="arr-align">
+													<li class="w20per"><select name="keywordType">
+															<option value="titleid">제목+작성자</option>
+															<option value="titel">제목</option>
+															<option value="id">작성자</option>
+													</select></li>
+													<li class="w80per"><input type="text" name="keyword">
+													</li>
+												</ul>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<!-- .tbl-setting -->
+							<!--<div class="btn-c">
+								<a href="javascript:;" class="btn-h52-blue searchBtn js-search">검색</a>
+							</div>-->
+							<div class="btn-c">
+								<button class="btn-h52-blue searchBtn js-search"
+									name="btnSearch" id="btnSearch">검색</button>
+							</div>
+						</form>
+					</div>
+					<div class="pc-switch">
+						<div class="sect-hd">
+							<h3>검색 결과</h3>
+						</div>
+						<!-- .sect-hd -->
+
+						<div class="sect-cont">
+							<div class="tbl-list mt-20 js-inquiriesArea">
+								<table class="notice-table">
+									<caption></caption>
+									<colgroup>
+										<col style="width: 108px">
+										<col style="width: 95px">
+										<col style="width: 79px">
+										<col>
+										<col style="width: 110px">
+										<col style="width: 119px">
+									</colgroup>
+									<thead>
+										<tr>
+											<th style="width: 5%"><input type="checkbox"
+												id="checkbox"></th>
+											<th style="width: 5%">번호</th>
+											<th style="width: 45%">제목</th>
+											<th style="width: 15%">작성자</th>
+											<th style="width: 10%">조회수</th>
+											<th style="width: 20%">등록일</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="dto: ${list}">
+											<td>[[${dto.noticeNo }]]</td>
+											<td>[[${dto.title}]]</a></td>
+											<td>[[${dto.id }]]</td>
+											<td>[[${dto.viewCnt }]]</td>
+											<td>[[${#temporals.format(dto.regDate, 'yyyy-MM-dd
+												HH:mm:ss') }]]</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<div id="pagination"></div>
+						</div>
+						<!-- .sect-cont -->
+					</div>
+				</div>
+
+
+
+
+				<!--내용 입력 끝-->
+			</main>
+			<!--footer-->
+			<th:block th:include="@{/layout/admin/includes/footer.html}"></th:block>
+			<!--footer 끝-->
+		</div>
+		<!--content 끝-->
+	</div>
+	<!-- 본문 끝 -->
+	<!--plugin-->
+	<th:block th:include="@{/layout/admin/includes/plugin.html}"></th:block>
+	<!--plugin끝-->
+</body>
+</html>
