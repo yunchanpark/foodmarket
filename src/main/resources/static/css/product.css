@@ -1,1 +1,175 @@
 @charset "UTF-8";
+/* 상품 등록 메인 */
+:root {
+	--bg-green: #5cb85c;
+    --bd-gary: #d8d8d8;
+    --sect-gray: #eef1f4;
+}
+
+.pil-so {
+    color: red;
+}
+
+.sect-hd {
+    position: relative;
+    height: 52px;
+    line-height: 52px;
+    border: 1px solid var(--bd-gary);
+    background-color: white;
+}
+
+.sect-hd h5 {
+    display: inline-block;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.sect-hd .btn-arrow { 
+    position: absolute;
+    width: 52px;
+    height: 52px;
+    border-left: 1px solid var(--bd-gary);
+    top: 0;
+    right: 0;
+    background: url(../images/arr_h11_top.png) no-repeat 50% 50%;
+    text-indent: -9999px;
+    cursor: pointer;
+}
+
+.sect-hd .btn-arrow.up { 
+	background-image:url(../images//arr_h11_bottom.png); 
+}
+
+.txt {
+    display: inline-block;
+    height: 35px;
+    line-height: 35px;
+    width: 130px;
+}
+
+.txt-1 {
+	line-height: 40px;
+	margin-right: 10px; 
+}
+
+.sect-cont {
+    position: relative;
+    display: flex;
+    padding: 20px 30px;
+    border: 1px solid var(--bd-gary);
+    background-color: white;
+    font-weight: bold;
+    line-height: 35px;
+}
+
+.no-pil-so {
+    font-weight: normal;
+}
+
+.arr-bg {
+    margin-left: 10px;
+    height: 35px;
+    background-color: var(--sect-gray);
+    border: 1px solid var(--bd-gary);
+}
+
+.arr-size-4 {
+    width: 60px;
+}
+
+.arr-size-3 {
+    width: 100px;
+}
+
+.arr-size-2 {
+    width: 200px;
+}
+
+.arr-size-1 {
+    width: 420px;
+}
+
+
+.radio-btn {
+    display: inline-block;
+    line-height: 35px;
+    height: 35px;
+    margin-right: 10px;
+}
+
+.dis-lab{
+    margin-right: 50px;
+}
+
+.during-check {
+    display: inline-block;
+    line-height: 35px;
+    height: 35px;
+    margin: 0 5px 0 20px;
+}
+
+.last-price {
+    margin-left: 10px;
+}
+
+.calendar {
+	display: inline-block;
+}
+
+.sep {
+    display: inline-block;
+    width: 50px;
+    text-align: center;
+}
+
+.discount-calendar {
+    height: 35px;
+    background-color: var(--sect-gray);
+    border: 1px solid var(--bd-gary);
+}
+
+.product_image_label {
+	cursor: pointer;
+	border-radius: 5px;
+	color: white;
+	background-color: var(--bg-green);
+	font-size: 16px;
+	text-align: center;
+	width: 80px;
+	height: 35px;
+	line-height: 35px;
+}
+
+.product_image_orgin_name {
+	display:none;
+}
+
+.stock {
+    width: 170px;
+    height: 35px;
+    margin: 0 30px 0 15px;
+    padding: 5px;
+    background-color: var(--bd-gary);
+    border: 1px solid var(--bd-gary);
+}
+
+.prdSale,
+.sale-datetime {
+	display: none;
+}
+
+.btn-h52-blue {
+    display: block;
+    position: relative;
+    width: 130px;
+    height: 52px;
+    line-height: 52px;
+    background: #00affe;
+    color: #fff;
+    font-size: 20px;
+    text-align: center;
+    border: none;
+    left: 50%;
+    margin: 30px 0 100px -65px;
+}
+/* 상품 등록 메인 끝 */

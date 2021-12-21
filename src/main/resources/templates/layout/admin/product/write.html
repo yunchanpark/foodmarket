@@ -3,6 +3,9 @@
 <!-- head -->
 <th:block th:include="@{/layout/admin/includes/head.html}"></th:block>
 <!-- head 끝 -->
+	<link th:href="@{/css/product.css}" rel="stylesheet" />
+    <title>FoodMarket-상품등록</title>
+</head>
 <body class="sb-nav-fixed">
     <!--header menu-->
 	<th:block th:include="@{/layout/admin/includes/header.html}"></th:block>
@@ -16,6 +19,179 @@
         <div id="layoutSidenav_content">
             <main>
                 <!--내용 입력-->
+                <div class="container-fluid px-4">
+                    <div class="mt-4 d-flex justify-content-between">
+                        <div class="fs-5 fw-bold align-self-center">• 상품등록</div>
+                        <div class="d-flex top-1">
+                        	<span class="pil-so txt-1">*필수</span>
+	                        <a th:href="@{/}" id="allProductUpload" class="nav-link bg-gray text-white">상품 일괄 업로드</a>
+                        </div>
+                    </div>
+					<!-- =============카테고리=============-->
+					<div class="sect-hd mt-5">
+					    <h5 class="ps-3">카테고리</h5>
+					    <a class="btn-arrow">닫기</a>
+					</div>
+					<div class="sect-wrap">
+					 <div class="sect-cont">
+					     <span class="txt">
+					         카테고리
+					         <span class="pil-so">*</span>
+					     </span>
+					     <div class="category-base">
+					         <select name="categoryNo" id="categoryNo" class="arr-bg arr-size-2">
+					         	<th:block th:each="category : ${category}">
+					         		<option th:value="${category.categoryNo}">[[${category.name}]]</option>
+					         	</th:block>
+					         </select>
+					     </div>
+					 </div>
+					</div>
+					<!-- ==================================-->
+					
+					<!-- =============상품명=============-->
+					<div class="sect-hd mt-3">
+					    <h5 class="ps-3">상품명</h5>
+					    <a class="btn-arrow">닫기</a>
+					</div>
+					<div class="sect-wrap">
+					 <div class="sect-cont">
+					     <span class="txt">
+					         상품명 
+					         <span class="pil-so">*</span>
+					     </span>
+					     <input type="text" name="name" id="productName" class="arr-bg arr-size-1 productName" />
+					 </div>
+					 <div class="sect-cont no-pil-so">
+					     <span class="txt">추가상품명</span>
+					     <input type="text" name="description" id="description" class="arr-bg arr-size-1 description" />
+					 </div>
+					</div>
+					<!-- =============상품명 끝=============-->
+					
+					<!-- =============가격=============-->
+					<div class="sect-hd mt-3">
+					    <h5 class="ps-3">
+					        가격 
+					    </h5>
+					    <a class="btn-arrow">닫기</a>
+					</div>
+					<div class="sect-wrap">
+					 <div class="sect-cont">
+					     <span class="txt">
+					         판매가격
+					         <span class="pil-so">*</span>
+					     </span>
+					     ₩<input type="text" name="price" id="price" class="arr-bg arr-size-2 price num" />
+					 </div>
+					 <div class="sect-cont">
+					     <span class="txt">
+					         매입가
+					         <span class="pil-so">*</span>
+					     </span>
+					     ₩<input type="text" name="purchasPrice" id="purchase_price" class="arr-bg arr-size-2 purchase_price num" />
+					 </div>
+					 <div class="sect-cont no-pil-so">
+					     <span class="txt">
+					         할인
+					     </span>
+					     <input type="radio" name="discount-ck" id="discount-yes" value="Y" class="radio-btn">
+					     <label for="discount-yes" class="dis-lab">사용함</label>
+					     <input type="radio" name="discount-ck" id="discount-no" value="N" class="radio-btn" checked>
+					     <label for="discount-no" class="dis-lab">사용안함</label>
+					 </div>
+					 <div class="prdSale">
+					  <div class="sect-cont no-pil-so bg-yellow">
+					      <span class="txt">
+					          즉시할인
+					      </span>
+					      <input type="text" id="discount" class="arr-bg arr-size-3 discount num"/>
+					      <select name="category" id="category" class="arr-bg arr-size-4">
+					          <option value="percent">%</option>
+					          <option value="won">원</option>
+					      </select>
+					      <input type="checkbox" name="during-check" id="during-check" class="during-check"/>
+					      <label for="during-check">기간 할인 설정</label>
+					  </div>
+					  <div class="sect-cont no-pil-so bg-yellow sale-datetime">
+					      <span class="txt">
+					          기간설정
+					      </span>
+					      <div class="calendar">
+					          <input type="date" name="discount-start" id="discount-start" class="discount-calendar"
+					          	th:min="${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}"/>
+					          <select name="start-hour" id="start-hour" class="arr-bg arr-size-4 calendar-hour"></select>
+					          <select name="start-min" id="start-min" class="arr-bg arr-size-4 calendar-min"></select>
+					          
+					          <span class="sep">~</span>
+					          
+					          <input type="date" name="discount-end" id="discount-end" class="discount-calendar"
+					          	th:min="${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}"/>
+					          <select name="end-hour" id="end-hour" class="arr-bg arr-size-4 calendar-hour"></select>
+					          <select name="end-min" id="end-min" class="arr-bg arr-size-4 calendar-min"></select>
+					      </div>
+					  </div>
+					  <div class="sect-cont no-pil-so bg-yellow">
+					      <span class="txt">
+					          할인가
+					      </span>
+					      <span class="last-price fs-4 fw-bold text-primary">10원</span>
+					      <span class="fs-7 ms-2">
+					          (<span class="discount-price">0</span>)원 할인
+					      </span>
+					  </div>
+					 </div>
+					</div>
+					<!-- =============가격 끝=============-->
+					
+					<!-- =============상품 이미지=============-->
+					<div class="sect-hd mt-3">
+					    <h5 class="ps-3">상품이미지</h5>
+					    <a class="btn-arrow">닫기</a>
+					</div>
+					<div class="sect-wrap">
+					 <div class="sect-cont">
+					     <span class="txt">
+					         이미지 
+					         <span class="pil-so">*</span>
+					     </span>
+					     <input type="text" id="product_image_value" class="arr-bg arr-size-2 product_image_value" disabled/>
+					     <input type="file" name="imageOrgin" id="product_image_orgin_name" class="product_image_orgin_name" />
+					     <label for="product_image_orgin_name" class="product_image_label">
+					     	파일선택
+					     </label>
+					 </div>
+					</div>
+					<!-- =============상품 이미지 끝=============-->
+					
+					<!-- =============재고=============-->
+					<div class="sect-hd mt-3">
+					    <h5 class="ps-3">재고</h5>
+					    <a class="btn-arrow">닫기</a>
+					</div>
+					<div class="sect-wrap">
+					 <div class="sect-cont no-pil-so">
+					     <input type="radio" name="stock_ck" id="stock-cnt" value="Y" class="radio-btn">
+					     <label for="stock-cnt" class="stock-lab">수량</label>
+					     <input type="text" class="stock num" id="sctock" name="stock">
+					     <input type="radio" name="stock_ck" id="stock-un-limit" value="N"
+					     class="radio-btn" checked>
+					     <label for="stock-un-limit" class="stock-lab">무제한</label>
+					 </div>
+					</div>
+					<!-- =============재고 끝=============-->
+					
+					<!-- =============상세설명=============-->
+					<div class="sect-hd mt-3">
+					    <h5 class="ps-3">상세설명</h5>
+					    <a class="btn-arrow">닫기</a>
+					</div>
+					<div class="sect-wrap">
+						<textarea rows="10" cols="80" name="detailContent" id="detailContent" class="detailContent"></textarea>
+					</div>
+					<!-- =============상세설명 끝=============-->
+					<input type="button" class="btn-h52-blue w180 mr-20 btn-add-notice submit_btn" value="등록"/>
+                </div>
                 <!--내용 입력 끝-->
             </main>
             <!--footer-->
@@ -27,6 +203,8 @@
 	<!-- 본문 끝 -->
     <!--plugin-->
 	<th:block th:include="@{/layout/admin/includes/plugin.html}"></th:block>
+	<script th:src="@{/ckeditor/ckeditor.js}"></script>
+	<script th:src="@{/js/product.js}"></script>
     <!--plugin끝-->
 </body>
 </html>
