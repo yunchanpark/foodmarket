@@ -2,9 +2,12 @@ package com.lec.foodmarket.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.lec.foodmarket.domain.Product;
 import com.lec.foodmarket.service.ProductService;
 
 @Controller
@@ -32,8 +35,8 @@ public class AdminProductController {
 	 * GET 방식
 	 ******************************************/
 	@GetMapping("/write")
-	public void productWrite() {
-		
+	public void productWrite(Model model) {
+		model.addAttribute("category", productService.productCategorySelect());
 	}
 	
 	
@@ -42,9 +45,11 @@ public class AdminProductController {
 	/******************************************
 	 * POST 방식
 	 ******************************************/
-	// TODO
-	
-	
+	@PostMapping("/write")
+	public void productWrite(Product product) {
+		System.out.println(123123);
+		System.out.println(product);
+	}
 	
 	
 	

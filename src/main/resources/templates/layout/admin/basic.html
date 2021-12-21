@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<!-- head -->
-<th:block th:include="@{/layout/admin/includes/head.html}"></th:block>
-<!-- head 끝 -->
+	<!-- head -->
+	<th:block th:include="@{/layout/admin/includes/head.html}"></th:block>
+	<!-- head 끝 -->
+	<!-- 예시 <link th:href="@{/css/???.css}" rel="stylesheet" /> -->
+	<title>FoodMarket-관리자</title>
+</head>
 <body class="sb-nav-fixed">
     <!--header menu-->
 	<th:block th:include="@{/layout/admin/includes/header.html}"></th:block>
@@ -33,6 +36,7 @@
 	<!-- 본문 끝 -->
     <!--plugin-->
 	<th:block th:include="@{/layout/admin/includes/plugin.html}"></th:block>
+	<!-- 예시 <script th:src="@{/js/???.js}"></script> -->
     <!--plugin끝-->
 </body>
 </html>

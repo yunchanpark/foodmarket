@@ -29,20 +29,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { // 등록할 
 	}
 	
 	@Override
-	public void configure(WebSecurity web) throws Exception{
+	public void configure(WebSecurity web) throws Exception {
 		web
-		.httpFirewall(defaultHttpFirewall())
-		.ignoring().antMatchers("/h2-console/**");
+			.httpFirewall(defaultHttpFirewall())
+			.ignoring().antMatchers("/h2-console/**");
 	}
 	
+	
 	@Override
-	protected void configure(HttpSecurity http) throws Exception{
-		
+	protected void configure(HttpSecurity http) throws Exception {
+		http
+			.headers()
+			.frameOptions()
+			.sameOrigin();
 		// HttpSecurity 객체
 		http
-		.csrf().disable()
-		.authorizeRequests()
-		.anyRequest().permitAll();
+			.csrf().disable()
+			.authorizeRequests()
+			.anyRequest().permitAll();
 	}
 }
 

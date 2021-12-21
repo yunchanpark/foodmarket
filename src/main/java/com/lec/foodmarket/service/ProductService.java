@@ -1,8 +1,11 @@
 package com.lec.foodmarket.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.lec.foodmarket.domain.ProductCategory;
 import com.lec.foodmarket.repository.CartRepository;
 import com.lec.foodmarket.repository.ProductCategoryRepository;
 import com.lec.foodmarket.repository.ProductLikeCntRepository;
@@ -45,7 +48,10 @@ public class ProductService {
 	/******************************************
 	 * 관리자
 	 ******************************************/
-	// TODO
+	// 상품 카테고리 조회
+	public List<ProductCategory> productCategorySelect() {
+		return productCategoryRepository.findAll();
+	}
 	
 	
 	

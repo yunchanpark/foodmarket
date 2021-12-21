@@ -16,18 +16,24 @@ public class WebConfig implements WebMvcConfigurer {
 		 * 	/ckUpload/inquiryIages/ 경로 하위에 있는 리소스 파일이다라는 의미
 		 */  
 		registry
-			.addResourceHandler("/ckUpload/inquiryImages/**")
-			.addResourceLocations("/ckUpload/inquiryImages/")
-			;
-		
-		registry
-			.addResourceHandler("/ckUpload/productImages/**")
-			.addResourceLocations("/ckUpload/productImages/")
+			.addResourceHandler("/ckUpload/productImages/detail/**")
+			.addResourceLocations("file:///C:/spring_foodmarket/ckupload/productImages/detail/")
 			;	
-		
+		registry
+			.addResourceHandler("/ckUpload/productImages/product/**")
+			.addResourceLocations("file:///C:/spring_foodmarket/ckupload/productImages/product/")
+			;	
+		registry
+			.addResourceHandler("/ckUpload/inquiryImages/**")
+			.addResourceLocations("file:///C:/spring_foodmarket/ckupload/inquiryImages/")
+			;	
+		registry
+			.addResourceHandler("/ckUpload/memberImages/**")
+			.addResourceLocations("file:///C:/spring_foodmarket/ckupload/memberImages/")
+			;	
 		registry
 			.addResourceHandler("/ckUpload/refundImages/**")
-			.addResourceLocations("/ckUpload/refundImages/")
-			;
+			.addResourceLocations("file:///C:/spring_foodmarket/ckupload/refundImages/")
+			;	
 	}
 }
