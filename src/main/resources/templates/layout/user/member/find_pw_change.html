@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<!-- head -->
+<th:block th:include="@{/layout/user/includes/head.html}"></th:block>
+<!-- head 끝 -->
+<link th:href="@{/css/member.css}" rel="stylesheet">
+
+
+<body>
+	<div class="wrap">
+		<!-- header -->
+		<th:block th:include="@{/layout/user/includes/header.html}"></th:block>
+		<!-- header 끝 -->
+
+		<!-- section -->
+		<section style="width: 100%; height: 100%">
+			<form action="" method="post" class="loginForm">
+				<h2>비밀번호 찾기</h2>
+				<div class="idForm">
+					<input type="password" class="id" placeholder="새 비밀번호를 입력해주세요"
+						name="find_pw_new">
+				</div>
+				<div class="find_pw_msg">
+					<span id="pw_icon">✖️</span><span id="pw_msg">10자 이상 입력</span><br>
+					<span id="pw_icon_two">✖️</span><span id="pw_msg_two">영문/숫자/특수문자(공백제외)만
+						허용하며, 1개 이상 조합</span><br>
+				</div>
+				<div class="passForm">
+					<input type="password" class="pw" placeholder="새 비밀번호를 한번 더 입력해주세요"
+						name="find_pw_new_ck">
+				</div>
+				<div class="find_pw_msg">
+					<span id="pw_ck_icon">✖️</span><span id="pw_ck_msg">동일한
+						비밀번호를 입력해주세요</span><br>
+				</div>
+				<button type="button" class="btn" id="pw_change">변경 하기</button>
+			</form>
+		</section>
+		<!-- section 끝 -->
+
+		<!-- footer -->
+		<th:block th:include="@{/layout/user/includes/footer.html}"></th:block>
+		<!-- footer 끝 -->
+	</div>
+	<!-- plugin -->
+	<th:block th:include="@{/layout/user/includes/plugin.html}"></th:block>
+	<script type="text/javascript" th:src="@{/js/member.js}"></script>
+	<!-- plugin 끝 -->
+</body>
+
+</html>
