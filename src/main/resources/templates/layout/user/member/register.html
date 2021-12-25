@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<!-- head -->
+<th:block th:include="@{/layout/user/includes/head.html}"></th:block>
+<!-- head 끝 -->
+<link th:href="@{/css/member_two.css}" rel="stylesheet">
+
+
+<body>
+	<div class="wrap">
+		<!-- header -->
+		<th:block th:include="@{/layout/user/includes/header.html}"></th:block>
+		<!-- header 끝 -->
+
+		<!-- section -->
+		<section id="memberform">
+			<div id="section">
+				<form action="registerOk.do" method="post">
+					<div id="first">
+						<div id="register_title">회원가입</div>
+						<div id="pilsu">
+							<span class="ico">*</span>필수입력사항
+						</div>
+					</div>
+					<div id="second">
+						<table class="member_table">
+							<tr>
+								<th>아이디<span class="ico">*</span></th>
+								<td><input type="text" class="longText" name="id"
+									placeholder="6자 이상의 영문 혹은 영문과 숫자를 조합"></td>
+								<td><input type="button" id="id_check"
+									class="bnt_size bnt_color" value="중복학인"></input></td>
+							</tr>
+							<tr>
+								<th>비밀번호<span class="ico">*</span></th>
+								<td><input type="password" class="longText" name="pw"
+									placeholder="비밀번호를 입력해주세요"></td>
+							</tr>
+							<tr>
+								<th></th>
+								<td><span id="pw_icon">✖️</span><span id="pw_msg">10자
+										이상 입력</span><br> <span id="pw_icon_two">✖️</span><span
+									id="pw_msg_two">영문/숫자/특수문자(공백제외)만 허용하며, 1개 이상 조합</span><br>
+								</td>
+							</tr>
+							<tr>
+								<th>비밀번호확인<span class="ico">*</span></th>
+								<td><input type="password" class="longText" name="pw_ck"
+									placeholder="비밀번호를 한번 더 입력해주세요"></td>
+							</tr>
+							<tr>
+								<th></th>
+								<td><span id="pw_ck_icon">✖️</span><span id="pw_ck_msg">동일한
+										비밀번호를 입력해주세요</span><br></td>
+							</tr>
+							<tr>
+								<th>이름<span class="ico">*</span></th>
+								<td><input type="text" class="longText" name="name"
+									placeholder="이름을 입력해주세요"></td>
+							</tr>
+							<tr>
+								<th>이메일<span class="ico">*</span></th>
+								<td><input type="text" class="longText" name="email"
+									placeholder="예: foodmarket@foodmarket.com" id="email"></td>
+								<td><input type="button" id="email_check"
+									class="bnt_size bnt_color" value="이메일 인증"></input></td>
+							</tr>
+							<tr>
+								<th></th>
+								<td><input type="text" class="longText" name="email_hash"
+									id="email_check_auth"></td>
+								<td><input type="button" id="email_check_auth_btn"
+									name="email_hash_btn" class="bnt_size bnt_color" value="인증하기"></input></td>
+								<td><input type="hidden" id="email_check_auth_val"
+									name="email_hidden" class="bnt_size bnt_color" value="${hash }"></input></td>
+							</tr>
+							<tr>
+								<th>주소<span class="ico">*</span></th>
+								<td><input type="button" id="addr" class="bnt_color addr1"
+									onclick="sample4_execDaumPostcode()" value="🚩 주소 검색" /></td>
+							</tr>
+							<tr>
+								<th></th>
+								<td><input type="text" id="addr_kakao"
+									class="longText addr2" name="addr" readonly="readonly"></td>
+								<td id="addrpad"><input type="button"
+									class="bnt_size bnt_color addr2"
+									onclick="sample4_execDaumPostcode()" value="재검색"></input></td>
+							</tr>
+							<tr>
+								<th></th>
+								<td><input type="text" id="addr_detail"
+									class="longText addr2" name="addr_detail"
+									placeholder="상세주소를 입력해주세요"></td>
+							</tr>
+						</table>
+					</div>
+					<div id="third">
+						<table class="member_table">
+							<tr>
+								<th>이용약관동의<span class="ico">*</span></th>
+								<td colspan="2"><input type="checkbox" class="checkbox"
+									name="terms_king" id="terms_all" onclick='selectAll(this)'><label
+									for="terms_all"></label><span id="terms_all_msg">전체
+										동의합니다.</span><br> <span id="terms_detail_msg">선택항목에 동의하지
+										않은 경우도 회원가입 및 일반적인 서비스를 이용할 수 있습니다.</span></td>
+							</tr>
+							<tr>
+								<th></th>
+								<td><input type="checkbox" class="checkbox" name="terms"
+									id="terms_second" onclick='checkSelectAll()'><label
+									for="terms_second"></label><span id="terms_msg">이용약관 동의</span><span
+									id="terms_essential">(필수)</span>
+								<td class="terms_preview terms_one"><input type="button"
+									class="terms_preview" onclick="terms_one()" value="약관보기>" /></td>
+							</tr>
+							<tr>
+								<th></th>
+								<td><input type="checkbox" class="checkbox" name="terms"
+									id="terms_third" onclick='checkSelectAll()'><label
+									for="terms_third"></label><span id="terms_msg">개인정보
+										수집·이용 동의</span><span id="terms_essential">(필수)</span>
+								<td class="terms_preview terms_two"><input type="button"
+									class="terms_preview" onclick="terms_two()" value="약관보기>" /></td>
+							</tr>
+							<tr>
+								<th></th>
+								<td><input type="checkbox" class="checkbox" name="terms"
+									id="terms_fourth" onclick='checkSelectAll()'><label
+									for="terms_fourth"></label><span id="terms_msg">개인정보
+										수집·이용 동의</span><span id="terms_select">(선택)</span>
+								<td class="terms_preview terms_three"><input type="button"
+									class="terms_preview" onclick="terms_three()" value="약관보기>" /></td>
+							</tr>
+							<tr>
+								<th></th>
+								<td colspan="2"><input type="checkbox" class="checkbox"
+									name="terms" id="terms_fifth" onclick='checkSelectAll()'><label
+									for="terms_fifth"></label><span id="terms_msg">무료배송,
+										할인쿠폰 등 혜택/정보 수신 동의</span><span id="terms_select">(선택)</span>
+							</tr>
+						</table>
+					</div>
+
+					<div id="register_btn">
+						<input type="button" id="register_input" class="btn submit"
+							value="가입하기"></input>
+					</div>
+				</form>
+			</div>
+		</section>
+		<!-- section 끝 -->
+		<!-- footer -->
+		<th:block th:include="@{/layout/user/includes/footer.html}"></th:block>
+		<!-- footer 끝 -->
+
+	</div>
+	<!-- plugin -->
+	<th:block th:include="@{/layout/user/includes/plugin.html}"></th:block>
+	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	<script type="text/javascript" th:src="@{/js/member.js}"></script>
+	<!-- plugin 끝 -->
+</body>
+
+</html>

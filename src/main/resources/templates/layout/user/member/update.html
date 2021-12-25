@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<!-- head -->
+<th:block th:include="@{/layout/user/includes/head.html}"></th:block>
+<!-- head 끝 -->
+<link th:href="@{/css/member_two.css}" rel="stylesheet">
+
+
+<body>
+	<div class="wrap">
+		<!-- header -->
+		<th:block th:include="@{/layout/user/includes/header.html}"></th:block>
+		<!-- header 끝 -->
+
+		<!-- section -->
+		<section id="memberform">
+			<div id="section">
+				<form action="MemberUpdateOk.do" method="post">
+					<div id="first">
+						<div id="register_title">내 정보</div>
+					</div>
+					<div id="second">
+						<table class="member_table">
+							<tr>
+								<th>아이디</th>
+								<td><input type="text" class="longText" name="update_id"
+									readonly="readonly" value="${sessionID}"></td>
+							</tr>
+							<tr>
+								<th>새 비밀번호</th>
+								<td><input type="password" class="longText"
+									name="update_pw" placeholder="새 비밀번호를 입력해주세요"></td>
+							</tr>
+							<tr>
+								<th></th>
+								<td><span id="pw_icon">✖️</span><span id="pw_msg">10자
+										이상 입력</span><br> <span id="pw_icon_two">✖️</span><span
+									id="pw_msg_two">영문/숫자/특수문자(공백제외)만 허용하며, 1개 이상 조합</span><br>
+								</td>
+							</tr>
+							<tr>
+								<th>새 비밀번호확인</th>
+								<td><input type="password" class="longText"
+									name="update_pw_ck" placeholder="새 비밀번호를 한번 더 입력해주세요"></td>
+							</tr>
+							<tr>
+								<th></th>
+								<td><span id="pw_ck_icon">✖️</span><span id="pw_ck_msg">동일한
+										비밀번호를 입력해주세요</span><br></td>
+							</tr>
+							<tr>
+								<th>이름</th>
+								<td><input type="text" class="longText" name="update_name"
+									value="${session.get(0).name}"></td>
+							</tr>
+							<tr>
+								<th>이메일</th>
+								<td><input type="text" class="longText" name="update_email"
+									value="${session.get(0).email}"> <input type="hidden"
+									name="update_email_hidden" value="${session.get(0).email}"></td>
+								<td><input type="button" id="update_email_check"
+									class="bnt_size bnt_color" value="이메일 인증"></input></td>
+
+							</tr>
+							<tr>
+								<th></th>
+								<td><input type="text" class="longText"
+									name="update_email_auth" id="update_email_auth"></td>
+								<td><input type="button" id="update_email_auth_btn"
+									name="update_email_hash_btn" class="bnt_size bnt_color"
+									value="인증하기"></input></td>
+								<td><input type="hidden" id="update_email_auth_val"
+									name="update_email_auth_hidden" class="bnt_size bnt_color"
+									value="${hash }"></input></td>
+							</tr>
+							<tr>
+								<th>주소</th>
+								<td><input type="text" id="addr_kakao"
+									class="longText update_addr" name="update_addr"
+									readonly="readonly" value="${session.get(0).addr}"></td>
+								<td id="addrpad"><input type="button"
+									class="bnt_size bnt_color update_addr"
+									onclick="sample4_execDaumPostcode()" value="재검색"></input></td>
+							</tr>
+							<tr>
+								<th></th>
+								<td><input type="text" id="addr_detail"
+									class="longText update_addr" name="update_addr_detail"
+									value="${session.get(0).addr_detail}"></td>
+							</tr>
+						</table>
+					</div>
+					<div id="third">
+						<button type="button" onclick="delete_member()" id="del_id">회원탈퇴</button>
+					</div>
+					<div id="register_btn">
+						<input type="button" id="update_input" class="btn submit"
+							value="회원정보 수정" onclick="update_member()"></input>
+					</div>
+				</form>
+			</div>
+		</section>
+		<!-- section 끝 -->
+
+		<!-- footer -->
+		<th:block th:include="@{/layout/user/includes/footer.html}"></th:block>
+		<!-- footer 끝 -->
+	</div>
+	<!-- plugin -->
+	<th:block th:include="@{/layout/user/includes/plugin.html}"></th:block>
+	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	<script type="text/javascript" th:src="@{/js/member_two.js}"></script>
+	<!-- plugin 끝 -->
+</body>
+
+</html>

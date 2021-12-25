@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<!-- head -->
+<th:block th:include="@{/layout/user/includes/head.html}"></th:block>
+<!-- head 끝 -->
+<link th:href="@{/css/member.css}" rel="stylesheet">
+
+
+<body>
+	<div class="wrap">
+		<!-- header -->
+		<th:block th:include="@{/layout/user/includes/header.html}"></th:block>
+		<!-- header 끝 -->
+
+		<!-- section -->
+		<section style="width: 100%; height: 100%">
+			<form action="" method="post" class="loginForm">
+				<h2>아이디 찾기</h2>
+				<div class="idForm">
+					<input type="text" class="id" placeholder="이름을 입력해주세요"
+						name="find_id_name">
+				</div>
+				<div class="passForm">
+					<input type="text" class="pw" placeholder="이메일을 입력해주세요"
+						name="find_id_email">
+				</div>
+				<button type="submit" class="btn">찾기</button>
+			</form>
+		</section>
+		<!-- section 끝 -->
+
+		<!-- footer -->
+		<th:block th:include="@{/layout/user/includes/footer.html}"></th:block>
+		<!-- footer 끝 -->
+	</div>
+	<!-- plugin -->
+	<th:block th:include="@{/layout/user/includes/plugin.html}"></th:block>
+	<!-- plugin 끝 -->
+</body>
+
+</html>

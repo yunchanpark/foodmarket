@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<!-- head -->
+<th:block th:include="@{/layout/user/includes/head.html}"></th:block>
+<!-- head 끝 -->
+<link th:href="@{/css/member.css}" rel="stylesheet">
+
+
+<body>
+	<div class="wrap">
+		<!-- header -->
+		<th:block th:include="@{/layout/user/includes/header.html}"></th:block>
+		<!-- header 끝 -->
+
+		<!-- section -->
+		<section>
+			<form action="/loginOk" method="post" class="loginForm">
+				<h2>로그인</h2>
+				<div class="idForm">
+					<input type="text" class="id" placeholder="아이디를 입력해주세요" name="login_id">
+				</div>
+				<div class="passForm">
+					<input type="password" class="pw" placeholder="비밀번호를 입력해주세요" name="login_pw">
+				</div>
+				<div id="find">
+					<a th:href="@{/layout/user/member/find_id}">아이디 찾기 </a> | <a th:href="@{/layout/user/member/find_pw}">비밀번호 찾기</a>
+				</div>
+				<button type="submit" class="btn">로그인</button>
+				<a th:href="@{/layout/user/member/register}"><button type="button" class="btn1">회원가입</button></a>
+			</form>
+		</section>
+		<!-- section 끝 -->
+
+		<!-- footer -->
+		<th:block th:include="@{/layout/user/includes/footer.html}"></th:block>
+		<!-- footer 끝 -->
+	</div>
+	<!-- plugin -->
+	<th:block th:include="@{/layout/user/includes/plugin.html}"></th:block>
+	<!-- plugin 끝 -->
+</body>
+
+</html>
