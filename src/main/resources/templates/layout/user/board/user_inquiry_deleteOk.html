@@ -1,0 +1,13 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<script th:if="${result == 0}">
+	alert("삭제 실패");
+	history.back();
+</script>
+
+<script th:unless="${result == 0}" th:inline="javascript">
+	alert("삭제 성공");
+	location.href = "user_inquiry_view?inquiryNo=[[${dto.inquiryNo}]]";
+</script>
+
+</html>

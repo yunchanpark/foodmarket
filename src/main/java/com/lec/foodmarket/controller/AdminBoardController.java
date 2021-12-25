@@ -71,7 +71,7 @@ public class AdminBoardController {
 	
 	@GetMapping("/notice_update")
 	public void update(int noticeNo, Model model) {
-		model.addAttribute("list", boardService.selectByUid(noticeNo));
+		model.addAttribute("list", boardService.notice_selectByUid(noticeNo));
 	}
 	
 

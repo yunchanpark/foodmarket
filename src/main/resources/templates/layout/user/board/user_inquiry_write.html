@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<!-- head -->
+<th:block th:include="@{/layout/user/includes/head.html}"></th:block>
+<link rel="stylesheet" type="text/css" href="/css/user_board.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<!-- head 끝 -->
+
+<body>
+	<div class="wrap">
+		<!-- header -->
+		<th:block th:include="@{/layout/user/includes/header.html}"></th:block>
+		<!-- header 끝 -->
+
+		<!-- section -->
+		<section>
+			<th:block th:include="@{/layout/admin/includes/menubar.html}"></th:block>
+
+
+			<!-- 내용 입력 -->
+			<div class="notice">
+				<div class="notice_title">1:1 문의 작성</div>
+				<div class="inquiry_content">
+					<form id="frm" name="frm" action="user_inquiry_writeOk"
+						method="post" onsubmit="return chkSubmit()"
+						enctype="Multipart/form-data">
+
+						<div class="notice_list_title total">
+							<label class="lab" for="title">제목</label> <input
+								type="text" class="form-control" id="title"
+								placeholder="제목을 입력하세요" name="title">
+						</div>
+
+						<div class="notice_list_writer total">
+							<label class="lab" for="id">작성자</label> <input type="text"
+								class="form-control" id="id" th:value="${sessionID }" name="id"
+								readonly="readonly">
+						</div>
+
+						<div class="notice_list_content total">
+							<label class="lab lab_content" for="content">내용</label>
+							<textarea class="form-control" rows="5" id="content"
+								placeholder="내용을 입력하세요" name="content"
+								style="resize: none;"></textarea>
+						</div>
+
+						<!-- 첨부파일 -->
+						<div class="container mt-3 mb-3 border rounded">
+							<div class="mb-3 mt-3 total ">
+								<label class="lab">첨부파일</label>
+								<div id="files"></div>
+								<button type="button" id="btnAdd"
+									class="btn btn-secondary inquiry_write_images"
+									style="top: 130px;">추가</button>
+								<!-- 첨부파일 -->
+
+							</div>
+							<!-- 첨부파일 -->
+							<script>
+									var i = 0;
+									$("#btnAdd").click(function() {
+										$("#files").append(
+											'<div class="input-group mb-2">'
+											+ '<input class="form-control col-xs-3" type="file" name="upfile' + i + '"/>'
+											+ '<button type="button" class="btn btn-outline-danger" onclick="$(this).parent().remove()" style="margin-top:0px">삭제</button>'
+											+ '</div>');
+										i++;
+									});
+								</script>
+						</div>
+						<!-- 첨부파일 -->
+
+						<button type="submit" class="btn btn-outline-dark"
+							style="bottom: 100px">작성완료</button>
+						<button type="button" class="btn btn-outline-dark write_save"
+							onclick="location.href='/layout/user/board/user_inquiry_list'"
+							style="bottom: 100px">목록</button>
+					</form>
+				</div>
+			</div>
+
+			<!-- 내용 입력 끝 -->
+		</section>
+		<!-- section 끝 -->
+
+		<!-- footer -->
+		<th:block th:include="@{/layout/user/includes/footer.html}"></th:block>
+		<!-- footer 끝 -->
+	</div>
+	<!-- plugin -->
+	<th:block th:include="@{/layout/user/includes/plugin.html}"></th:block>
+	<!-- plugin 끝 -->
+</body>
+
+</html>

@@ -1,0 +1,13 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<script th:if="${result == 0}">
+	alert("등록 실패");
+	history.back();
+</script>
+
+<script th:unless="${result == 0}" th:inline="javascript">
+	alert("등록 성공");
+	location.href = "view?uid=[[${dto.uid}]]";
+</script>
+
+</html>
