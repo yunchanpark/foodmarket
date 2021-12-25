@@ -1,8 +1,13 @@
 package com.lec.foodmarket.service;
 
+import java.time.LocalDateTime;
+
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.lec.foodmarket.domain.Member;
 import com.lec.foodmarket.repository.MemberRepository;
 import com.lec.foodmarket.repository.PointConditionRepository;
 import com.lec.foodmarket.repository.PointRepository;
@@ -50,8 +55,11 @@ public class MemberService {
 	/******************************************
 	 * 사용자
 	 ******************************************/
-	// TODO
-	
+	public int addMember(Member member) {
+		member.setCreatedAt(LocalDateTime.now());
+		memberRepository.saveAndFlush(member);
+		return 1;
+	}
 	
 	
 	

@@ -3,6 +3,7 @@ package com.lec.foodmarket.domain;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -32,7 +33,7 @@ public class Notice extends BaseEntity implements Auditable {
 	
 	// 기본키 공지사항 번호
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="notice_no")
 	private Long noticeNo;
 	

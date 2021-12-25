@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.lec.foodmarket.domain.Product;
 import com.lec.foodmarket.domain.ProductCategory;
 import com.lec.foodmarket.repository.CartRepository;
 import com.lec.foodmarket.repository.ProductCategoryRepository;
@@ -51,6 +52,11 @@ public class ProductService {
 	// 상품 카테고리 조회
 	public List<ProductCategory> productCategorySelect() {
 		return productCategoryRepository.findAll();
+	}
+	
+	// 상품 등록
+	public void productSave(Product product) {
+		productRepository.save(product);
 	}
 	
 	

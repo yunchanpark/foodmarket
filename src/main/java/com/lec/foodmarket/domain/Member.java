@@ -3,6 +3,7 @@ package com.lec.foodmarket.domain;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
@@ -30,10 +31,10 @@ import lombok.ToString;
 public class Member extends BaseEntity implements Auditable {
 	// 기본키 아이디(Null 허용x)
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long uid;
 	
-//	@Id
+	// 아이디 (Null 허용x)
 	@NonNull
 	@NotNull
 	private String id;
@@ -56,12 +57,15 @@ public class Member extends BaseEntity implements Auditable {
 	// 상세주소(Null 허용x)
 	@NonNull
 	@NotNull
-	@NotNull
 	@Column(name="detail_addr")
 	private String detailAddr;
 	
-	// 핸드폰번호(Null 허용x)
+	// 이메일
 	@NotNull
+	@NonNull
+	private String email;
+	
+	// 핸드폰번호(Null 허용x)
 	@NotNull
 	@NonNull
 	@Column(name="phone_no")
@@ -87,6 +91,7 @@ public class Member extends BaseEntity implements Auditable {
 	@Nullable
 	@Column(name="save_up_point")
 	private int saveUpPoint;
+	
 	// 권한부분 생각 해야됨
 //	private String role;
 }

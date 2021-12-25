@@ -18,6 +18,7 @@
         <!--content-->
         <div id="layoutSidenav_content">
             <main>
+            <form action="write" method="post" name="frm" id="frm" enctype="multipart/form-data">
                 <!--내용 입력-->
                 <div class="container-fluid px-4">
                     <div class="mt-4 d-flex justify-content-between">
@@ -44,6 +45,7 @@
 					         		<option th:value="${category.categoryNo}">[[${category.name}]]</option>
 					         	</th:block>
 					         </select>
+					         <span class="err">[[${errCategoryNo}]]</span>
 					     </div>
 					 </div>
 					</div>
@@ -60,11 +62,12 @@
 					         상품명 
 					         <span class="pil-so">*</span>
 					     </span>
-					     <input type="text" name="name" id="productName" class="arr-bg arr-size-1 productName" />
+					     <input type="text" name="name" id="productName" class="arr-bg arr-size-1 productName" th:value="${product.name}"/>
+					 	 <span class="err">[[${errProductname}]]</span>
 					 </div>
 					 <div class="sect-cont no-pil-so">
 					     <span class="txt">추가상품명</span>
-					     <input type="text" name="description" id="description" class="arr-bg arr-size-1 description" />
+					     <input type="text" name="description" id="description" class="arr-bg arr-size-1 description" th:value="${product.description}"/>
 					 </div>
 					</div>
 					<!-- =============상품명 끝=============-->
@@ -82,22 +85,24 @@
 					         판매가격
 					         <span class="pil-so">*</span>
 					     </span>
-					     ₩<input type="text" name="price" id="price" class="arr-bg arr-size-2 price num" />
+					     ₩<input type="text" name="price" id="price" class="arr-bg arr-size-2 price num money" th:value="${product.price}"/>
+					 	 <span class="err">[[${errPrice}]]</span>
 					 </div>
 					 <div class="sect-cont">
 					     <span class="txt">
 					         매입가
 					         <span class="pil-so">*</span>
 					     </span>
-					     ₩<input type="text" name="purchasPrice" id="purchase_price" class="arr-bg arr-size-2 purchase_price num" />
+					     ₩<input type="text" name="purchasePrice" id="purchase_price" class="arr-bg arr-size-2 purchase_price num" th:value="${product.purchasePrice}"/>
+					 	 <span class="err">[[${errPurchasePrice}]]</span>
 					 </div>
 					 <div class="sect-cont no-pil-so">
 					     <span class="txt">
 					         할인
 					     </span>
-					     <input type="radio" name="discount-ck" id="discount-yes" value="Y" class="radio-btn">
+					     <input type="radio" name="discountCk" id="discount-yes" value="Y" class="radio-btn">
 					     <label for="discount-yes" class="dis-lab">사용함</label>
-					     <input type="radio" name="discount-ck" id="discount-no" value="N" class="radio-btn" checked>
+					     <input type="radio" name="discountCk" id="discount-no" value="N" class="radio-btn" checked>
 					     <label for="discount-no" class="dis-lab">사용안함</label>
 					 </div>
 					 <div class="prdSale">
@@ -105,39 +110,33 @@
 					      <span class="txt">
 					          즉시할인
 					      </span>
-					      <input type="text" id="discount" class="arr-bg arr-size-3 discount num"/>
-					      <select name="category" id="category" class="arr-bg arr-size-4">
+					      <input type="text" id="discount" class="arr-bg arr-size-3 discount num money" name="discount" th:value="${product.discount}"/>
+					      <select name="exchangeRate" id="exchangeRate" class="arr-bg arr-size-4">
 					          <option value="percent">%</option>
 					          <option value="won">원</option>
 					      </select>
-					      <input type="checkbox" name="during-check" id="during-check" class="during-check"/>
+					      <input type="checkbox" name="duringCheck" id="during-check" class="during-check" value="Y"/>
 					      <label for="during-check">기간 할인 설정</label>
+					      <span class="err">[[${errDiscount}]]</span>
 					  </div>
 					  <div class="sect-cont no-pil-so bg-yellow sale-datetime">
 					      <span class="txt">
 					          기간설정
 					      </span>
 					      <div class="calendar">
-					          <input type="date" name="discount-start" id="discount-start" class="discount-calendar"
-					          	th:min="${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}"/>
-					          <select name="start-hour" id="start-hour" class="arr-bg arr-size-4 calendar-hour"></select>
-					          <select name="start-min" id="start-min" class="arr-bg arr-size-4 calendar-min"></select>
-					          
+					          <input type="datetime-local" name="startDate" id="discount-start" class="discount-calendar discount-start"/>
 					          <span class="sep">~</span>
-					          
-					          <input type="date" name="discount-end" id="discount-end" class="discount-calendar"
-					          	th:min="${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}"/>
-					          <select name="end-hour" id="end-hour" class="arr-bg arr-size-4 calendar-hour"></select>
-					          <select name="end-min" id="end-min" class="arr-bg arr-size-4 calendar-min"></select>
+					          <input type="datetime-local" name="endDate" id="discount-end" class="discount-calendar discount-end"/>
 					      </div>
+					      <span class="err">[[${errDiscountTime}]]</span>
 					  </div>
 					  <div class="sect-cont no-pil-so bg-yellow">
 					      <span class="txt">
 					          할인가
 					      </span>
-					      <span class="last-price fs-4 fw-bold text-primary">10원</span>
+					      <span class="last-price fs-4 fw-bold text-primary total">0원</span>
 					      <span class="fs-7 ms-2">
-					          (<span class="discount-price">0</span>)원 할인
+					          (<span class="discount-price discount_price">0</span>)원 할인
 					      </span>
 					  </div>
 					 </div>
@@ -152,14 +151,15 @@
 					<div class="sect-wrap">
 					 <div class="sect-cont">
 					     <span class="txt">
-					         이미지 
+					         이미지  
 					         <span class="pil-so">*</span>
 					     </span>
 					     <input type="text" id="product_image_value" class="arr-bg arr-size-2 product_image_value" disabled/>
-					     <input type="file" name="imageOrgin" id="product_image_orgin_name" class="product_image_orgin_name" />
+					     <input type="file" name="image" id="product_image_orgin_name" class="product_image_orgin_name"/>
 					     <label for="product_image_orgin_name" class="product_image_label">
 					     	파일선택
 					     </label>
+					     <span class="err">[[${errImage}]]</span>
 					 </div>
 					</div>
 					<!-- =============상품 이미지 끝=============-->
@@ -170,13 +170,13 @@
 					    <a class="btn-arrow">닫기</a>
 					</div>
 					<div class="sect-wrap">
-					 <div class="sect-cont no-pil-so">
-					     <input type="radio" name="stock_ck" id="stock-cnt" value="Y" class="radio-btn">
-					     <label for="stock-cnt" class="stock-lab">수량</label>
-					     <input type="text" class="stock num" id="sctock" name="stock">
-					     <input type="radio" name="stock_ck" id="stock-un-limit" value="N"
-					     class="radio-btn" checked>
-					     <label for="stock-un-limit" class="stock-lab">무제한</label>
+					 <div class="sect-cont">
+					 	<span class="txt">
+					         재고
+					         <span class="pil-so">*</span>
+					     </span>
+					     <input type="text" class="arr-bg arr-size-2 num" id="sctock" name="stock" th:value="${product.stock}">
+					     <span class="err">[[${errStock}]]</span>
 					 </div>
 					</div>
 					<!-- =============재고 끝=============-->
@@ -190,9 +190,10 @@
 						<textarea rows="10" cols="80" name="detailContent" id="detailContent" class="detailContent"></textarea>
 					</div>
 					<!-- =============상세설명 끝=============-->
-					<input type="button" class="btn-h52-blue w180 mr-20 btn-add-notice submit_btn" value="등록"/>
+					<input type="submit" class="btn-h52-blue w180 mr-20 btn-add-notice submit_btn" value="등록"/>
                 </div>
                 <!--내용 입력 끝-->
+            </form>
             </main>
             <!--footer-->
 			<th:block th:include="@{/layout/admin/includes/footer.html}"></th:block>
@@ -204,6 +205,53 @@
     <!--plugin-->
 	<th:block th:include="@{/layout/admin/includes/plugin.html}"></th:block>
 	<script th:src="@{/ckeditor/ckeditor.js}"></script>
+	<script type="text/javascript">
+		/* 상품상세설명 ckeditor*/
+		CKEDITOR.replace("detailContent");
+	</script>
+	<!-- 상품등록 binding 값 초기화 -->
+    <script th:if="${result == 0}" th:inline="javascript">
+    /*<![CDATA[*/
+    	let product = /*[[${product}]]*/ null;
+    	let categoryNo = /*[[${product.categoryNo.categoryNo}]]*/ null;
+   		let discountCk = /*[[${product.discountCk}]]*/ null;
+   		let discount = /*[[${product.discount}]]*/ null;
+    	let duringCheck = /*[[${product.duringCheck}]]*/ 'Y';
+    	let exchangeRate = /*[[${product.exchangeRate}]]*/ 'percent';
+    	let startDate = /*[[${product.startDate}]]*/ null;
+		let endDate = /*[[${product.endDate}]]*/ null;
+		let detailContent = /*[[${product.detailContent}]]*/ null;
+
+		let offset = new Date().getTimezoneOffset() * 60000;
+		let start = new Date(new Date(startDate) - offset).toISOString().slice(0,16);
+		let end = new Date(new Date(endDate) - offset).toISOString().slice(0,16);
+		
+    	$('.btn-arrow').addClass("up");
+    	$('#categoryNo').val(categoryNo).prop('selected', true);
+    	$("#exchangeRate").val(exchangeRate).prop('selected', true);
+  	
+    	// 할인 사용 체크 되어 있을 때
+    	if(discountCk == 'Y') {
+    		discount = discount == null ? undefined : discount;
+    		$(".discount").val(discount);
+    		$("input:radio[name='discountCk']:radio[value='Y']").prop('checked', true); 
+	    	$('.prdSale').show();
+    	}
+    	
+    	// 기간 할인 설정 체크 되어있을 때 
+		if (duringCheck == 'Y') {
+			$("input:checkbox[id='during-check']").prop("checked", true);
+			$('.sale-datetime').show();
+			$(".discount-start").val(start);    	
+			$(".discount-end").val(end);  
+		}
+		CKEDITOR.instances.detailContent.setData(detailContent, {
+			callback: function() {
+				this.checkDirty(); // true
+			}
+		});
+		/*]]>*/
+	</script>
 	<script th:src="@{/js/product.js}"></script>
     <!--plugin끝-->
 </body>

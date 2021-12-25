@@ -1,11 +1,16 @@
 package com.lec.foodmarket.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.lec.foodmarket.domain.Member;
 import com.lec.foodmarket.service.MemberService;
 
 @Controller
@@ -13,13 +18,16 @@ import com.lec.foodmarket.service.MemberService;
 public class MemberController {
 	
 	private MemberService memberService;
-
+	
 	@Autowired
 	public MemberController(MemberService memberService) {
 		this.memberService = memberService;
 	}
 	
 	public MemberController() {;}
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 	
 	/******************************************
 	 * 사용자
@@ -33,9 +41,7 @@ public class MemberController {
 	 * GET 방식
 	 ******************************************/
 	@RequestMapping("/register")
-	public void register() {
-		
-	}
+	public void register() {;}
 	
 	@GetMapping("/login")
 	public void login() {
@@ -71,7 +77,6 @@ public class MemberController {
 	public void update() {
 		
 	}
-
 	
 	
 	
@@ -80,12 +85,17 @@ public class MemberController {
 	/******************************************
 	 * POST 방식
 	 ******************************************/
-	// TODO
-	
-	
-	
-	
-	
+	@PostMapping("/registerOk")
+	public String registerOk(Member member) {
+		
+		String rawPassword = member.getPw();
+		String encPassword = passwordEncoder.encode(rawPassword);
+		member.setPw(encPassword);
+		
+		int cnt = memberService.addMember(member);
+		
+		return "redirect:/login";		
+	}
 }
 
 

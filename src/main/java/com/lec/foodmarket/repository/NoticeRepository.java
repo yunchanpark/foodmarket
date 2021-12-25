@@ -6,7 +6,4 @@ import com.lec.foodmarket.domain.Notice;
 
 public interface NoticeRepository extends JpaRepository<Notice, Long> {
 
-
-
-
 }
