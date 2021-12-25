@@ -3,6 +3,7 @@ package com.lec.foodmarket.domain;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -23,7 +24,7 @@ public class OrderDetail {
 	
 	// 기본키 주문 상세번호
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="order_detail_no")
 	private Long orderDetailNo;
 	

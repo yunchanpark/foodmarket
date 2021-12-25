@@ -3,6 +3,7 @@ package com.lec.foodmarket.domain;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -23,7 +24,7 @@ public class InquiryImage {
 	
 	// 기본키 1대1문의 사진번호
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="inquiry_image_no")
 	private Long inquiryImageNo;
 	

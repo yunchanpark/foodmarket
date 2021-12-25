@@ -6,8 +6,15 @@
     --sect-gray: #eef1f4;
 }
 
-.pil-so {
+.pil-so,
+.err {
     color: red;
+}
+
+.err {
+	margin-left: 10px;
+	font-size: 12px;
+	font-weight: bold;
 }
 
 .sect-hd {
@@ -142,15 +149,6 @@
 
 .product_image_orgin_name {
 	display:none;
-}
-
-.stock {
-    width: 170px;
-    height: 35px;
-    margin: 0 30px 0 15px;
-    padding: 5px;
-    background-color: var(--bd-gary);
-    border: 1px solid var(--bd-gary);
 }
 
 .prdSale,
