@@ -68,40 +68,23 @@ $(document).ready(function() {
 
 		if (getidCheck.test(id)) {
 			$.ajax({
-				url: "Check.ajax",
-				type: "get",
-				cache: false,
-				success: function(data, status) {
-					if (status == "success")
-						parseJSON(data);
+				url: "/layout/user/member/idcheck",
+				type: "POST",
+				dataType: "JSON",
+				data: { "id": $("[name = 'id']").val() },
+				success: function(data) {
+					console.log(data)
+					if (data == true) {
+						alert("이미 사용중인 아이디입니다.")
+						$("[name='id']").focus();
+					} else if (data == false) {
+						idchk = true;
+						alert("사용가능한 아이디입니다.")
+						$("[name='id']").attr("readonly", true);
+						$("[name='id']").css("background-color", "rgb(182, 176, 176)");
+					}
 				}
-			});
-
-			function parseJSON(jsonObj) {
-				var data = jsonObj.data;
-				var dbid = "";
-				var cnt = 0;
-
-				for (var i = 0; i < data.length; i++) {
-					dbid += data[i].id;
-					if (i < data.length - 1) dbid += ",";
-				}
-
-				var checkid = dbid.split(",");
-
-				for (var i = 0; i < checkid.length; i++)
-					if (checkid[i] == id) cnt = 1;
-
-				if (cnt == 1) {
-					alert("이미 사용중인 아이디입니다.");
-					$("[name='id']").focus();
-				} else {
-					idchk = true;
-					alert("사용가능한 아이디입니다.")
-					$("[name='id']").attr("readonly", true);
-					$("[name='id']").css("background-color", "rgb(182, 176, 176)");
-				}
-			}
+			})
 		}
 	});
 
@@ -423,15 +406,15 @@ $(document).ready(function() {
 
 // 이용약관 보기
 function terms_one() {
-    window.open("terms_one.do","이용약관 동의","width=585,height=375,left=700,top=270");
+	window.open("terms_one.do", "이용약관 동의", "width=585,height=375,left=700,top=270");
 }
 
 function terms_two() {
-    window.open("terms_two.do","개인정보 수집·이용 동의","width=585,height=375,left=700,top=270");
+	window.open("terms_two.do", "개인정보 수집·이용 동의", "width=585,height=375,left=700,top=270");
 }
 
 function terms_three() {
-    window.open("terms_three.do","개인정보 수집·이용 동의","width=585,height=375,left=700,top=270");
+	window.open("terms_three.do", "개인정보 수집·이용 동의", "width=585,height=375,left=700,top=270");
 }
 
 // 약관동의 체크박스 
@@ -451,4 +434,37 @@ function selectAll(selectAll) {
 	checkboxes.forEach((checkbox) => {
 		checkbox.checked = selectAll.checked
 	})
+}
+
+// 휴대폰 번호입력하면 자동 '-'입력
+var autoHypenPhone = function(str) {
+	str = str.replace(/[^0-9]/g, '');
+	var tmp = '';
+	if (str.length < 4) {
+		return str;
+	} else if (str.length < 7) {
+		tmp += str.substr(0, 3);
+		tmp += '-';
+		tmp += str.substr(3);
+		return tmp;
+	} else if (str.length < 11) {
+		tmp += str.substr(0, 3);
+		tmp += '-';
+		tmp += str.substr(3, 3);
+		tmp += '-';
+		tmp += str.substr(6);
+		return tmp;
+	} else {
+		tmp += str.substr(0, 3);
+		tmp += '-';
+		tmp += str.substr(3, 4);
+		tmp += '-';
+		tmp += str.substr(7);
+		return tmp;
+	}
+}
+
+var phoneNum = document.getElementById('phoneNum');
+phoneNum.onkeyup = function() {
+	this.value = autoHypenPhone(this.value);
 }
