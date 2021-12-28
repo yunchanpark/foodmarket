@@ -1,5 +1,112 @@
-{"properties": [{
-  "name": "file.uploadpath",
-  "type": "java.lang.String",
-  "description": "A description for 'file.uploadpath'"
-}]}
+{"properties": [
+  {
+    "name": "file.uploadpath",
+    "type": "java.lang.String",
+    "description": "A description for 'file.uploadpath'"
+  },
+  {
+    "name": "mail.smtp.auth",
+    "type": "java.lang.String",
+    "description": "A description for 'mail.smtp.auth'"
+  },
+  {
+    "name": "mail.smtp.starttls.required",
+    "type": "java.lang.String",
+    "description": "A description for 'mail.smtp.starttls.required'"
+  },
+  {
+    "name": "mail.smtp.socketFactory.class",
+    "type": "java.lang.String",
+    "description": "A description for 'mail.smtp.socketFactory.class'"
+  },
+  {
+    "name": "mail.smtp.starttls.enable",
+    "type": "java.lang.String",
+    "description": "A description for 'mail.smtp.starttls.enable'"
+  },
+  {
+    "name": "mail.smtp.socketFactory.fallback",
+    "type": "java.lang.String",
+    "description": "A description for 'mail.smtp.socketFactory.fallback'"
+  },
+  {
+    "name": "mail.smtp.port",
+    "type": "java.lang.String",
+    "description": "A description for 'mail.smtp.port'"
+  },
+  {
+    "name": "mail.smtp.socketFactory.port",
+    "type": "java.lang.String",
+    "description": "A description for 'mail.smtp.socketFactory.port'"
+  },
+  {
+    "name": "mail.smtp.socketFactory.port",
+    "type": "java.lang.String",
+    "description": "A description for 'mail.smtp.socketFactory.port'"
+  },
+  {
+    "name": "mail.smtp.socketFactory.port",
+    "type": "java.lang.String",
+    "description": "A description for 'mail.smtp.socketFactory.port'"
+  },
+  {
+    "name": "mail.smtp.socketFactory.port",
+    "type": "java.lang.String",
+    "description": "A description for 'mail.smtp.socketFactory.port'"
+  },
+  {
+    "name": "mail.smtp.socketFactory.port",
+    "type": "java.lang.String",
+    "description": "A description for 'mail.smtp.socketFactory.port'"
+  },
+  {
+    "name": "mail.smtp.socketFactory.port",
+    "type": "java.lang.String",
+    "description": "A description for 'mail.smtp.socketFactory.port'"
+  },
+  {
+    "name": "mail.smtp.socketFactory.class",
+    "type": "java.lang.String",
+    "description": "A description for 'mail.smtp.socketFactory.class'"
+  },
+  {
+    "name": "mail.smtp.socketFactory.port",
+    "type": "java.lang.String",
+    "description": "A description for 'mail.smtp.socketFactory.port'"
+  },
+  {
+    "name": "mail.smtp.socketFactory.class",
+    "type": "java.lang.String",
+    "description": "A description for 'mail.smtp.socketFactory.class'"
+  },
+  {
+    "name": "mail.smtp.socketFactory.class",
+    "type": "java.lang.String",
+    "description": "A description for 'mail.smtp.socketFactory.class'"
+  },
+  {
+    "name": "mail.smtp.socketFactory.class",
+    "type": "java.lang.String",
+    "description": "A description for 'mail.smtp.socketFactory.class'"
+  },
+  {
+    "name": "mail.smtp.socketFactory.class",
+    "type": "java.lang.String",
+    "description": "A description for 'mail.smtp.socketFactory.class'"
+  },
+  {
+    "name": "mail.smtp.socketFactory.fallback",
+    "type": "java.lang.String",
+    "description": "A description for 'mail.smtp.socketFactory.fallback'"
+  },
+  {
+    "name": "AdminMail.id",
+    "type": "java.lang.String",
+    "description": "A description for 'AdminMail.id'"
+  },
+  {
+    "name": "AdminMail.password",
+    "type": "java.lang.String",
+    "description": "A description for 'AdminMail.password'"
+  }
+]}

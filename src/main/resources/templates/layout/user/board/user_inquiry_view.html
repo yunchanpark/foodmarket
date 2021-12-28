@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<!-- head -->
+<th:block th:include="@{/layout/user/includes/head.html}"></th:block>
+<link rel="stylesheet" type="text/css" href="/css/user_board.css">
+
+<th:block th:with="dto=${user_inquiry_view[0]}"
+	th:unless="${user_inquiry_view == null} or ${#lists.size(user_inquiry_view) <= 0}">
+	<!-- head 끝 -->
+
+
+	<script>
+		function chkDelete(inquiryNo) {
+			// 삭제 여부, 다시 확인하고 진행
+			var r = confirm("삭제하시겠습니까?");
+
+			if (r) {
+				location.href = 'user_inquiry_deleteOk?inquiryNo=' + inquiryNo;
+			}
+		}
+	</script>
+
+	<body>
+		<div class="wrap">
+			<!-- header -->
+			<th:block th:include="@{/layout/user/includes/header.html}"></th:block>
+			<!-- header 끝 -->
+
+			<!-- section -->
+			<section>
+				<th:block th:include="@{/layout/admin/includes/menubar.html}"></th:block>
+				<!-- 내용 입력 -->
+				<div class="notice_content">
+					<div class="notice_norevi">
+						<span class="notice_no">No.[[${dto.inquiryNo }]]</span> <span
+							class="notice_regdate">작성일:
+							[[${#temporals.format(dto.createdAt, 'yyyy-MM-dd HH:mm')}]]</span>
+					</div>
+					<hr>
+					<div class="notice_view_title view_total">
+						<label class="view_lab" for="notice_title"><a>제목</a></label>
+						<div id="notice_title"
+							class="notice_view_title_content notice_view_tic">[[${dto.title}]]</div>
+					</div>
+					<hr>
+					<div class="notice_view_id view_total">
+						<label class="view_lab" for="notice_title"><a>작성자</a></label>
+						<div class="notice_view_id_content notice_view_tic">[[${dto.id.name}]]</div>
+					</div>
+					<hr>
+					<div class="inquiry_image view_total">
+						<div class="mb-3 mt-3">
+							<label class="view_lab"><a>첨부파일</a></label>
+							<!--첨부파일 이름, 다운로드 링크 -->
+							<!-- <a th:href= "@{/}">[[${session.inquiryimage.inquiryOrgin}]]</a> -->
+							<img alt="">[[${session.inquiryimage.inquiryOrgin}]]
+						</div>
+					</div>
+
+					<hr>
+					<div class="notice_view_content view_total">
+						<label class="view_lab view_lab_content" for="notice_content"><a>내용</a></label>
+						<div id="inquiry_content"
+							class="notice_view_content_content notice_view_tic">[[${dto.content}]]</div>
+					</div>
+					<hr>
+					<div class="notice_view_content view_total">
+						<label class="view_lab view_lab_content" for="notice_content"><a>답변</a></label>
+						<div id="inquiry_answer"
+							class="notice_view_content_content notice_view_tic">[[${dto.answer}]]</div>
+					</div>
+
+
+
+
+					<button type="button"
+						class="btn btn-outline-dark notice_view_list_btn"
+						onclick="location.href='/layout/user/board/user_inquiry_list'">목록</button>
+					<button type="button"
+						class="btn btn-outline-dark notice_view_delete_btn"
+						th:onclick="'chkDelete(' + ${dto.inquiryNo} + ')'">삭제</button>
+
+				</div>
+				<!-- 내용 입력 끝 -->
+			</section>
+			<!-- section 끝 -->
+
+			<!-- footer -->
+			<th:block th:include="@{/layout/user/includes/footer.html}"></th:block>
+			<!-- footer 끝 -->
+		</div>
+		<!-- plugin -->
+		<th:block th:include="@{/layout/user/includes/plugin.html}"></th:block>
+		<!-- plugin 끝 -->
+	</body>
+</html>

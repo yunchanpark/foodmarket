@@ -46,7 +46,32 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { // 등록할 
 		http
 			.csrf().disable()
 			.authorizeRequests()
-			.anyRequest().permitAll();
+			
+			
+			.anyRequest().permitAll()
+		
+			// 로그인 설정
+			.and()
+			.formLogin()
+			.loginPage("/login")
+			.loginProcessingUrl("/loginOk")
+			.defaultSuccessUrl("/")
+			.failureHandler(new CustomLoginFailureHandler())
+			.successHandler(new CustomLoginSuccessHandler("/layout/user/index"))
+			
+			// 예외처리 설정
+			.and()  
+			.exceptionHandling()
+			.accessDeniedHandler(new CustomAccessDeniedHandler())
+			
+			// 로그아웃 설정
+			.and()  
+			.logout()
+			.logoutUrl("/logout")  // 로그아웃 수행 url
+			.logoutSuccessUrl("/") // 로그아웃 성공후 redirect url
+			.invalidateHttpSession(true)   // sesssion invalidate 디폴트 true
+			.logoutSuccessHandler(new CustomLogoutSuccessHandler())
+			;
 	}
 }
 

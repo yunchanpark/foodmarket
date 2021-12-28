@@ -24,7 +24,7 @@ public class FileUpload {
 			byte[] bytes = upload.getBytes();
 
 			String fileUrl = "/ckUpload" + url + saveName;
-			String ckUploadPath = "C:\\spring_foodmarket\\ckupload\\"+ realPath + File.separator + saveName;
+			String ckUploadPath = "D:\\spring_foodmarket\\ckupload\\"+ realPath + File.separator + saveName;
 
 			dto = FileUploadDTO.builder()
 					.orginName(orginName)

@@ -38,12 +38,12 @@ public class InquiryImage {
 	// 1대1문의 사진원본이름(Null 허용x)
 	@NonNull
 	@NotNull
-	@Column(name="inuiry_image_orgin")
-	private String inuiryOrgin;
+	@Column(name="inquiry_image_orgin")
+	private String inquiryOrgin;
 
 	// 서버에 저장될 1대1문의 사진이름(Null 허용x)
 	@NonNull
 	@NotNull
-	@Column(name="inuiry_image_save")
-	private String inuirySave;
+	@Column(name="inquiry_image_save")
+	private String inquirySave;
 }

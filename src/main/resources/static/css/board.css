@@ -48,6 +48,12 @@ img { max-width:100%; }
 }
 
 
+.inquiry_status p{
+	margin: 0px;
+}
+
+
+
 
 .tbl-setting tr, td{
 	width:100%;
@@ -83,6 +89,19 @@ img { max-width:100%; }
 	margin:0;
 }
 
+
+.btn-delete{
+	display: inline-block;
+    width: 85px;
+    height: 36px;
+    border: 1px solid #3f464f;
+    background: #3f464f;
+    color: #fff !important;
+    font-size: 15px;
+    text-align: center;
+    vertical-align: middle;
+    float: right;
+}
 
 
 

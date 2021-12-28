@@ -93,7 +93,9 @@ public class Member extends BaseEntity implements Auditable {
 	private int saveUpPoint;
 	
 	// 권한부분 생각 해야됨
-//	private String role;
+	@NotNull
+	@NonNull
+	private String role;
 }
 
 

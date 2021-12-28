@@ -7,7 +7,7 @@
 
 <script th:unless="${result == 0}" th:inline="javascript">
 	alert("등록 성공");
-	location.href = "notice_list";
+	location.href = "user_inquiry_view?inquiryNo=[[${inquiry.inquiryNo}]]";
 </script>
 
 </html>

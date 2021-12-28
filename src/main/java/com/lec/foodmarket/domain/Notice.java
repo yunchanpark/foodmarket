@@ -61,6 +61,14 @@ public class Notice extends BaseEntity implements Auditable {
 	private int viewCnt;
 
 
+
+
+
+	
+	
+
+
+
 }
 
 

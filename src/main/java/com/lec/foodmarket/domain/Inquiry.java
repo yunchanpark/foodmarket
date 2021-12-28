@@ -41,7 +41,7 @@ public class Inquiry extends BaseEntity implements Auditable{
 	@ManyToOne
 	@NonNull
 	@NotNull
-	@JoinColumn(name="id")
+	@JoinColumn(name="uid")
 	private Member id;
 	
 	// 1대1문의 제목(Null 허용x)
