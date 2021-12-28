@@ -4,12 +4,14 @@ import java.time.LocalDateTime;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 import com.lec.foodmarket.domain.ProductCategory;
 import com.lec.foodmarket.domain.dto.ProductDTO;
 
+@Component
 public class ProductValidator implements Validator {
 
 	@Override

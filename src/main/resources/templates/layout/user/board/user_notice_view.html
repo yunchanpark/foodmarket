@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<!-- head -->
+<th:block th:include="@{/layout/user/includes/head.html}"></th:block>
+<link rel="stylesheet" type="text/css" href="/css/user_board.css">
+
+<th:block th:with="dto=${list[0]}" th:unless="${list == null} or ${#lists.size(list) <= 0}">
+
+<!-- head 끝 -->
+
+
+<body>
+	<div class="wrap">
+		<!-- header -->
+		<th:block th:include="@{/layout/user/includes/header.html}"></th:block>
+		<!-- header 끝 -->
+
+		<!-- section -->
+		<section>
+			<th:block th:include="@{/layout/admin/includes/menubar.html}"></th:block>
+
+
+			<!-- 내용 입력 -->
+			<div class="notice">
+					<div class="notice_title">공지사항 [[${dto.title }]]</div>
+
+					<div class="notice_content">
+						<div class="notice_norevi">
+							<span class="notice_no">번호: [[${dto.noticeNo }]]</span> <span
+								class="notice_regdate">작성일: [[${#temporals.format(dto.createdAt, 'yyyy-MM-dd HH:mm') }]]</span> <span
+								class="notice_viewcnt">조회수: [[${dto.viewCnt }]]</span>
+						</div>
+						<hr>
+						<div class="notice_view_title view_total">
+							<label class="view_lab" for="notice_title"><a>제목</a></label>
+							<div id="notice_title"
+								class="notice_view_title_content notice_view_tic">[[${dto.title }]]</div>
+						</div>
+						<hr>
+						<div class="notice_view_id view_total">
+							<label class="view_lab" for="notice_title"><a>작성자</a></label>
+							<div class="notice_view_id_content notice_view_tic">[[${dto.id.name }]]</div>
+						</div>
+						<hr>
+						<div class="notice_view_content view_total">
+							<label class="view_lab view_lab_content" for="notice_content"><a>내용</a></label>
+							<div id="notice_content"
+								class="notice_view_content_content notice_view_tic">[[${dto.content }]]</div>
+						</div>
+
+
+						<button type="button"
+							class="btn btn-outline-dark notice_view_list_btn"
+							onclick="location.href='user_notice_list'">목록</button>
+					</div>
+			</div>
+
+			<!-- 내용 입력 끝 -->
+		</section>
+		<!-- section 끝 -->
+
+		<!-- footer -->
+		<th:block th:include="@{/layout/user/includes/footer.html}"></th:block>
+		<!-- footer 끝 -->
+	</div>
+	<!-- plugin -->
+	<th:block th:include="@{/layout/user/includes/plugin.html}"></th:block>
+	<!-- plugin 끝 -->
+</body>
+
+</html>

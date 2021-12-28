@@ -1,16 +1,25 @@
 package com.lec.foodmarket.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.lec.foodmarket.domain.Inquiry;
 import com.lec.foodmarket.domain.Member;
 import com.lec.foodmarket.domain.Notice;
 import com.lec.foodmarket.service.BoardService;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
 @RequestMapping("/layout/admin/board")
 public class AdminBoardController {
@@ -32,6 +41,17 @@ public class AdminBoardController {
 		model.addAttribute("inquiry_list", boardService.inquiry_list());
 	}
 	
+	@GetMapping("/inquiry_update")
+	public void inquiry_update(int inquiryNo, Model model) {
+		model.addAttribute("list", boardService.inquiry_viewByUid(inquiryNo));
+	}
+	
+	@PostMapping("/inquiry_updateOk")
+	public void inquiry_updateOk(@ModelAttribute("dto") Inquiry dto, Model model) {
+		model.addAttribute("result", boardService.inquiry_update(dto));
+	}
+	
+	
 	
 	
 	//notice
@@ -40,6 +60,11 @@ public class AdminBoardController {
 	public void notice_list(Model model) {
 		model.addAttribute("notice_list", boardService.notice_list());
 	}
+
+
+       
+
+	
 	
 	@RequestMapping("/notice_write")
 	public void notice_write(Model model) {
@@ -64,7 +89,6 @@ public class AdminBoardController {
 	@PostMapping("/notice_writeOk")
 	public void notice_write(Notice dto, Model model) {
 		int cnt = boardService.notice_write(dto);
-		System.out.println(dto);
 		model.addAttribute("result", cnt);
 		model.addAttribute("dto", dto);
 		
@@ -73,15 +97,32 @@ public class AdminBoardController {
 	
 	@GetMapping("/notice_update")
 	public void update(int noticeNo, Model model) {
-		model.addAttribute("list", boardService.selectByUid(noticeNo));
+		model.addAttribute("list", boardService.notice_selectByUid(noticeNo));
 	}
 	
+	@PostMapping("/notice_updateOk")
+	public void notice_updateOk(@ModelAttribute("dto") Notice dto, Model model) {
+		model.addAttribute("result", boardService.notice_update(dto));
+	}
 
+	@GetMapping("/notice_view")
+	public void notice_view(int noticeNo, Model model) {
+		model.addAttribute("list", boardService.notice_viewByUid(noticeNo));
+	}
+	
+	@GetMapping("/notice_deleteOk")
+	public void notice_deleteOk(int noticeNo, Model model) {
+		model.addAttribute("result", boardService.notice_deleteByUid(noticeNo));
+	}
 	
 	
 	
 	
 	
+	
+	/*삭제부분인데 오류나면 삭제하기*/
+
+
 	
 	
 	

@@ -4,7 +4,7 @@
 <th:block th:include="@{/layout/admin/includes/head.html}"></th:block>
 <!-- head 끝 -->
 	<link th:href="@{/css/product.css}" rel="stylesheet" />
-    <title>FoodMarket-상품등록</title>
+    <title>FoodMarket-상품리스트</title>
 </head>
 <body class="sb-nav-fixed">
     <!--header menu-->
@@ -18,7 +18,98 @@
         <!--content-->
         <div id="layoutSidenav_content">
             <main>
-            1231231231
+            	<div class=" px-4">
+                    <div class="mt-4 fs-5 fw-bold align-self-center">• 상품리스트</div>
+                    <div class="list-wrap bg-white mt-4">
+                    	<form action="list" method="get">
+                    	<div class="list-container flex-center bd-b-gray">
+                    		<span class="txt">키워드</span>
+                    		<select name="keyword" class="arr-bg arr-size-small" id="keyword">
+                    			<option value="name">상품명</option>
+                    			<option value="description">추가 상품명</option>
+                    			<option value="productNo">상품번호</option>
+                    		</select>
+                    		<input type="text" name="searchKeyword" class="arr-bg arr-size-nomal" th:value="${search.searchKeyword}">
+                    		<span class="err">[[${errSearchKeyword}]]</span>
+                    	</div>
+                    	<div class="list-container flex-center">
+                    		<span class="txt">등록일</span>
+                    		<ul class="date-select flex-center">
+								<li class="today btn-date">오늘</li>                    		
+								<li class="lastWeek btn-date">1주일</li>                    		
+								<li class="lastMonth btn-date">1개월</li>                    		
+                    		</ul>
+                    		<div class="ms-3">
+                    			<input type="date" name="selectStartDate" class="discount-calendar" id="selectStartDate">
+                    			<span class="sep">~</span>
+                    			<input type="date" name="selectEndDate" class="discount-calendar" id="selectEndDate">
+                    			<span class="err">[[${errSelectStartDate}]]</span>
+                    			<span class="err">[[${errSelectEndDate}]]</span>
+                    		</div>
+                    	</div>
+                    	<div class="btn-c">
+                    		<input type="submit" class="btn-h52-blue w180 mr-20 btn-add-notice search_btn" value="검색"/>
+                    	</div>
+                    	</form>
+                    </div>
+            	</div>
+            	<div class="px-4 mb-5 mt-4">
+            		<div class="bg-white bd-gray">
+            			<div class="result-title">
+            				상품 검색 결과 
+            				<span class="title-option">
+            					( 총 : 
+            					<span class="pil-so">
+            						<th:block th:if="${list != null}" th:text="${list.size}">0</th:block>
+            					</span>개 )
+            				</span>
+            			</div>
+            			<div class="px-4 result-container">
+            				<span class="pil-so ckCnt">0</span>개의 상품을
+            				<select name="batch" class="arr-bg arr-size-3">
+            					<option value="batchSale">일괄할인</option>
+            					<option value="batchDel">일괄삭제</option>
+            				</select>
+							<input type="button" value="적용" class="apply text-white">
+            			</div>
+            			<div class="mt-2 table-wrap">
+	            			<table class="product-table">
+	            				<thead>
+	            					<tr>
+	            						<td style="min-width: 55px;"><input type="checkbox" name="allCk"></td>
+	            						<td style="min-width: 95px;">이미지</td>
+	            						<td style="min-width: 200px;">상품명</td>
+	            						<td style="min-width: 200px;">추가상품명</td>
+	            						<td style="min-width: 100px;">판매가</td>
+	            						<td style="min-width: 100px;">매입가</td>
+	            						<td style="min-width: 100px;">수량</td>
+	            						<td style="min-width: 100px;">할인가</td>
+	            						<td style="min-width: 180px;">할인기간</td>
+	            						<td style="min-width: 100px;">조회수</td>
+	            						<td style="min-width: 180px;">등록일<br>(수정일)</td>
+	            					</tr>
+	            				</thead>
+	            				<tbody>
+	            					<th:block th:each="dto : ${list}">
+			            				<tr>
+			            					<td style="width: 55px;"><input type="checkbox" th:value="${dto.productNo}" name="productarr"></td>
+			            					<td><img alt="" th:src="@{/ckUpload/productImages/product/} + ${dto.imageSave}"></td>
+			            					<td><a th:text="${dto.name}"></a></td>
+			            					<td><span th:text="${dto.description}"></span></td>
+			            					<td><span th:text="${dto.price}"></span></td>
+			            					<td><span th:text="${dto.purchasePrice}"></span></td>
+			            					<td><span th:text="${dto.stock}"></span></td>
+			            					<td><span th:text="${dto.discount} + ${dto.exchangeRate}"></span></td>
+			            					<td><span th:text="${#temporals.format(dto.disStart, 'yyyy-MM-dd HH:mm')}"></span><br>(<span th:text="${#temporals.format(dto.disEnd, 'yyyy-MM-dd HH:mm')}"></span>)</td>
+			            					<td><span th:text="${dto.viewCnt}"></span></td>
+			            					<td><span th:text="${#temporals.format(dto.createdAt, 'yyyy-MM-dd HH:mm')}"></span><br>(<span th:text="${#temporals.format(dto.updatedAt, 'yyyy-MM-dd HH:mm')}"></span>)</td>
+			            				</tr>
+	            					</th:block>
+	            				</tbody>
+	            			</table>
+            			</div>
+            		</div>
+            	</div>
             </main>
             <!--footer-->
 			<th:block th:include="@{/layout/admin/includes/footer.html}"></th:block>
@@ -29,6 +120,23 @@
 	<!-- 본문 끝 -->
     <!--plugin-->
 	<th:block th:include="@{/layout/admin/includes/plugin.html}"></th:block>
+    <script th:src="@{/js/product.js}"></script>
+    <script th:inline="javascript">
+    /*<![CDATA[*/
+    	let keyword = /*[[${search.keyword}]]*/ null;
+    	let startDate = /*[[${search.selectStartDate}]]*/ null;
+		let endDate = /*[[${search.selectEndDate}]]*/ null;
+
+		if(keyword == null) keyword = "name";
+		
+		// 검색 기간
+		$("#selectStartDate").val(startDate);    	
+		$("#selectEndDate").val(endDate);  
+		
+		// 검색 카테고리
+    	$('#keyword').val(keyword).prop('selected', true);
+		/*]]>*/
+	</script>
     <!--plugin끝-->
 </body>
 </html>

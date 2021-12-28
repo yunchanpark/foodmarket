@@ -20,7 +20,7 @@
 
 			<!-- 내용 입력 -->
 			<div class="notice">
-				<div class="notice_title">공지사항</div>
+				<div class="notice_title">1:1문의</div>
 				<div class="notice_content">
 					<table class="notice_content_table">
 						<thead>
@@ -29,21 +29,31 @@
 								<th>제목</th>
 								<th>작성자</th>
 								<th>작성일</th>
-								<th>조회수</th>
+								<th>답변상태</th>
 							</tr>
 						</thead>
 						<tbody>
-
-							<tr th:each="dto: ${user_notice_list}">
-								<td>[[${dto.noticeNo }]]</td>
-								<td><a th:href="@{user_notice_view(noticeNo=${dto.noticeNo })}">[[${dto.title }]]</a></td>
+							<!--  							<c:when test="${empty list || fn:length(list) == 0 }">
+                                        데이터가 없습니다<br>
+							</c:when>
+-->
+							<tr th:each="dto: ${user_inquiry_list}">
+								<td>[[${dto.inquiryNo }]]</td>
+								<td><a
+									th:href="@{user_inquiry_view(inquiryNo=${dto.inquiryNo})}">[[${dto.title
+										}]]</a></td>
 								<td>[[${dto.id.name }]]</td>
-								<td>[[${#temporals.format(dto.createdAt, 'yyyy-MM-dd HH:mm') }]]</td>
-								<td>[[${dto.viewCnt }]]</td>
+								<td>[[${#temporals.format(dto.createdAt, 'yyyy-MM-dd
+									HH:mm') }]]</td>
+								<td><div th:switch="${dto.status}">
+										<p th:case="0">미답변</p>
+										<p th:case="1">답변완료</p>
+									</div></td>
 							</tr>
 						</tbody>
 					</table>
-					
+					<button type="button" class="btn btn-outline-dark"
+						onclick="location.href='/layout/user/board/user_inquiry_write'">글쓰기</button>
 				</div>
 			</div>
 

@@ -1,6 +1,8 @@
 package com.lec.foodmarket.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -59,6 +61,45 @@ public class ProductService {
 		productRepository.save(product);
 	}
 	
+	// 모든 상품 검색
+	public List<Product> productAllSelecet() {
+		return productRepository.findAll();
+	}
+
+	// 상품명으로 상품 검색
+	public List<Product> productNameSelecet(String name) {
+		return productRepository.findByNameContainsIgnoreCase(name);
+	}
+	
+	// 추가 상품명으로 상품 검색
+	public List<Product> productDescriptionSelect(String description) {
+		return productRepository.findByDescriptionContainsIgnoreCase(description);
+	}
+	
+	// 상품번호로 상품 검색
+	public Optional<Product> productProductNoSelect(Long productNo) {
+		return productRepository.findById(productNo);
+	}
+	
+	// 상품 수정 날짜로 상품 검색
+	public List<Product> productUpdateAtSelect(LocalDateTime from, LocalDateTime to) {
+		return productRepository.findByUpdatedAtBetween(from, to);
+	}
+	
+	// 상품 수정 날짜와 상품번호 검색
+	public List<Product> productUpdateAtAndProductNo(Long productNo, LocalDateTime from, LocalDateTime to) {
+		return productRepository.findByProductNoAndUpdatedAtBetween(productNo, from, to);
+	}
+
+	// 상품 수정 날짜와 추가 상품명 검색
+	public List<Product> productUpdateAtAndDescription(String description, LocalDateTime from, LocalDateTime to) {
+		return productRepository.findByDescriptionContainsIgnoreCaseAndUpdatedAtBetween(description, from, to);
+	}
+	
+	// 상품 수정 날짜와 상품명 검색
+	public List<Product> productUpdateAtAndName(String name, LocalDateTime from, LocalDateTime to) {
+		return productRepository.findByNameContainsIgnoreCaseAndUpdatedAtBetween(name, from, to);
+	}
 	
 	
 	

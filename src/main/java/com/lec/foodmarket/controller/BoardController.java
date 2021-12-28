@@ -1,10 +1,23 @@
 package com.lec.foodmarket.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.lec.foodmarket.commond.FileUpload;
+import com.lec.foodmarket.domain.Inquiry;
+import com.lec.foodmarket.domain.InquiryImage;
+import com.lec.foodmarket.domain.Member;
+import com.lec.foodmarket.domain.dto.FileUploadDTO;
 import com.lec.foodmarket.service.BoardService;
 
 @Controller
@@ -22,10 +35,21 @@ public class BoardController {
 		;
 	}
 	
+	
+//	/***********user_notice***********/
+	
 	@RequestMapping("/user_notice_list")
 	public void user_notice_list(Model model) {
 		model.addAttribute("user_notice_list", boardService.user_notice_list());
 	}
+	
+	@GetMapping("/user_notice_view")
+	public void view(int noticeNo, Model model) {
+		model.addAttribute("list", boardService.notice_viewByUid(noticeNo));
+	}
+	
+	
+
 
 //	/******************************************
 //	 * 사용자
@@ -33,18 +57,90 @@ public class BoardController {
 //	 *   공지사항 조회
 //	 * 추가사항이나 수정사항 알아서   
 //	 ******************************************/
-//	
-//	/******************************************
-//	 * GET 방식
-//	 ******************************************/
-//	// TODO
-//
-//	
-//	
-//	
-//	/******************************************
-//	 * POST 방식
-//	 ******************************************/
-//	// TODO
+	
+	
+	
+//	/***********user_inquiry***********/
+	
+	@GetMapping("/user_inquiry_view")
+	public void user_inquiry_view(int inquiryNo, Model model) {
+		model.addAttribute("user_inquiry_view", boardService.inquiry_viewByUid(inquiryNo));
+	}
+	
+	@RequestMapping("/user_inquiry_list")
+	public void user_inquiry_list(Model model) {
+		model.addAttribute("user_inquiry_list", boardService.user_inquiry_list());
+	}
+	
+	@RequestMapping("/user_inquiry_write")
+	public void inquiry_write(Model model) {
+		Member member = Member.builder()
+				.uid(1L)
+				.id("admin")
+				.addr("모충동")
+				.detailAddr("105호")
+				.name("운영자")
+				.email("kjh80441@naver.com")
+				.originProfile("안녕")
+				.phoneNo("010-5103-1570")
+				.pw("admin")
+				.recommender("안녕")
+				.saveProfile("안녕")
+				.saveUpPoint(12)
+				.build();
+		model.addAttribute("member", member);
+		
+		
+	}   //   /board/write.html
+	
+	
+	
+		
+	
 
+	
+	
+	@PostMapping("/user_inquiry_writeOk")
+	public void writeOk(Inquiry inquiry, BindingResult result, @RequestParam("image") MultipartFile upload, HttpSession session, RedirectAttributes redirectAttrs) throws Exception {
+		int cnt = boardService.inquiry_write(inquiry);
+		session.setAttribute("result", cnt);
+		session.setAttribute("inquiry", inquiry);
+		
+		FileUpload file = new FileUpload();
+		FileUploadDTO dto = file.ckUpload("/inquiryImages/inquiry/", "inquiryImages\\inquiry", upload);
+		
+		InquiryImage inquiryimage = InquiryImage.builder()
+				.inquiryNo(inquiry)
+				.inquiryOrgin(dto.getOrginName())
+				.inquirySave(dto.getSaveName())
+				.build();
+		boardService.inquiryImageSave(inquiryimage);
+		session.setAttribute("inquiryimage", inquiryimage);
+	}
+	
+	
+	@GetMapping("/user_inquiry_deleteOk")
+	public void deleteOk(int inquiryNo, int inquiryimage, Model model) {
+		model.addAttribute("result1", boardService.inquiryImageDelete(inquiryimage));
+		model.addAttribute("result", boardService.inquiry_deleteByUid(inquiryNo));
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

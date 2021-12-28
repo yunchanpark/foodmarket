@@ -2,8 +2,13 @@
 /* 상품 등록 메인 */
 :root {
 	--bg-green: #5cb85c;
-    --bd-gary: #d8d8d8;
+	--bg-black-1: #3f464f;
+	--bg-light-gray-1: #f5f7f8;
+    --bd-gray: #d8d8d8;
+    --bd-gray-1: #bdc5cd;
     --sect-gray: #eef1f4;
+    --btn-blue: #00affe;
+    --txt-gray: #858f9b;
 }
 
 .pil-so,
@@ -21,7 +26,7 @@
     position: relative;
     height: 52px;
     line-height: 52px;
-    border: 1px solid var(--bd-gary);
+    border: 1px solid var(--bd-gray);
     background-color: white;
 }
 
@@ -35,7 +40,7 @@
     position: absolute;
     width: 52px;
     height: 52px;
-    border-left: 1px solid var(--bd-gary);
+    border-left: 1px solid var(--bd-gray);
     top: 0;
     right: 0;
     background: url(../images/arr_h11_top.png) no-repeat 50% 50%;
@@ -63,7 +68,7 @@
     position: relative;
     display: flex;
     padding: 20px 30px;
-    border: 1px solid var(--bd-gary);
+    border: 1px solid var(--bd-gray);
     background-color: white;
     font-weight: bold;
     line-height: 35px;
@@ -77,7 +82,15 @@
     margin-left: 10px;
     height: 35px;
     background-color: var(--sect-gray);
-    border: 1px solid var(--bd-gary);
+    border: 1px solid var(--bd-gray);
+}
+
+.arr-size-small {
+	width: 240px;
+}
+
+.arr-size-nomal {
+	width:380px;
 }
 
 .arr-size-4 {
@@ -132,7 +145,7 @@
 .discount-calendar {
     height: 35px;
     background-color: var(--sect-gray);
-    border: 1px solid var(--bd-gary);
+    border: 1px solid var(--bd-gray);
 }
 
 .product_image_label {
@@ -162,8 +175,8 @@
     width: 130px;
     height: 52px;
     line-height: 52px;
-    background: #00affe;
-    color: #fff;
+    background: var(--btn-blue);
+    color: white;
     font-size: 20px;
     text-align: center;
     border: none;
@@ -171,3 +184,133 @@
     margin: 30px 0 100px -65px;
 }
 /* 상품 등록 메인 끝 */
+
+
+/* 상품 리스트 */
+.bd-b-gray {
+	border-bottom: 1px solid var(--bd-gray-1);
+}
+
+.flex-center {
+	display: flex;
+	align-items: center;	
+}
+
+.list-wrap {
+	width: 100%;
+	height: 280px;
+	border: 3px solid var(--bd-gray-1);
+}
+
+.list-container {
+	height: 77px;
+	padding-left: 30px;
+}
+
+.date-select {
+	padding: 0;
+	margin: 0;
+	margin-left: 10px;
+}
+
+.btn-date {
+	cursor: pointer;
+}
+
+.btn-date {
+	text-decoration: none;
+	width: 80px;
+	height: 36px;
+	text-align: center;
+	line-height: 36px;
+	border: 1px solid var(--bd-gray);
+	color: var(--txt-gray);
+}
+
+.bd-gray {
+	border: 1px solid var(--bd-gray);
+}
+
+.result-title {
+	padding: 10px;
+	height: 50px;
+	line-height: 30px;
+	border-bottom: 2px solid var(--bd-gray-1);
+	font-weight: bold;
+}
+
+.title-option {
+	font-weight: normal;
+}
+
+.result-container {
+	padding: 15px;
+}
+
+.apply {
+	width: 72px;
+	height: 36px;
+	background-color: var(--bg-black-1);
+}
+
+.product-table {
+	border-collapse: separate;
+	border-spacing: 0;
+	text-align: center;
+	width: 100%;
+	padding: 0;
+}
+
+.product-table thead tr td:first-child,
+.product-table tbody tr td:first-child {
+	position: sticky;
+	left: 0;
+	z-index: 100;
+	background-color: white;
+}
+
+.product-table thead tr td:first-child {
+	background-color: var(--bg-light-gray-1);
+	z-index: 120;
+}
+
+.product-table thead tr td {
+	position: sticky;
+	background-color: var(--bg-light-gray-1);
+	font-weight: bold;
+	top: 0;
+}
+
+.table-wrap {
+	width: 1180px;
+	max-height: 600px;
+	overflow: auto;
+	margin: 0 auto;
+	padding: 0;
+}
+
+.product-table tbody tr td {
+	height: 110px;
+}
+
+.product-table thead tr td,
+.product-table tbody tr td {
+	border: 1px solid var(--bd-gray);
+}
+
+.product-table tbody tr td:nth-child(2) img {
+	width: 100%;
+	height: 110px;
+}
+
+.now {
+	background-color: black; 
+	color: white;
+}
+
+
+
+
+
+
+

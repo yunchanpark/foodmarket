@@ -26,17 +26,6 @@
 						<h2>1:1문의관리</h2>
 					</div>
 
-<!-- 				
-					<div class="tab-menu main-hd">
-						<ul>
-							<li class=""><a
-								th:href="@{/layout/admin/board/inquiry_list}">1:1문의 관리</a></li>
-							<li class=""><a th:href="@{/layout/admin/board/notice_list}">공지사항
-									관리</a></li>
-						</ul>
-					</div>
--->
-
 					<div class="sect-top mt-30">
 						<form id="searchForm">
 							<input type="hidden" name="page" value="1">
@@ -80,8 +69,8 @@
 											<td><select style="width: 230px"
 												name="commentExistsType">
 													<option value="">--답변여부 전체--</option>
-													<option value="Y">답변완료</option>
-													<option value="N">미답변</option>
+													<option value="*">답변완료</option>
+													<option value="0">미답변</option>
 											</select></td>
 										</tr>
 										<tr>
@@ -130,15 +119,26 @@
 									</colgroup>
 									<thead>
 										<tr>
-											<th style="width: 15%">답변여부</th>
-											<th style="width: 50%">문의내용</th>
+											<th style="width: 10%">답변여부</th>
+											<th style="width: 5%">번호</th>
+											<th style="width: 55%">문의내용</th>
 											<th style="width: 15%">작성자</th>
-											<th style="width: 20%">등록일</th>
+											<th style="width: 15%">등록일</th>
 										</tr>
 									</thead>
 									<tbody>
-										<tr class="js-inquiryEmptyTr">
-											<td colspan="6">1:1 문의가 없습니다.</td>
+										<tr th:each="dto: ${inquiry_list}">
+											<td style="width: 10%"><div th:switch="${dto.status}" class= "inquiry_status">
+													<p th:case="0">미답변</p>
+													<p th:case="1">답변완료</p>
+												</div></td>
+
+											<td style="width: 5%">[[${dto.inquiryNo }]]</td>
+											<td style="width: 55%"><a
+												th:href="@{inquiry_update(inquiryNo=${dto.inquiryNo})}">[[${dto.title}]]</a></td>
+											<td style="width: 15%">[[${dto.id.name }]]</td>
+											<td style="width: 15%">[[${#temporals.format(dto.createdAt,
+												'yyyy-MM-dd HH:mm') }]]</td>
 										</tr>
 									</tbody>
 								</table>
