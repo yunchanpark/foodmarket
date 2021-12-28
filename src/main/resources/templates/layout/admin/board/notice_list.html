@@ -139,12 +139,13 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr th:each="dto: ${list}">
+										<tr th:each="dto: ${notice_list}">
+											<td></td>
 											<td>[[${dto.noticeNo }]]</td>
-											<td>[[${dto.title}]]</a></td>
-											<td>[[${dto.id }]]</td>
+											<td>[[${dto.title}]]</td>
+											<td>[[${dto.id.name}]]</td>
 											<td>[[${dto.viewCnt }]]</td>
-											<td>[[${#temporals.format(dto.regDate, 'yyyy-MM-dd
+											<td>[[${#temporals.format(dto.createdAt, 'yyyy-MM-dd
 												HH:mm:ss') }]]</td>
 										</tr>
 									</tbody>

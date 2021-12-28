@@ -49,22 +49,24 @@ public class AdminBoardController {
 				.addr("모충동")
 				.detailAddr("105호")
 				.name("운영자")
-//				.originProfile("안녕")
+				.email("kjh80441@naver.com")
+				.originProfile("안녕")
 				.phoneNo("010-5103-1570")
 				.pw("admin")
 				.recommender("안녕")
-//				.saveProfile("안녕")
+				.saveProfile("안녕")
 				.saveUpPoint(12)
 				.build();
 		model.addAttribute("member", member);
+		System.out.println(member.getName());
 	}
 	
 	@PostMapping("/notice_writeOk")
 	public void notice_write(Notice dto, Model model) {
+		int cnt = boardService.notice_write(dto);
 		System.out.println(dto);
-//		int cnt = boardService.notice_write(dto);
-//		model.addAttribute("result", cnt);
-//		model.addAttribute("dto", dto);
+		model.addAttribute("result", cnt);
+		model.addAttribute("dto", dto);
 		
 	}
 	

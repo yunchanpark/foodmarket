@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"> 
+
 
 <!-- head -->
 <th:block th:include="@{/layout/user/includes/head.html}"></th:block>
@@ -18,14 +19,17 @@
 			<form action="/loginOk" method="post" class="loginForm">
 				<h2>로그인</h2>
 				<div class="idForm">
-					<input type="text" class="id" placeholder="아이디를 입력해주세요" name="login_id">
+					<input type="text" class="id" placeholder="아이디를 입력해주세요" name="username">
 				</div>
 				<div class="passForm">
-					<input type="password" class="pw" placeholder="비밀번호를 입력해주세요" name="login_pw">
+					<input type="password" class="pw" placeholder="비밀번호를 입력해주세요" name="password">
 				</div>
 				<div id="find">
-					<a th:href="@{/layout/user/member/find_id}">아이디 찾기 </a> | <a th:href="@{/layout/user/member/find_pw}">비밀번호 찾기</a>
+					<a th:href="@{/layout/user/member/find_id}">아이디 찾기 </a> | 
+					<a th:href="@{/layout/user/member/find_pw}">비밀번호 찾기</a>
 				</div>
+				<div th:text="${errorMessage}" class="erMsg"></div>
+				
 				<button type="submit" class="btn">로그인</button>
 				<a th:href="@{/layout/user/member/register}"><button type="button" class="btn1">회원가입</button></a>
 			</form>
