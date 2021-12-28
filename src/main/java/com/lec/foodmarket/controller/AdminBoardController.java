@@ -77,11 +77,11 @@ public class AdminBoardController {
 				.saveUpPoint(12)
 				.build();
 		model.addAttribute("member", member);
+		System.out.println(member.getName());
 	}
 	
 	@PostMapping("/notice_writeOk")
 	public void notice_write(Notice dto, Model model) {
-		System.out.println(dto);
 		int cnt = boardService.notice_write(dto);
 		model.addAttribute("result", cnt);
 		model.addAttribute("dto", dto);

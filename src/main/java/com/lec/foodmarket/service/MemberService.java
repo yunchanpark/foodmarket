@@ -1,8 +1,7 @@
 package com.lec.foodmarket.service;
 
 import java.time.LocalDateTime;
-
-import javax.transaction.Transactional;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +10,8 @@ import com.lec.foodmarket.domain.Member;
 import com.lec.foodmarket.repository.MemberRepository;
 import com.lec.foodmarket.repository.PointConditionRepository;
 import com.lec.foodmarket.repository.PointRepository;
+
+import lombok.NonNull;
 
 @Service
 public class MemberService {
@@ -61,9 +62,39 @@ public class MemberService {
 		return 1;
 	}
 	
-	
-	
-	
+	// 아아디 중복체크
+	public boolean checkIdDuplicate(String id) {
+		return memberRepository.existsById(id);
+	}
+
+	// 이메일 중복체크
+	public boolean checkEmailDuplicate(String email) {
+		return memberRepository.existsByEmail(email);
+	}
+
+	public Member findById(String username) {
+		return memberRepository.findById(username);
+	}
+
+	public void memberSave(Member member) {
+		memberRepository.save(member);
+	}
+
+	public List<String> selectRoleById(String id) {
+		return memberRepository.selectRoleById(id);
+	}
+
+	public Member updateTime(LocalDateTime updatedAt, String id) {
+		return memberRepository.updatedAtById(updatedAt, id);
+	}
+
+	public String findIdByNameAndEmail(String find_id_name, String find_id_email) {
+		return memberRepository.findIdByNameAndEmail(find_id_name, find_id_email);
+	}
+
+	public String findPwByIdAndNameAndEmail(String find_pw_id, String find_pw_name, String find_pw_email) {
+		return memberRepository.findPwByIdAndNameAndEmail(find_pw_id, find_pw_name, find_pw_email);
+	}
 	
 }
 

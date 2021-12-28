@@ -68,23 +68,23 @@ $(document).ready(function() {
 
 		if (getidCheck.test(id)) {
 			$.ajax({
-				url: "/layout/user/member/idcheck",
-				type: "POST",
-				dataType: "JSON",
-				data: { "id": $("[name = 'id']").val() },
-				success: function(data) {
-					console.log(data)
-					if (data == true) {
-						alert("이미 사용중인 아이디입니다.")
-						$("[name='id']").focus();
-					} else if (data == false) {
-						idchk = true;
-						alert("사용가능한 아이디입니다.")
-						$("[name='id']").attr("readonly", true);
-						$("[name='id']").css("background-color", "rgb(182, 176, 176)");
+				url: "/layout/user/member/checkId/" + id,
+				type: "get",
+				cache: false,
+				success: function(data, status) {
+					if (status == "success") {
+						if (data == true) {
+							alert("이미 사용중인 아이디입니다.");
+							$("[name='id']").focus();
+						} else {
+							idchk = true;
+							alert("사용가능한 아이디입니다.")
+							$("[name='id']").attr("readonly", true);
+							$("[name='id']").css("background-color", "rgb(182, 176, 176)");
+						}
 					}
 				}
-			})
+			});
 		}
 	});
 
@@ -147,67 +147,57 @@ $(document).ready(function() {
 
 		if (getemailCheck.test(email)) {
 			$.ajax({
-				url: "Check.ajax",
+				url: "/layout/user/member/checkEmail/" + email,
 				type: "GET",
 				cache: false,
 				success: function(data, status) {
-					if (status == "success")
-						parseJSON(data);
+					if (status == "success") {
+						if (data == true) {
+							alert("이미 사용중인 이메일입니다.");
+							$("[name='email']").focus();
+						} else {
+							alert("해당 이메일로 인증번호가 발송되었습니다.")
+							$("[name='email']").attr("readonly", true);
+							$("[name='email']").css("background-color", "rgb(182, 176, 176)");
+							$("#email_check_auth").show();
+							$("#email_check_auth_btn").show();
+							$.ajax({
+								url: "/email/auth/" + email,
+								type: "get",
+								data: {
+									"email": email
+								}, success: function() {
+									$("#email_check_auth").focus();
+								}
+							});
+						}
+					}
 				}
 			});
-
-			function parseJSON(jsonObj) {
-				var data = jsonObj.data;
-				var dbemail = "";
-				var cnt = 0;
-
-				for (var i = 0; i < data.length; i++) {
-					dbemail += data[i].email;
-					if (i < data.length - 1) dbemail += ",";
-				}
-
-				var checkemail = dbemail.split(",");
-
-				for (var i = 0; i < checkemail.length; i++)
-					if (checkemail[i] == email) cnt = 1;
-
-				if (cnt == 1) {
-					alert("이미 사용중인 이메일입니다.");
-					$("[name='email']").focus();
-				} else {
-					alert("해당 이메일로 인증번호가 발송되었습니다.")
-					$("[name='email']").attr("readonly", true);
-					$("[name='email']").css("background-color", "rgb(182, 176, 176)");
-					$("#email_check_auth").show();
-					$("#email_check_auth_btn").show();
-					$.ajax({
-						url: "email_auth.ajax",
-						type: "get",
-						data: {
-							"email": email
-						}, success: function() {
-							$("#email_check_auth").focus();
-						}
-					});
-				}
-			}
 		}
 	});
 
 	// 이메일 인증하기 버튼
 	$("#email_check_auth_btn").click(function() {
-		var email_hash = $("[name='email_hash']").val();
-		var email_hidden = $("[name='email_hidden']").val();
+		var emailhash = $("[name='email_hash']").val();
 
-		if (email_hash == email_hidden) {
-			emailck = true;
-			alert("인증번호가 확인되셨습니다.")
-			$("[name='email_hash']").attr("readonly", true);
-			$("[name='email_hash']").css("background-color", "rgb(182, 176, 176)");
-		} else {
-			$("[name='email_hash']").focus();
-			alert("인증번호가 다릅니다.")
-		}
+		$.ajax({
+			url: "/email/authCk",
+			type: "post",
+			data: {
+				"emailhash": emailhash
+			}, success: function(data) {
+				if (data.ck == 1) {
+					emailck = true;
+					alert("인증이 완료되었습니다.")
+					$("[name='email_hash']").attr("readonly", true);
+					$("[name='email_hash']").css("background-color", "rgb(182, 176, 176)");
+				} else {
+					$("[name='email_hash']").focus();
+					alert("인증번호가 다릅니다.")
+				}
+			}
+		});
 	});
 
 	$("#register_input").on("click", function() {
@@ -218,19 +208,6 @@ $(document).ready(function() {
 		var name = $("[name='name']").val();
 		var email = $("[name='email']").val();
 		var addr_detail = $("[name='addr_detail']").val();
-
-		// 아이디 체크
-		if (id == "") {
-			alert("아이디는 필수입력사항입니다.");
-			$("[name = 'id']").focus();
-			return;
-		}
-
-		if (!getidCheck.test(id)) {
-			alert("아이디 형식에 맞게 입력해주세요.")
-			$("[name='id']").focus();
-			return;
-		}
 
 		if (!idchk) {
 			alert("아이디 중복확인을 해야합니다.")
@@ -276,13 +253,11 @@ $(document).ready(function() {
 			return;
 		}
 
-		// 이메일 체크
-		if (email == "") {
-			alert("이메일은 필수입력사항입니다.");
-			$("[name = 'email']").focus();
-			return;
-		}
+		// 휴대폰 체크
 
+
+
+		// 이메일 체크
 		if (!emailck) {
 			alert("이메일 인증을 해야합니다.");
 			$("[name = 'email']").focus();
@@ -310,23 +285,46 @@ $(document).ready(function() {
 			return;
 		}
 
+		alert("회원가입을 축하합니다!")
 		$("form").submit();
 	});
 
-	// 비밀번호 찾기 인증번호
+	// 비밀번호 찾기 인증번호 받기 버튼
+	$(".authBtn").on("click", function() {
+		alert("입력한 이메일로 인증번호가 발송되었습니다.");
+		var email = $("[name='hidden_pw_email']").val();
+
+		console.log(email);
+		$.ajax({
+			url: "/email/auth/" + email,
+			type: "get",
+			data: {
+				"email": email
+			}, success: function() {
+				$("#find_pw_auth").focus();
+			}
+		});
+	});
+
+	// 비밀번호 찾기 인증하기 버튼
 	$("#find_auth").on("click", function() {
 		var find_pw_auth = $("[name='find_pw_auth']").val();
-		var find_pw_hidden = $("[name='find_pw_hidden']").val();
-		console.log(find_pw_auth)
-		console.log(find_pw_hidden)
 
-		if (find_pw_auth == find_pw_hidden) {
-			alert("인증번호가 확인되셨습니다.")
-			$("form").submit();
-		} else {
-			$("[name='find_pw_auth']").focus();
-			alert("인증번호가 다릅니다.")
-		}
+		$.ajax({
+			url: "/email/findAuthCk",
+			type: "post",
+			data: {
+				"find_pw_auth": find_pw_auth
+			}, success: function(data) {
+				if (data.ck == 1) {
+					emailck = true;
+					alert("인증이 완료되었습니다.")
+					$("form").submit();
+				} else {
+					alert("인증번호가 다릅니다.")
+				}
+			}
+		});
 	});
 
 	// 비밀번호 찾기 유효성 검사

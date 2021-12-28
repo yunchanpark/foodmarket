@@ -1,14 +1,20 @@
 package com.lec.foodmarket.service;
 
+import java.io.File;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.lec.foodmarket.domain.Product;
 import com.lec.foodmarket.domain.ProductCategory;
+import com.lec.foodmarket.domain.dto.ProductDTO;
 import com.lec.foodmarket.repository.CartRepository;
 import com.lec.foodmarket.repository.ProductCategoryRepository;
 import com.lec.foodmarket.repository.ProductLikeCntRepository;
@@ -101,8 +107,31 @@ public class ProductService {
 		return productRepository.findByNameContainsIgnoreCaseAndUpdatedAtBetween(name, from, to);
 	}
 	
+	// 일괄 삭제
+	public void productDeleteInBatch(List<Long> productIds) {
+		productRepository.deleteAllByIdInBatch(productIds);
+	}
 	
-	
+	// 첨부파일 삭제
+	public int deleteByimage(List<Long> product_no, String realPath) {
+		int result = 0;
+		// 물리적인 경로
+		String ckUploadPath = "C:\\spring_foodmarket\\ckupload\\"+ realPath;
+		List<Product> productList = productRepository.findAllById(product_no);
+		for(Product dto : productList) {
+			File f = new File(ckUploadPath, dto.getImageSave());
+			if(f.exists()) {
+				if(f.delete()) {
+					result = 1;
+				} else {
+					result = 0;
+				}
+			} else {
+				result = -1;
+			}
+		}
+		return result;
+	}
 	
 	
 	/******************************************

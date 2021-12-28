@@ -20,14 +20,14 @@
 				<div class="find_images">
 					<img th:src="@{/images/find.png}" alt="">
 				</div>
-				<th:block th:if="${find_id == null}">
+				<div th:if="${findId == null}">
                      고객님께서 입력하신 정보가<br> 정확한지 확인 후 다시 시도해주세요.<br>
 					<a th:href="@{/layout/user/member/find_id}"><button
 							type="button" class="btn1">아이디 다시 찾기</button></a>
-				</th:block>
-				<th:block th:unless="${find_id == null}">
-                     찾으시는 아이디는 [ [[${find_id }]] ] 입니다.
-                </th:block>
+				</div>
+				<div th:unless="${findId == null}">
+                     찾으시는 아이디는 [ [[${findId }]] ] 입니다.
+                </div>
 				<a th:href="@{/layout/user/member/login}"><button type="button"
 						class="btn1">로그인 화면으로 돌아가기</button></a>
 			</form>

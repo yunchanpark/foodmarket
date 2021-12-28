@@ -1,74 +1,67 @@
 <header>
-    <div class="top_gnb box_inner">
-        <div class="basic_topgnb">
-            <ul class="top_gnb_menu">
-                <li><a th:href="@{/layout/user/member/register}">회원가입</a></li>
-                <li><a th:href="@{/layout/user/member/login}">로그인</a></li>
-                <li>
-                    <a th:href="@{/}" class="service">고객센터▾</a>
-                    <ul class="service_sub_menu">
+	<div class="top_gnb box_inner">
+		<div class="basic_topgnb">
+			<ul class="top_gnb_menu">
+				<div sec:authorize="isAnonymous()">
+					<li><a th:href="@{/layout/user/member/register}">회원가입</a></li>
+					<li><a th:href="@{/layout/user/member/login}">로그인</a></li>
+				</div>
+				<div sec:authorize="isAuthenticated()">
+					<li><a th:href="@{/layout/user/member/login}"><span th:text="${session.member.name}"></span> 님</a></li>
+					<li><a th:href="@{/logout}">로그아웃</a></li>
+				</div>
+				<li><a th:href="@{/}" class="service">고객센터▾</a>
+					<ul class="service_sub_menu">
                         <li><a th:href="@{/layout/user/board/user_notice_list}">공지사항</a></li>
                         <li><a th:href="@{/layout/user/board/user_inquiry_list}">1:1문의</a></li>
-                        <li><a th:href="@{/}">오시는길</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </div>
-    <div class="logo_gnb box_inner">
-        <a th:href="@{/}">
-            <img th:src="@{/images/FoodMarket_logo.png}" alt="FoodMarket_logo">
-        </a>
-    </div>
-    <div class="bottom_gnb">
-        <div class="bottom_gnb_main box_inner">
-            <ul class="bottom_gnb_menu">
-                <li class="menu1">
-                    <a th:href="@{/}" class="category">
-                        <img th:src="@{/images/menu.png}">
-                        <span class="txt">전체 카테고리</span>
-                    </a>
-                    <ul class="service_sub_category">
-                    </ul>
-                </li>
-                <li class="menu2">
-                    <a th:href="@{/}">
-                        <span class="txt">NEW</span>
-                    </a>
-                </li>
-                <li class="menu3">
-                    <a th:href="@{/}">
-                        <span class="txt">BEST</span>
-                    </a>
-                </li>
-                <li class="menu4">
-                    <a th:href="@{/}">
-                        <span class="txt">추천순</span>
-                    </a>
-                </li>
-                <li class="menu5">
-                    <a th:href="@{/}">
-                        <span class="txt">가격순</span>
-                    </a>
-                </li>
-            </ul>
-            <div class="gnb_search">
-                <form action="" id="word_search" class="word_search" method="get">
-                    <input type="text" name="sword" id="sword" class="sword" placeholder="검색어를 입력해주세요">
-                    <input type="image" th:src="@{/images/search_ico.png}" id="search_btn" class="search_btn">
-                    <input type="button" class="search_del">
-                </form>
-            </div>
-            <div class="inner_cart_count">
-                <a th:href="@{/}" class="btn_cart">
-                    <img th:src="@{/images/cart_ico.png}" alt="장바구니" class="cart_ico">
-                    <span class="cart_count"></span>
-                </a>
-                <div class="cart_content">
-                    <img th:src="@{/images/cloud.webp}" class="cloud">
-                    <span class="cart_title">장바구니에<br>담았습니다</span>
-                </div>
-            </div>
-        </div>
-    </div>
+						<li><a th:href="@{/}">오시는길</a></li>
+					</ul></li>
+			</ul>
+		</div>
+	</div>
+	<div class="logo_gnb box_inner">
+		<a th:href="@{/}"> <img th:src="@{/images/FoodMarket_logo.png}"
+			alt="FoodMarket_logo">
+		</a>
+	</div>
+	<div class="bottom_gnb">
+		<div class="bottom_gnb_main box_inner">
+			<ul class="bottom_gnb_menu">
+				<li class="menu1"><a th:href="@{/}" class="category"> <img
+						th:src="@{/images/menu.png}"> <span class="txt">전체
+							카테고리</span>
+				</a>
+					<ul class="service_sub_category">
+					</ul></li>
+				<li class="menu2"><a th:href="@{/}"> <span class="txt">NEW</span>
+				</a></li>
+				<li class="menu3"><a th:href="@{/}"> <span class="txt">BEST</span>
+				</a></li>
+				<li class="menu4"><a th:href="@{/}"> <span class="txt">추천순</span>
+				</a></li>
+				<li class="menu5"><a th:href="@{/}"> <span class="txt">가격순</span>
+				</a></li>
+			</ul>
+			<div class="gnb_search">
+				<form action="" id="word_search" class="word_search" method="get">
+					<input type="text" name="sword" id="sword" class="sword"
+						placeholder="검색어를 입력해주세요"> <input type="image"
+						th:src="@{/images/search_ico.png}" id="search_btn"
+						class="search_btn"> <input type="button"
+						class="search_del">
+				</form>
+			</div>
+			<div class="inner_cart_count">
+				<a th:href="@{/}" class="btn_cart"> <img
+					th:src="@{/images/cart_ico.png}" alt="장바구니" class="cart_ico">
+					<span class="cart_count"></span>
+				</a>
+				<div class="cart_content">
+					<img th:src="@{/images/cloud.webp}" class="cloud"> <span
+						class="cart_title">장바구니에<br>담았습니다
+					</span>
+				</div>
+			</div>
+		</div>
+	</div>
 </header>
