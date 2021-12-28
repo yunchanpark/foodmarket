@@ -13,7 +13,6 @@ import com.lec.foodmarket.domain.dto.FileUploadDTO;
 
 @Component
 public class FileUpload {
-	
 	public FileUploadDTO ckUpload(String url, String realPath, MultipartFile upload) throws Exception {
 		FileUploadDTO dto = null;
 		UUID uid = UUID.randomUUID(); // 고유 식별값
