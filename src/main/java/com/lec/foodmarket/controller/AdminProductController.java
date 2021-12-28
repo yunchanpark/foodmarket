@@ -92,7 +92,7 @@ public class AdminProductController {
 		// 상품 이미지 업로드
 		FileUpload file = new FileUpload();
 		FileUploadDTO dto = file.ckUpload("/productImages/product/", "productImages\\product", upload);
-
+		
 		// 상품 값 세팅
 		Product product = Product.builder()
 				.categoryNo(productDTO.getCategoryNo())

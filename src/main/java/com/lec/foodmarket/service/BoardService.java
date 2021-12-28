@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.lec.foodmarket.domain.Inquiry;
+import com.lec.foodmarket.domain.InquiryImage;
 import com.lec.foodmarket.domain.Notice;
+import com.lec.foodmarket.domain.Product;
 import com.lec.foodmarket.repository.InquiryImageRepository;
 import com.lec.foodmarket.repository.InquiryRepository;
 import com.lec.foodmarket.repository.NoticeRepository;
@@ -92,17 +94,20 @@ public class BoardService {
 	}
 
 	// 글 삭제
-	public int notice_deleteByUid(long uid) {
-		noticeRepository.deleteById(uid);
+	public int notice_deleteByUid(long noticeNo) {
+		noticeRepository.deleteById(noticeNo);
 		return 1;
 	}
-//	public Object inquiry_list() {
-//		return null;
-//	}
-//
-//	public Object notice_list() {
-//		return null;
-//	}
+	
+	
+
+
+
+	
+
+	
+	
+
 
 	/******************************************
 	 * 사용자 notice
@@ -123,8 +128,29 @@ public class BoardService {
 		return inquiryRepository.findAll(Sort.by(Direction.DESC, "inquiryNo"));
 	}
 
+	// 글 수정
+	public int inquiry_update(Inquiry dto) {
+		int cnt = 0;
+		Inquiry data = inquiryRepository.findById(dto.getInquiryNo()).orElse(null);
+		if (data != null) {
+			data.setContent(dto.getContent());
+			data.setTitle(dto.getTitle());
+			data.setAnswer(dto.getAnswer());
+			data.setStatus(1);
+			inquiryRepository.saveAndFlush(data); // UPDATE
+			cnt = 1;
+		}
+		return cnt;
+	}
 	
 	
+	
+	// 미답변 개수
+
+	
+	
+	
+
 	
 	
 	/******************************************
@@ -136,12 +162,20 @@ public class BoardService {
 		return inquiryRepository.findAll(Sort.by(Direction.DESC, "inquiryNo"));
 	}
 
-	public int inquiry_write(Inquiry dto) {
-		inquiryRepository.saveAndFlush(dto);
+	public int inquiry_write(Inquiry inquiry) {
+		inquiryRepository.saveAndFlush(inquiry);
 		return 1;
 	}
 	
 
+	// 이미지
+	public void inquiryImageSave(InquiryImage inquiryimage) {
+		inquiryImageRepository.saveAndFlush(inquiryimage);
+	}
+
+	
+	
+	
 	// 특정 uid 의 글 읽어오기 + 조회수 증가
 	@Transactional   // 해당 메소드는 하나의 트랜잭션으로 처리함.
 	public List<Inquiry> inquiry_viewByUid(long inquiryNo){
@@ -164,10 +198,44 @@ public class BoardService {
 		return list;
 	}
 	
+	
 	// 글 삭제
 	public int inquiry_deleteByUid(long inquiryNo) {
 		inquiryRepository.deleteById(inquiryNo);
 		return 1;
 	}
+
+	// 이미지 삭제
+	public int inquiryImageDelete(long inquiryimage) {
+		inquiryImageRepository.deleteById(inquiryimage);
+		return 1;
+	}
+	
+	
+	
+
+
+
+
+
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+
+
+
+
+
+	
+
+
 
 }

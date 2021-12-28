@@ -37,13 +37,18 @@
                                         데이터가 없습니다<br>
 							</c:when>
 -->
-							<tr th:each="dto: ${list}">
+							<tr th:each="dto: ${user_inquiry_list}">
 								<td>[[${dto.inquiryNo }]]</td>
 								<td><a
-									href="user_inquiry_view.html?inquiryNo=${dto.inquiryNo }">[[${dto.title }]]</a></td>
-								<td>[[${dto.id }]]</td>
-								<td>[[${#temporals.format(dto.regDate, 'yyyy-MM-dd HH:mm:ss') }]]</td>
-								<td>[[${dto.answer }]]</td>
+									th:href="@{user_inquiry_view(inquiryNo=${dto.inquiryNo})}">[[${dto.title
+										}]]</a></td>
+								<td>[[${dto.id.name }]]</td>
+								<td>[[${#temporals.format(dto.createdAt, 'yyyy-MM-dd
+									HH:mm') }]]</td>
+								<td><div th:switch="${dto.status}">
+										<p th:case="0">미답변</p>
+										<p th:case="1">답변완료</p>
+									</div></td>
 							</tr>
 						</tbody>
 					</table>

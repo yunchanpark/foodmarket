@@ -3,7 +3,7 @@
 <!-- head -->
 <th:block th:include="@{/layout/admin/includes/head.html}"></th:block>
 <link rel="stylesheet" type="text/css" href="/css/board.css">
-
+<script type="text/javascript" th:src="@{/js/board.js}"></script>
 
 <!-- head 끝 -->
 <body class="sb-nav-fixed">
@@ -24,17 +24,6 @@
 					<div class="main-hd">
 						<h2>공지사항관리</h2>
 					</div>
-
-					<!-- 				
-					<div class="tab-menu main-hd">
-						<ul>
-							<li class=""><a
-								th:href="@{/layout/admin/board/inquiry_list}">1:1문의 관리</a></li>
-							<li class=""><a th:href="@{/layout/admin/board/notice_list}">공지사항
-									관리</a></li>
-						</ul>
-					</div>
--->
 
 					<div class="sect-cont mt-30">
 						<button type="button"
@@ -114,7 +103,7 @@
 							<h3>검색 결과</h3>
 						</div>
 						<!-- .sect-hd -->
-
+					<form action="/notice_deleteOk" id="frm" method="get">
 						<div class="sect-cont">
 							<div class="tbl-list mt-20 js-inquiriesArea">
 								<table class="notice-table">
@@ -130,7 +119,8 @@
 									<thead>
 										<tr>
 											<th style="width: 5%"><input type="checkbox"
-												id="checkbox"></th>
+												id="checkbox" name="notice_allcheckbox" class="checkbox"
+												onclick='selectAll(this)'></th>
 											<th style="width: 5%">번호</th>
 											<th style="width: 45%">제목</th>
 											<th style="width: 15%">작성자</th>
@@ -139,19 +129,26 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr th:each="dto: ${list}">
-											<td>[[${dto.noticeNo }]]</td>
-											<td>[[${dto.title}]]</a></td>
-											<td>[[${dto.id }]]</td>
-											<td>[[${dto.viewCnt }]]</td>
-											<td>[[${#temporals.format(dto.regDate, 'yyyy-MM-dd
-												HH:mm:ss') }]]</td>
+										<tr th:each="dto: ${notice_list}">
+											<td style="width: 5%"><input type="checkbox"
+												id="checkbox" name="notice_checkbox" class="checkbox" th:value="${dto.id.name}"
+												onclick='checkSelectAll()'/></td>
+											<td style="width: 5%">[[${dto.noticeNo }]]</td>
+											<td style="width: 45%"><a
+												th:href="@{notice_view(noticeNo=${dto.noticeNo})}">[[${dto.title}]]</a></td>
+											<td style="width: 15%">[[${dto.id.name }]]</td>
+											<td style="width: 10%">[[${dto.viewCnt }]]</td>
+											<td style="width: 20%">[[${#temporals.format(dto.createdAt,
+												'yyyy-MM-dd HH:mm') }]]</td>
 										</tr>
 									</tbody>
 								</table>
 							</div>
-							<div id="pagination"></div>
+							<div class="tbl-side exec-bar mt-10 btn-delete-btn">
+							 	<a class="btn btn-outline-dark btn-delete" onclick="boardDelete();">삭제</a> 
+							</div>
 						</div>
+						</form>
 						<!-- .sect-cont -->
 					</div>
 				</div>

@@ -1,10 +1,13 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
-</body>
+<script th:if="${result == 0}">
+	alert("등록 실패");
+	history.back();
+</script>
+
+<script th:unless="${result == 0}" th:inline="javascript">
+	alert("등록 성공");
+	location.href = "notice_list";
+</script>
+
 </html>

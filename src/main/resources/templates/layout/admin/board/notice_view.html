@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<!-- head -->
+<th:block th:include="@{/layout/admin/includes/head.html}"></th:block>
+<link rel="stylesheet" type="text/css" href="/css/board.css">
+<script type="text/javascript" th:src="@{/js/board.js}"></script>
+
+<script th:if="${list == null} or ${#lists.size(list) <= 0}">
+	alert("해당 정보가 삭제되거나 없습니다");
+	history.back();
+</script>			
+
+
+<th:block th:with="dto=${list[0]}" th:unless="${list == null} or ${#lists.size(list) <= 0}">
+<!-- head 끝 -->
+
+<script>
+function chkDelete(noticeNo){
+	// 삭제 여부, 다시 확인하고 진행
+	var r = confirm("삭제하시겠습니까?");
+	
+	if(r){
+		location.href = 'notice_deleteOk?noticeNo=' + noticeNo;
+	}
+}
+</script>
+
+<body class="sb-nav-fixed">
+	<!--header menu-->
+	<th:block th:include="@{/layout/admin/includes/header.html}"></th:block>
+	<!--header menu 끝-->
+	<!-- 본문 -->
+	<div id="layoutSidenav">
+		<!--sidebar-->
+		<th:block th:include="@{/layout/admin/includes/sidebar.html}"></th:block>
+		<!--sidebar 끝-->
+		<!--content-->
+		<div id="layoutSidenav_content">
+			<main>
+
+				<!--내용 입력-->
+				<div class="container mt-3">
+					<h2>조회</h2>
+					<hr>
+					<div class="mb-3 mt-3 clearfix">
+						<span class="float-start me-2">noticeNo: [[${dto.noticeNo }]]</span> 
+						<span class="float-end ms-4">작성일: [[${#temporals.format(dto.createdAt, 'yyyy-MM-dd HH:mm:ss')}]]</span> 
+						<span class="float-end">조회수: [[${dto.viewCnt }]]</span>
+					</div>
+					<section>
+						<div class="mb-3">
+							<label for="name">작성자:</label>
+							<div class="border bg-light rounded p-2">[[${dto.id.name }]]</div>
+						</div>
+						<div class="mb-3 mt-3">
+							<label for="subject">제목:</label>
+							<div class="border bg-light rounded p-2">[[${dto.title }]]</div>
+						</div>
+						<div class="mb-3 mt-3">
+							<label for="content">내용:</label>
+							<div class="border bg-light rounded p-2">[[${dto.content }]]</div>
+						</div>
+
+						<button type="button" class="btn btn-outline-dark" th:onclick="'location.href=\'' + @{notice_update(noticeNo=${dto.noticeNo})} + '\''">수정</button>
+						<button type="button" class="btn btn-outline-dark" onclick="location.href='notice_list'">목록</button>
+						<button type="button" class="btn btn-outline-dark" th:onclick="'chkDelete(' + ${dto.noticeNo} + ')'">삭제</button>
+						<button type="button" class="btn btn-outline-dark" onclick="location.href='notice_write'">작성</button>
+
+					</section>
+				</div>
+
+
+
+
+				<!--내용 입력 끝-->
+			</main>
+			<!--footer-->
+			<th:block th:include="@{/layout/admin/includes/footer.html}"></th:block>
+			<!--footer 끝-->
+		</div>
+		<!--content 끝-->
+	</div>
+	<!-- 본문 끝 -->
+	<!--plugin-->
+	<th:block th:include="@{/layout/admin/includes/plugin.html}"></th:block>
+	<!--plugin끝-->
+</body>
+</html>

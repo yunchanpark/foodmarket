@@ -1,13 +1,13 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
 <script th:if="${result == 0}">
-	alert("등록 실패");
+	alert("수정 실패");
 	history.back();
 </script>
 
 <script th:unless="${result == 0}" th:inline="javascript">
-	alert("등록 성공");
-	location.href = "user_inquiry_view?inquiryNo=[[${inquiry.inquiryNo}]]";
+	alert("수정 성공");
+	location.href = "notice_list";
 </script>
 
 </html>

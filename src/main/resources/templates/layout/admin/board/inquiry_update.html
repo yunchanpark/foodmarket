@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<!-- head -->
+<th:block th:include="@{/layout/admin/includes/head.html}"></th:block>
+<link rel="stylesheet" type="text/css" href="/css/board.css">
+<script type="text/javascript" th:src="@{/js/board.js}"></script>
+
+
+<th:block th:with="dto=${list[0]}"
+	th:unless="${list == null} or ${#lists.size(list) <= 0}">
+	<!-- head 끝 -->
+
+
+	<body class="sb-nav-fixed">
+		<!--header menu-->
+		<th:block th:include="@{/layout/admin/includes/header.html}"></th:block>
+		<!--header menu 끝-->
+		<!-- 본문 -->
+		<div id="layoutSidenav">
+			<!--sidebar-->
+			<th:block th:include="@{/layout/admin/includes/sidebar.html}"></th:block>
+			<!--sidebar 끝-->
+			<!--content-->
+			<div id="layoutSidenav_content">
+				<main>
+
+					<!--내용 입력-->
+					<div class="container mt-3">
+						<h2>조회</h2>
+						<hr>
+						<div class="mb-3 mt-3 clearfix">
+							<span class="float-start me-2">No. [[${dto.inquiryNo }]]</span> <span
+								class="float-end ms-4">작성일:
+								[[${#temporals.format(dto.createdAt, 'yyyy-MM-dd HH:mm')}]]</span>
+						</div>
+						<section>
+							<form name="frm" action="inquiry_updateOk" method="post"
+								onsubmit="return chkSubmit()">
+								<input type="hidden" name="inquiryNo"
+									th:value="${dto.inquiryNo }" />
+								<div class="mb-3">
+									<label for="name">작성자:</label>
+									<div class="border bg-light rounded p-2">[[${dto.id.name}]]</div>
+								</div>
+								<div class="mb-3 mt-3">
+									<label for="title">제목:</label> <input type="text"
+										class="form-control" id="subject" placeholder="제목을 입력하세요"
+										name="title" th:value="${dto.title }" readonly="readonly">
+								</div>
+								<div class="mb-3 mt-3">
+									<label for="content">내용:</label>
+									<textarea class="form-control" rows="5" id="content"
+										placeholder="내용을 입력하세요" name="content" readonly="readonly">[[${dto.content }]]</textarea>
+								</div>
+
+								<div class="inquiry_image view_total">
+									<div class="mb-3 mt-3">
+										<label class="view_lab"><a>첨부파일:</a></label>
+										<!--첨부파일 이름, 다운로드 링크 -->
+											<li class="list-group-item notice_view_tic"><img alt="">[[${session.inquiryimage.inquiryOrgin}]]</li>
+									</div>
+								</div>
+
+
+								<div class="mb-3 mt-3">
+									<label for="answer">답변:</label>
+									<textarea class="form-control" rows="5" id="answer"
+										placeholder="내용을 입력하세요" name="answer">[[${dto.answer }]]</textarea>
+								</div>
+
+								<button type="button" class="btn btn-outline-dark"
+									onclick="location.href='inquiry_list'">목록</button>
+								<button type="submit" class="btn btn-outline-dark">답변달기</button>
+							</form>
+						</section>
+					</div>
+
+					<!--내용 입력 끝-->
+				</main>
+				<!--footer-->
+				<th:block th:include="@{/layout/admin/includes/footer.html}"></th:block>
+				<!--footer 끝-->
+			</div>
+			<!--content 끝-->
+		</div>
+		<!-- 본문 끝 -->
+		<!--plugin-->
+		<th:block th:include="@{/layout/admin/includes/plugin.html}"></th:block>
+		<!--plugin끝-->
+	</body>
+</html>

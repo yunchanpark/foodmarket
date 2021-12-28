@@ -34,16 +34,16 @@
 						</thead>
 						<tbody>
 
-							<tr th:each="dto: ${list}">
+							<tr th:each="dto: ${user_notice_list}">
 								<td>[[${dto.noticeNo }]]</td>
-								<td><a
-									href="user_notice_view.html?noticeNo=${dto.noticeNo }">[[${dto.title }]]</a></td>
-								<td>[[${dto.id }]]</td>
-								<td>[[${#temporals.format(dto.regDate, 'yyyy-MM-dd HH:mm:ss') }]]</td>
+								<td><a th:href="@{user_notice_view(noticeNo=${dto.noticeNo })}">[[${dto.title }]]</a></td>
+								<td>[[${dto.id.name }]]</td>
+								<td>[[${#temporals.format(dto.createdAt, 'yyyy-MM-dd HH:mm') }]]</td>
 								<td>[[${dto.viewCnt }]]</td>
 							</tr>
 						</tbody>
 					</table>
+					
 				</div>
 			</div>
 
