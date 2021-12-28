@@ -182,10 +182,9 @@ public class AdminProductController {
 	// 여러 상품 삭제
 	@ResponseBody
 	@PostMapping(value ="/delete", produces = "application/json")
-	public void productSelectDelete(@RequestParam("productNoArr") List<Long> arrStringProductNo) {
-		for(Long str : arrStringProductNo) {
-			System.out.println(str);
-		}
+	public void productSelectDelete(@RequestParam("productNoArr") List<Long> arrStringProductNo) throws Exception {
+		int result = productService.deleteByimage(arrStringProductNo, "productImages\\product");
+		if(result == 1) productService.productDeleteInBatch(arrStringProductNo);
 	}
 }
 
