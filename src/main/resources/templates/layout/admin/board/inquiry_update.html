@@ -57,7 +57,7 @@
 									<div class="mb-3 mt-3">
 										<label class="view_lab"><a>첨부파일:</a></label>
 										<!--첨부파일 이름, 다운로드 링크 -->
-											<li class="list-group-item notice_view_tic"><img alt="">[[${session.inquiryimage.inquiryOrgin}]]</li>
+											<li class="list-group-item notice_view_tic"><img alt="" th:src="@{/ckUpload/inquiryImages/inquiry/} + ${session.inquiryimage.inquirySave}" style="width: 600px;"></li>
 									</div>
 								</div>
 

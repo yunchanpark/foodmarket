@@ -49,21 +49,28 @@
 						<div class="notice_view_id_content notice_view_tic">[[${dto.id.name}]]</div>
 					</div>
 					<hr>
-					<div class="inquiry_image view_total">
-						<div class="mb-3 mt-3">
-							<label class="view_lab"><a>첨부파일</a></label>
-							<!--첨부파일 이름, 다운로드 링크 -->
-							<!-- <a th:href= "@{/}">[[${session.inquiryimage.inquiryOrgin}]]</a> -->
-							<img alt="">[[${session.inquiryimage.inquiryOrgin}]]
-						</div>
-					</div>
 
-					<hr>
+
 					<div class="notice_view_content view_total">
 						<label class="view_lab view_lab_content" for="notice_content"><a>내용</a></label>
 						<div id="inquiry_content"
 							class="notice_view_content_content notice_view_tic">[[${dto.content}]]</div>
 					</div>
+					<hr>
+					<div class="inquiry_image view_total">
+						<div class="mb-3 mt-3 ">
+							<div class="image_file">
+								<label class="view_lab image_name"><a>이미지</a></label>
+
+								<!--첨부파일 이름, 다운로드 링크 -->
+								<!-- <a th:href= "@{/}">[[${session.inquiryimage.inquiryOrgin}]]</a> -->
+
+								<img alt="" th:src="@{/ckUpload/inquiryImages/inquiry/} + ${session.inquiryimage.inquirySave}"
+									style="width: 500px; float: right;">
+							</div>
+						</div>
+					</div>
+
 					<hr>
 					<div class="notice_view_content view_total">
 						<label class="view_lab view_lab_content" for="notice_content"><a>답변</a></label>

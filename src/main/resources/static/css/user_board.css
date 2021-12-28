@@ -227,7 +227,14 @@ table {
 	line-height: 55px;
 }
 
+.image_file{
+	height:300px;
+	vertical-align: middle;
+}
 
+.image_name{
+	margin-top:150px;
+}
 
 .mb-3{
 	display : inline-block;
