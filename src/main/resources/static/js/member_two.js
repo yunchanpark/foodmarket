@@ -15,7 +15,8 @@ function sample4_execDaumPostcode() {
 function delete_member() {
 	var delConfirm = confirm('회원탈퇴를 하시겠습니까?');
 	if (delConfirm) {
-		location.href = "MemberDeleteOk.do"
+		location.href = "deleteOk";
+		alert("회원탈퇴가 성공적으로 완료되었습니다.");
 	}
 };
 
@@ -107,6 +108,7 @@ $(document).ready(function() {
 			update_email();
 			return;
 		}
+
 		if (email == "") {
 			alert("변경할 이메일을 입력해주세요!.")
 			$("[name='update_email']").focus();
@@ -121,67 +123,57 @@ $(document).ready(function() {
 
 		if (getemailCheck.test(email)) {
 			$.ajax({
-				url: "Check.ajax",
+				url: "/layout/user/member/checkEmail/" + email,
 				type: "GET",
 				cache: false,
 				success: function(data, status) {
-					if (status == "success")
-						parseJSON(data);
+					if (status == "success") {
+						if (data == true) {
+							alert("이미 사용중인 이메일입니다.");
+							$("[name='update_email']").focus();
+						} else {
+							alert("해당 이메일로 인증번호가 발송되었습니다.")
+							$("[name='update_email']").attr("readonly", true);
+							$("[name='update_email']").css("background-color", "rgb(182, 176, 176)");
+							$("#update_email_auth").show();
+							$("#update_email_auth_btn").show();
+							$.ajax({
+								url: "/email/auth/" + email,
+								type: "get",
+								data: {
+									"email": email
+								}, success: function() {
+									$("#email_check_auth").focus();
+								}
+							});
+						}
+					}
 				}
 			});
-
-			function parseJSON(jsonObj) {
-				var data = jsonObj.data;
-				var dbemail = "";
-				var cnt = 0;
-
-				for (var i = 0; i < data.length; i++) {
-					dbemail += data[i].email;
-					if (i < data.length - 1) dbemail += ",";
-				}
-
-				var checkemail = dbemail.split(",");
-
-				for (var i = 0; i < checkemail.length; i++)
-					if (checkemail[i] == email) cnt = 1;
-
-				if (cnt == 1) {
-					alert("이미 사용중인 이메일입니다.");
-					$("[name='update_email']").focus();
-				} else {
-					alert("해당 이메일로 인증번호가 발송되었습니다.")
-					$("[name='update_email']").attr("readonly", true);
-					$("[name='update_email']").css("background-color", "rgb(182, 176, 176)");
-					$("#update_email_auth").show();
-					$("#update_email_auth_btn").show();
-					$.ajax({
-						url: "email_auth.ajax",
-						type: "get",
-						data: {
-							"email": email
-						}, success: function() {
-							$("#update_email_auth_btn").focus();
-						}
-					});
-				}
-			}
 		}
 	});
 
 	// 이메일 인증하기 버튼
 	$("#update_email_auth_btn").click(function() {
-		var email_hash = $("[name='update_email_auth']").val();
-		var email_hidden = $("[name='update_email_auth_hidden']").val();
+		var emailhash = $("[name='update_email_auth']").val();
 
-		if (email_hash == email_hidden) {
-			update_email_ck = true;
-			alert("인증번호가 확인되셨습니다.")
-			$("[name='update_email_auth']").attr("readonly", true);
-			$("[name='update_email_auth']").css("background-color", "rgb(182, 176, 176)");
-		} else {
-			$("[name='update_email_auth']").focus();
-			alert("인증번호가 다릅니다.")
-		}
+		$.ajax({
+			url: "/email/updateAuth",
+			type: "post",
+			data: {
+				"emailhash": emailhash
+			}, success: function(data) {
+				if (data.ck == 1) {
+					update_email_ck = true;
+					alert("인증이 완료되었습니다.")
+					$("[name='update_email_auth']").attr("readonly", true);
+					$("[name='update_email_auth']").css("background-color", "rgb(182, 176, 176)");
+				} else {
+					$("[name='update_email_auth']").focus();
+					alert("인증번호가 다릅니다.")
+				}
+			}
+		});
 	});
 });
 
@@ -194,6 +186,7 @@ function member_update() {
 	var email = $("[name='update_email']").val();
 	var email_hidden = $("[name='update_email_hidden']").val();
 	var addr_detail = $("[name='update_addr_detail']").val();
+
 
 	// 비밀번호 체크
 	if (pw == "") {
@@ -233,8 +226,8 @@ function member_update() {
 		$("[name = 'update_email']").focus();
 		return;
 	}
-	
-	if(email == email_hidden){
+
+	if (email == email_hidden) {
 		update_email_ck = true;
 	}
 
@@ -251,5 +244,39 @@ function member_update() {
 		return;
 	}
 
+	alert("회원정보가 수정되었습니다. 다시 로그인 해주세요.")
 	$("form").submit();
 };
+
+// 휴대폰 번호입력하면 자동 '-'입력
+var autoHypenPhone = function(str) {
+	str = str.replace(/[^0-9]/g, '');
+	var tmp = '';
+	if (str.length < 4) {
+		return str;
+	} else if (str.length < 7) {
+		tmp += str.substr(0, 3);
+		tmp += '-';
+		tmp += str.substr(3);
+		return tmp;
+	} else if (str.length < 11) {
+		tmp += str.substr(0, 3);
+		tmp += '-';
+		tmp += str.substr(3, 3);
+		tmp += '-';
+		tmp += str.substr(6);
+		return tmp;
+	} else {
+		tmp += str.substr(0, 3);
+		tmp += '-';
+		tmp += str.substr(3, 4);
+		tmp += '-';
+		tmp += str.substr(7);
+		return tmp;
+	}
+}
+
+var phoneNum = document.getElementById('update_phoneNum');
+phoneNum.onkeyup = function() {
+	this.value = autoHypenPhone(this.value);
+}

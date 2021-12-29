@@ -16,7 +16,7 @@
 		<!-- section -->
 		<section id="memberform">
 			<div id="section">
-				<form action="MemberUpdateOk.do" method="post">
+				<form action="updateOk" method="post">
 					<div id="first">
 						<div id="register_title">내 정보</div>
 					</div>
@@ -25,7 +25,7 @@
 							<tr>
 								<th>아이디</th>
 								<td><input type="text" class="longText" name="update_id"
-									readonly="readonly" value="${sessionID}"></td>
+									readonly="readonly" th:value="${session.member.id}"></td>
 							</tr>
 							<tr>
 								<th>새 비밀번호</th>
@@ -52,13 +52,20 @@
 							<tr>
 								<th>이름</th>
 								<td><input type="text" class="longText" name="update_name"
-									value="${session.get(0).name}"></td>
+									th:value="${session.member.name}"></td>
+							</tr>
+							<tr>
+								<th>휴대폰</th>
+								<td><input type="tel" class="longText"
+									name="update_phoneNo" id="update_phoneNum"
+									th:value="${session.member.phoneNo}" maxlength="13" /></td>
 							</tr>
 							<tr>
 								<th>이메일</th>
 								<td><input type="text" class="longText" name="update_email"
-									value="${session.get(0).email}"> <input type="hidden"
-									name="update_email_hidden" value="${session.get(0).email}"></td>
+									th:value="${session.member.email}"> <input
+									type="hidden" name="update_email_hidden"
+									th:value="${session.member.email}"></td>
 								<td><input type="button" id="update_email_check"
 									class="bnt_size bnt_color" value="이메일 인증"></input></td>
 
@@ -70,15 +77,12 @@
 								<td><input type="button" id="update_email_auth_btn"
 									name="update_email_hash_btn" class="bnt_size bnt_color"
 									value="인증하기"></input></td>
-								<td><input type="hidden" id="update_email_auth_val"
-									name="update_email_auth_hidden" class="bnt_size bnt_color"
-									value="${hash }"></input></td>
 							</tr>
 							<tr>
 								<th>주소</th>
 								<td><input type="text" id="addr_kakao"
 									class="longText update_addr" name="update_addr"
-									readonly="readonly" value="${session.get(0).addr}"></td>
+									readonly="readonly" th:value="${session.member.addr}"></td>
 								<td id="addrpad"><input type="button"
 									class="bnt_size bnt_color update_addr"
 									onclick="sample4_execDaumPostcode()" value="재검색"></input></td>
@@ -87,7 +91,7 @@
 								<th></th>
 								<td><input type="text" id="addr_detail"
 									class="longText update_addr" name="update_addr_detail"
-									value="${session.get(0).addr_detail}"></td>
+									th:value="${session.member.detailAddr}"></td>
 							</tr>
 						</table>
 					</div>
@@ -109,7 +113,8 @@
 	</div>
 	<!-- plugin -->
 	<th:block th:include="@{/layout/user/includes/plugin.html}"></th:block>
-	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	<script
+		src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script type="text/javascript" th:src="@{/js/member_two.js}"></script>
 	<!-- plugin 끝 -->
 </body>
