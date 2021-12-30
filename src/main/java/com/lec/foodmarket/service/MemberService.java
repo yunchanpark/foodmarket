@@ -11,8 +11,6 @@ import com.lec.foodmarket.repository.MemberRepository;
 import com.lec.foodmarket.repository.PointConditionRepository;
 import com.lec.foodmarket.repository.PointRepository;
 
-import lombok.NonNull;
-
 @Service
 public class MemberService {
 	
@@ -73,7 +71,7 @@ public class MemberService {
 	}
 
 	public Member findById(String username) {
-		return memberRepository.findById(username);
+		return memberRepository.findById(username).orElse(null);
 	}
 
 	public void memberSave(Member member) {

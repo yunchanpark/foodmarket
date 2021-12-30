@@ -40,9 +40,9 @@
 								<li class="lastMonth btn-date">1개월</li>                    		
                     		</ul>
                     		<div class="ms-3">
-                    			<input type="date" name="selectStartDate" class="discount-calendar" id="selectStartDate">
+                    			<input type="date" name="selectStartDate" class="discount-calendar list-calendar" id="selectStartDate">
                     			<span class="sep">~</span>
-                    			<input type="date" name="selectEndDate" class="discount-calendar" id="selectEndDate">
+                    			<input type="date" name="selectEndDate" class="discount-calendar list-calendar" id="selectEndDate">
                     			<span class="err">[[${errSelectStartDate}]]</span>
                     			<span class="err">[[${errSelectEndDate}]]</span>
                     		</div>
@@ -94,12 +94,12 @@
 			            				<tr>
 			            					<td style="width: 55px;"><input type="checkbox" th:value="${dto.productNo}" name="productarr"></td>
 			            					<td><img alt="" th:src="@{/ckUpload/productImages/product/} + ${dto.imageSave}"></td>
-			            					<td><a th:text="${dto.name}"></a></td>
+			            					<td><a href="update/" th:attrappend="href=${dto.productNo}" th:text="${dto.name}"></a></td>
 			            					<td><span th:text="${dto.description}"></span></td>
 			            					<td><span th:text="${dto.price}"></span></td>
 			            					<td><span th:text="${dto.purchasePrice}"></span></td>
 			            					<td><span th:text="${dto.stock}"></span></td>
-			            					<td><span th:text="${dto.discount} + ${dto.exchangeRate}"></span></td>
+			            					<td><span th:text="${dto.discount} + (${dto.exchangeRate} == 'percent' ? '%' : '원')"></span></td>
 			            					<td><span th:text="${#temporals.format(dto.disStart, 'yyyy-MM-dd HH:mm')}"></span><br>(<span th:text="${#temporals.format(dto.disEnd, 'yyyy-MM-dd HH:mm')}"></span>)</td>
 			            					<td><span th:text="${dto.viewCnt}"></span></td>
 			            					<td><span th:text="${#temporals.format(dto.createdAt, 'yyyy-MM-dd HH:mm')}"></span><br>(<span th:text="${#temporals.format(dto.updatedAt, 'yyyy-MM-dd HH:mm')}"></span>)</td>
