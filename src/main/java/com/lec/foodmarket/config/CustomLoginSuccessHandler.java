@@ -44,9 +44,9 @@ public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSu
 		LocalDateTime loginTime = LocalDateTime.now();
 		System.out.println("로그인시간: " + loginTime);
 		request.getSession().setAttribute("loginTime", loginTime);
-		
+
 		request.getSession().setAttribute("updated", memberDetails.getUsername());
-		
+
 		// 로그인 직전 url 로 redirect 하기...
 		HttpSession session = request.getSession();
 		session.setAttribute("member", memberDetails.getUser());

@@ -2,11 +2,11 @@
 	<div class="top_gnb box_inner">
 		<div class="basic_topgnb">
 			<ul class="top_gnb_menu">
-                <div sec:authorize="isAnonymous()">
+				<div th:unless="${#authorization.getAuthentication() != null and #authorization.expr('isAuthenticated()')}">
                     <li><a th:href="@{/layout/user/member/register}">회원가입</a></li>
                     <li><a th:href="@{/layout/user/member/login}">로그인</a></li>
                 </div>
-                <div sec:authorize="isAuthenticated()">
+                <div th:if="${#authorization.getAuthentication() != null and #authorization.expr('isAuthenticated()')}">
                     <li><a th:href="@{/layout/user/member/update}"><span th:text="${session.member.name}"></span> 님</a></li>
                     <li><a th:href="@{/logout}">로그아웃</a></li>
                 </div>

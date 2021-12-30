@@ -57,12 +57,23 @@ public class EmailController {
 	@PostMapping(value = "/findAuthCk", produces="application/json")
 	public JsonObject findauthCk(@RequestParam("find_pw_auth") String find_pw_auth, HttpSession session) {
 		String key = (String) session.getAttribute("email_auth");
-		System.out.println(key);
-		System.out.println(find_pw_auth);
 		JsonObject json = new JsonObject();
 		int result = 0;
 		
 		if(key.equals(find_pw_auth)) result = 1;
+		json.addProperty("ck", result);
+		return json;
+	}
+	
+	// 회원정보 수정 이메일 인증 버튼
+	@ResponseBody
+	@PostMapping(value = "/updateAuth", produces="application/json")
+	public JsonObject updateAuth(@RequestParam("update_email_auth") String update_email_auth, HttpSession session) {
+		String key = (String) session.getAttribute("email_auth");
+		JsonObject json = new JsonObject();
+		int result = 0;
+		
+		if(key.equals(update_email_auth)) result = 1;
 		json.addProperty("ck", result);
 		return json;
 	}

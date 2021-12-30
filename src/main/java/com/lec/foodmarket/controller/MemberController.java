@@ -1,5 +1,7 @@
 package com.lec.foodmarket.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.lec.foodmarket.domain.Member;
+import com.lec.foodmarket.domain.dto.MemberDTO;
 import com.lec.foodmarket.service.MemberService;
 
 @Controller
@@ -36,28 +39,23 @@ public class MemberController {
 	 * 사용자 회원가입, 로그인 회원가입시 포인트 지급 이메일 인증, 휴대폰 인증 추가사항이나 수정사항 알아서
 	 ******************************************/
 
-	/******************************************
-	 * GET 방식
-	 ******************************************/
 	@RequestMapping("/register")
-	public void register() {
-		;
-	}
+	public void register() {;}
 
 	@RequestMapping("/login")
-	public void login() {
-		;
-	}
+	public void login() {;}
 
 	@GetMapping("/find_id")
-	public void find_id() {
-		;
-	}
+	public void find_id() {;}
 
 	@GetMapping("/find_pw")
-	public void find_pw() {
-		;
-	}
+	public void find_pw() {;}
+	
+	@RequestMapping("/find_pw_change")
+	public void find_pw_change() {;}
+	
+	@GetMapping("/update")
+	public void update() {;}
 
 	// 아이디 중복체크
 	@GetMapping("/checkId/{id}")
@@ -70,15 +68,29 @@ public class MemberController {
 	public ResponseEntity<Boolean> checkEmailDuplicate(@PathVariable("email") String email) {
 		return ResponseEntity.ok(memberService.checkEmailDuplicate(email));
 	}
-
-	@GetMapping("/update")
-	public void update() {
-
+	
+	// 회원정보 수정
+	@PostMapping("/updateOk")
+	public String updateOk(Member member, MemberDTO memberDTO, HttpSession session) {
+		member = memberService.findById(memberDTO.getUpdate_id());
+		memberDTO.setUpdate_pw(passwordEncoder.encode(memberDTO.getUpdate_pw()));
+		
+		memberService.memberUpdate(member, memberDTO);
+		session.invalidate();
+		return "redirect:/layout/user/index";
 	}
-
-	/******************************************
-	 * POST 방식
-	 ******************************************/
+	
+	// 회원 탈퇴
+	@RequestMapping("/deleteOk")
+	public String deleteOk(HttpSession session) {
+		Member member = (Member)session.getAttribute("member");
+		long uid = member.getUid();
+		
+		memberService.memberDeleteByid(uid);
+		session.invalidate();
+		
+		return "redirect:/layout/user/index";
+	}
 
 	// 회원가입
 	@PostMapping("/registerOk")
@@ -95,7 +107,8 @@ public class MemberController {
 				.phoneNo(member.getPhoneNo())
 				.role("MEMBER")
 				.originProfile("123")
-				.saveProfile("123").build();
+				.saveProfile("123")
+				.build();
 		memberService.memberSave(member);
 		return "redirect:/layout/user/member/login";
 	}
@@ -119,22 +132,29 @@ public class MemberController {
 	@RequestMapping("/find_pw_ck")
 	public String find_pw_ck(@RequestParam(value = "find_pw_id", required = false) String find_pw_id,
 			@RequestParam(value = "find_pw_name", required = false) String find_pw_name,
-			@RequestParam(value = "find_pw_email", required = false) String find_pw_email, RedirectAttributes redirectAttributes) {
+			@RequestParam(value = "find_pw_email", required = false) String find_pw_email, 
+			RedirectAttributes redirectAttributes, HttpSession session) {
 		
 		String result = null;
 		result = memberService.findPwByIdAndNameAndEmail(find_pw_id, find_pw_name, find_pw_email);
-		redirectAttributes.addFlashAttribute("checkFindPwEmail", find_pw_email);
 		
 		if(result != null) {
+			redirectAttributes.addFlashAttribute("checkFindPwEmail", find_pw_email);
+			session.setAttribute("checkFindPWId", find_pw_id);
 			redirectAttributes.addFlashAttribute("findPw", result);
 			return "redirect:/layout/user/member/find_pw_ck";
 		}
 		return "layout/user/member/find_pw_ck";
 	}
 
-	@GetMapping("/find_pw_change")
-	public void find_pw_change() {
-
+	@RequestMapping("/changeOk")
+	public String find_pw_change(@RequestParam(value="find_pw_new", required = false) String find_pw_new, 
+			HttpSession session) {
+		String find_id = (String) session.getAttribute("checkFindPWId");
+		String encPassword = passwordEncoder.encode(find_pw_new);
+		memberService.updatePwById(encPassword, find_id);
+		
+		return "redirect:/layout/user/index";
 	}
 
 }

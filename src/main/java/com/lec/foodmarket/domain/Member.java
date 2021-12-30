@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.lang.Nullable;
 
 import com.lec.foodmarket.domain.listener.Auditable;
@@ -28,6 +29,7 @@ import lombok.ToString;
 @ToString(callSuper=true)
 @EqualsAndHashCode(callSuper=true)
 @Entity(name="member")
+@DynamicUpdate
 public class Member extends BaseEntity implements Auditable {
 	// 기본키 아이디(Null 허용x)
 	@Id
@@ -96,6 +98,7 @@ public class Member extends BaseEntity implements Auditable {
 	@NotNull
 	@NonNull
 	private String role;
+	
 }
 
 
