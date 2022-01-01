@@ -1,110 +1,129 @@
-/**
- * 
- */
-function checkSelectAll() {
-	const checkboxes = document.querySelectorAll('input[name="notice_checkbox"]');
-	const checked = document.querySelectorAll('input[name="notice_checkbox"]:checked');
-	const selectAll = document.querySelector('input[name="notice_allcheckbox"]');
-	if (checkboxes.length == checked.length) {
-		selectAll.checked = true;
-	} else {
-		selectAll.checked = false;
-	}
-}
 
-function selectAll(selectAll) {
-	const checkboxes = document.getElementsByName('notice_checkbox');
-	checkboxes.forEach((checkbox) => {
-		checkbox.checked = selectAll.checked
-	})
-}
+$(document).ready(function() {
+	const offset = new Date().getTimezoneOffset() * 60000;
+	const today = new Date(Date.now() - offset).toISOString().slice(0, 16);
+	const calendar = $('.discount-calendar')
+	calendar.attr("min", today);
 
+	/* 검색 날짜 */
+	$('.btn-date').on('click', function() {
+		var start = $('#selectStartDate');
+		var end = $("#selectEndDate");
 
+		$('.btn-date').removeClass('now');
+		$(this).addClass('now');
 
-//체크박스 삭제
-/*function boardDelete(){
+		/* 검색 끝 날짜는 항상 오늘 */
+		end.val(todayNow());
 
-	var boardIdxArray = [];
-
-	$("input:checkbox[name=notice_checkbox]:checked").each(function(){
-		boardIdxArray.push($(this).val());
+		if ($(this).hasClass('today')) {
+			start.val(todayNow());
+		} else if ($(this).hasClass('lastWeek')) {
+			start.val(lastWeek());
+		} else if ($(this).hasClass('lastMonth')) {
+			start.val(lastMonth());
+		}
 	});
 
-	console.log(boardIdxArray);
-
-	if(boardIdxArray == ""){
-		alert("삭제할 항목을 선택해주세요.");
-		return false;
+	/* 오늘 */
+	function todayNow() {
+		var today = new Date();
+		return getDateStr(today);
 	}
 
-	var confirmAlert = confirm('정말로 삭제하시겠습니까?');
-	if(confirmAlert){
-
-		$.ajax({
-			type : 'POST'
-		   ,url : "notice_deleteOk"
-		   ,dataType : 'json'
-		   ,data : JSON.stringify(boardIdxArray)
-		   ,contentType: 'application/json'
-		   ,success : function(result) {
-				alert("해당글이 정상적으로 삭제되었습니다.");
-				location.href="notice_list";
-		   },
-		   error: function(request, status, error) {
-
-		   }
-	   })
+	/* 일주일 전*/
+	function lastWeek() {
+		var lastWeek = new Date();
+		var dayOfMonth = lastWeek.getDate();
+		lastWeek.setDate(dayOfMonth - 7);
+		return getDateStr(lastWeek);
 	}
-}
-*/
+
+	/* 한달 전 */
+	function lastMonth() {
+		var lastMonth = new Date();
+		var monthOfYear = lastMonth.getMonth();
+		lastMonth.setMonth(monthOfYear - 1);
+		return getDateStr(lastMonth);
+	}
+
+	/* 날짜 포맷(yyyy-MM-dd) */
+	function getDateStr(myDate) {
+		var year = myDate.getFullYear();
+		var month = (myDate.getMonth() + 1);
+		var day = myDate.getDate();
+
+		month = (month < 10) ? "0" + String(month) : month;
+		day = (day < 10) ? "0" + String(day) : day;
+
+		return (year + '-' + month + '-' + day);
+	}
 
 
 
-	
-function boardDelete() {
+	/* 일괄 적용 버튼 */
+	$('.apply').on('click', function() {
+		var selName = $('select[name=batch]').val();
+		var checkedValue = [];
 
-	$("#checkbox").click(function() {
-		if (this.checked) {
-			$("input[name=''notice_checkbox']").prop("checked", true);
+		if (selName == 'batchDel') {
+			$('input:checkbox[name=notice_checkbox]:checked').each(function() {
+				checkedValue.push($(this).val());
+			});
+			console.log(checkedValue)
+			$.ajax({
+				url: "notice_deleteOk",
+				type: 'POST',
+				dataType: 'JSON',
+				traditional: true,
+				data: {
+					'noticeNoArr': checkedValue
+				}, success: function() {
+
+				}
+			});
+		}
+	});
+
+	/* 전체 선택 */
+	let noticeCk = $('input:checkbox[name=notice_checkbox]');
+	let allCk = $('input:checkbox[name=notice_allcheckbox]');
+
+	allCk.on('change', function() {
+		if (allCk.is(':checked')) {
+			noticeCk.prop('checked', true);
 		} else {
-			$("input[name=''notice_checkbox']").prop("checked", false);
+			if ($('input:checkbox[name=notice_checkbox]:not(:checked)').length == 0) {
+				noticeCk.prop('checked', false);
+			}
 		}
+		$('.ckCnt').text($('input:checkbox[name=notice_checkbox]:checked').length);
 	});
 
-	$("input[name='notice_checkbox']").click(function() {
-		let dellnpLen = $("input[name='notice_checkbox']").length;
-		let dellnpChkLen = $("input[name='notice_checkbox']:checked").length;
-		if (dellnpLen == dellnpChkLen) {
-			$("#checkbox").prop("checked", true);
+	/* 선택 */
+	noticeCk.on('change', function() {
+		if ($('input:checkbox[name=notice_checkbox]:not(:checked)').length != 0) {
+			allCk.prop('checked', false);
 		} else {
-			$("#checkbox").prop("checked", false);
+			allCk.prop('checked', true);
 		}
+		$('.ckCnt').text($('input:checkbox[name=notice_checkbox]:checked').length);
 	});
 
-	let dellnpChkLen = $("input[name='notice_checkbox']:checked").length;
-	if (dellnpChkLen > 0) {
-		if (confirm("삭제하시겠습니까?")) {
-			let frm = $("#frm");
-			frm.attr("action", "notice_deleteOk");
-			frm.attr("method", "post");
-			frm.submit();
-		}
-	} else {
-		alert("Not selected");
-	}
-}
 
+
+});
 
 
 // 문의 이미지 업로드
-	let fileTarget = $(".product_image_orgin_name");
-	fileTarget.on("change", function() {
-		var filename = "";
+let fileTarget = $(".product_image_orgin_name");
+fileTarget.on("change", function() {
+	var filename = "";
 
-		if (window.FileReader) {
-			filename = $(this)[0].files[0].name;
-		} else {
-			filename = $(this).val().split('/').pop().split('\\').pop();
-		}
-		$(this).siblings(".product_image_value").val(filename);
-	});
+	if (window.FileReader) {
+		filename = $(this)[0].files[0].name;
+	} else {
+		filename = $(this).val().split('/').pop().split('\\').pop();
+	}
+	$(this).siblings(".product_image_value").val(filename);
+});

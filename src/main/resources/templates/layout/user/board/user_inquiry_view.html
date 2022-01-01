@@ -63,10 +63,9 @@
 								<label class="view_lab image_name"><a>이미지</a></label>
 
 								<!--첨부파일 이름, 다운로드 링크 -->
-								<!-- <a th:href= "@{/}">[[${session.inquiryimage.inquiryOrgin}]]</a> -->
 
-								<img alt="" th:src="@{/ckUpload/inquiryImages/inquiry/} + ${session.inquiryimage.inquirySave}"
-									style="width: 500px; float: right;">
+								<img alt="" th:src="@{/ckUpload/inquiryImages/inquiry/} + ${user_inquiry_imageview.inquirySave}"
+									style="width: 500px; height:375px; float: right;">
 							</div>
 						</div>
 					</div>
@@ -84,9 +83,10 @@
 					<button type="button"
 						class="btn btn-outline-dark notice_view_list_btn"
 						onclick="location.href='/layout/user/board/user_inquiry_list'">목록</button>
-					<button type="button"
+					 <button type="button"
 						class="btn btn-outline-dark notice_view_delete_btn"
-						th:onclick="'chkDelete(' + ${dto.inquiryNo} + ')'">삭제</button>
+						th:onclick="'chkDelete(' + ${dto.inquiryNo} + ')'">삭제</button> 
+
 
 				</div>
 				<!-- 내용 입력 끝 -->
@@ -99,6 +99,8 @@
 		</div>
 		<!-- plugin -->
 		<th:block th:include="@{/layout/user/includes/plugin.html}"></th:block>
+		<script th:src="@{/js/board.js}"></script>
 		<!-- plugin 끝 -->
+		
 	</body>
 </html>

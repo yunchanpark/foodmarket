@@ -29,7 +29,7 @@
 				<form name="frm" action="notice_writeOk" method="post" onsubmit="return chkSubmit()">
 					<div class="mb-3">
 						<label for="id">작성자:</label> <input type="text"
-							class="form-control" id="id" placeholder="작성자를 입력하세요" th:value="${member.uid }"
+							class="form-control" id="id" placeholder="작성자를 입력하세요" th:value="${session.member.name }"
 							name="id">
 					</div>
 					<div class="mb-3 mt-3">

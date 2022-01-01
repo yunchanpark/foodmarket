@@ -38,6 +38,9 @@
 							</c:when>
 -->
 							<tr th:each="dto: ${user_inquiry_list}">
+								<th:block th:if="${session.member.id == dto.id.id}">
+									
+								
 								<td>[[${dto.inquiryNo }]]</td>
 								<td><a
 									th:href="@{user_inquiry_view(inquiryNo=${dto.inquiryNo})}">[[${dto.title
@@ -49,6 +52,7 @@
 										<p th:case="0">미답변</p>
 										<p th:case="1">답변완료</p>
 									</div></td>
+								</th:block>
 							</tr>
 						</tbody>
 					</table>

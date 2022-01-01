@@ -27,6 +27,9 @@ public class OrderService {
 	
 	
 	public OrderService() {;}
+
+
+
 	
 	/******************************************
 	 * 관리자 
@@ -56,7 +59,12 @@ public class OrderService {
 	/******************************************
 	 * 사용자
 	 ******************************************/
-	// TODO
+
+	public Object order_list() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 	
 	
 	

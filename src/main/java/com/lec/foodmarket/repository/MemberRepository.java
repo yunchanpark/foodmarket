@@ -16,6 +16,9 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 	
 	Member findById(String username);
 	
+	Member findByNameContainsIgnoreCase(String name);
+	
+	
 	@Query(value ="SELECT role FROM member WHERE id = ?1", nativeQuery = true)
 	List<String> selectRoleById(String id);
 
