@@ -5,13 +5,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.lec.foodmarket.domain.Member;
+import com.lec.foodmarket.domain.dto.MemberDTO;
 import com.lec.foodmarket.repository.MemberRepository;
 import com.lec.foodmarket.repository.PointConditionRepository;
 import com.lec.foodmarket.repository.PointRepository;
-
-import lombok.NonNull;
 
 @Service
 public class MemberService {
@@ -53,6 +53,10 @@ public class MemberService {
 	
 	
 	
+	
+	
+	
+	
 	/******************************************
 	 * 사용자
 	 ******************************************/
@@ -60,6 +64,10 @@ public class MemberService {
 		member.setCreatedAt(LocalDateTime.now());
 		memberRepository.saveAndFlush(member);
 		return 1;
+	}
+	
+	public Member updateTime(LocalDateTime updatedAt, String id) {
+		return memberRepository.updatedAtById(updatedAt, id);
 	}
 	
 	// 아아디 중복체크
@@ -72,29 +80,53 @@ public class MemberService {
 		return memberRepository.existsByEmail(email);
 	}
 
+	// 회원 조회
 	public Member findById(String username) {
-		return memberRepository.findById(username);
+		return memberRepository.findById(username).orElse(null);
 	}
 
+	// 회원 가입
 	public void memberSave(Member member) {
 		memberRepository.save(member);
 	}
 
+	// 권한 조회
 	public List<String> selectRoleById(String id) {
 		return memberRepository.selectRoleById(id);
 	}
 
-	public Member updateTime(LocalDateTime updatedAt, String id) {
-		return memberRepository.updatedAtById(updatedAt, id);
-	}
-
+	// 아이디 찾기
 	public String findIdByNameAndEmail(String find_id_name, String find_id_email) {
 		return memberRepository.findIdByNameAndEmail(find_id_name, find_id_email);
 	}
 
+	// 비밀번호 찾기
 	public String findPwByIdAndNameAndEmail(String find_pw_id, String find_pw_name, String find_pw_email) {
 		return memberRepository.findPwByIdAndNameAndEmail(find_pw_id, find_pw_name, find_pw_email);
 	}
+
+	// 비밀번호 변경
+	@Transactional 
+	public void updatePwById(String find_pw_new, String find_id) {
+		memberRepository.updatePwById(find_pw_new, find_id);
+	}
+
+	// 회원정보 수정
+	public void memberUpdate(Member member, MemberDTO memberDTO) {
+		member.setPw(memberDTO.getUpdate_pw());
+		member.setName(memberDTO.getUpdate_name());
+		member.setPhoneNo(memberDTO.getUpdate_phoneNo());
+		member.setEmail(memberDTO.getUpdate_email());
+		member.setAddr(memberDTO.getUpdate_addr());
+		member.setDetailAddr(memberDTO.getUpdate_addr_detail());
+		memberRepository.saveAndFlush(member);
+	}
+
+	// 회원 탈퇴
+	public void memberDeleteByid(long uid) {
+		memberRepository.deleteById(uid);
+	}	
+
 	
 }
 

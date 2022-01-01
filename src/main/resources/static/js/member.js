@@ -202,11 +202,9 @@ $(document).ready(function() {
 
 	$("#register_input").on("click", function() {
 		// 입력받은 회원가입 내용들
-		var id = $("[name = 'id']").val();
 		var pw = $("[name = 'pw']").val();
 		var pw_ck = $("[name='pw_ck']").val();
 		var name = $("[name='name']").val();
-		var email = $("[name='email']").val();
 		var addr_detail = $("[name='addr_detail']").val();
 
 		if (!idchk) {
@@ -290,7 +288,7 @@ $(document).ready(function() {
 	});
 
 	// 비밀번호 찾기 인증번호 받기 버튼
-	$(".authBtn").on("click", function() {
+	$("#authBtn").on("click", function() {
 		alert("입력한 이메일로 인증번호가 발송되었습니다.");
 		var email = $("[name='hidden_pw_email']").val();
 
@@ -397,7 +395,8 @@ $(document).ready(function() {
 			$("[name = 'find_pw_new_ck']").focus();
 			return;
 		}
-
+		
+		alert("비밀번호가 변경되었습니다.")
 		$("form").submit();
 	});
 });

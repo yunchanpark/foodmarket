@@ -15,7 +15,8 @@
 
 		<!-- section -->
 		<section style="width: 100%; height: 100%">
-			<form action="/layout/user/member/find_pw_change" method="post" class="loginForm">
+			<form action="find_pw_change" method="post"
+				class="loginForm">
 				<h2>비밀번호 찾기</h2>
 				<div class="find_images">
 					<img th:src="@{/images/find.png}" alt="">
@@ -24,13 +25,17 @@
                             고객님께서 입력하신 정보가<br> 정확한지 확인 후 다시 시도해주세요.
                            <a th:href="@{/layout/user/member/find_pw}"><button
 							type="button" class="btn1">비밀번호 다시 찾기</button></a>
+					<a th:href="@{/layout/user/member/login}"><button type="button"
+							class="btn1">로그인 화면으로 돌아가기</button></a>
 				</th:block>
 				<th:block th:unless="${findPw == null}">
-					<button type="button" class="authBtn" id="find_auth">인증 번호 받기</button>
+					<button type="button" class="authBtn" id="authBtn">인증 번호
+						받기</button>
 					<div class="idForm">
 						<input type="text" class="id" id="find_pw_auth"
-							placeholder="인증번호를 입력해주세요" name="find_pw_auth"/> 
-						<input type="hidden" name="hidden_pw_email"	th:value="${checkFindPwEmail}" />
+							placeholder="인증번호를 입력해주세요" name="find_pw_auth" /> <input
+							type="hidden" name="hidden_pw_email"
+							th:value="${checkFindPwEmail}" />
 
 					</div>
 					<button type="button" class="btn" id="find_auth">인증 하기</button>

@@ -1,13 +1,13 @@
 package com.lec.foodmarket.repository;
-
 import java.time.LocalDateTime;
 import java.util.List;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import com.lec.foodmarket.domain.Inquiry;
+
 import com.lec.foodmarket.domain.Member;
+
 
 public interface InquiryRepository extends JpaRepository<Inquiry, Long> {
 

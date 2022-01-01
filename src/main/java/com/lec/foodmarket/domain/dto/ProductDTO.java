@@ -49,6 +49,10 @@ public class ProductDTO {
 	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
 	private LocalDateTime endDate;
 
+	private String orginName;
+
+	private String saveName;
+	
 	// 상품 할인 체크
 	private String discountCk;
 	

@@ -7,17 +7,18 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@RequiredArgsConstructor
 @Builder
 @Entity(name="product_likecnt")
 public class ProductLikeCnt {
@@ -28,21 +29,14 @@ public class ProductLikeCnt {
 	private Long likeCntNo;
 	
 	// 외래키 member의 아이디
-	@ManyToOne
+	@ManyToOne(optional = false)
 	@NonNull
-	@NotNull
 	@JoinColumn(name="id")
-	private Member id;
+	private Member member;
 	
 	// 외래키 product의 상품번호
-	@ManyToOne
+	@ManyToOne(optional = false)
 	@NonNull
-	@NotNull
 	@JoinColumn(name="product_no")
-	private Product productNo;
-	
-	// 상품좋아요개수(기본값 0)
-	@Column(name="product_likecnt", columnDefinition="integer default 0")
-	private int product_likecnt;
-	
+	private Product product;
 }

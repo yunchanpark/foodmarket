@@ -1,0 +1,49 @@
+<script th:src="@{/ckeditor/ckeditor.js}"></script>
+	<script type="text/javascript">
+		/* 상품상세설명 ckeditor*/
+		CKEDITOR.replace("detailContent");
+	</script>
+	<!-- 상품등록 binding 값 초기화 -->
+    <script th:if="${result == 0}" th:inline="javascript">
+    /*<![CDATA[*/
+    	let product = /*[[${product}]]*/ null;
+    	let categoryNo = /*[[${product.categoryNo.categoryNo}]]*/ null;
+   		let discountCk = /*[[${product.discountCk}]]*/ null;
+   		let discount = /*[[${product.discount}]]*/ null;
+    	let duringCheck = /*[[${product.duringCheck}]]*/ 'Y';
+    	let exchangeRate = /*[[${product.exchangeRate}]]*/ 'percent';
+    	let startDate = /*[[${product.startDate}]]*/ null;
+		let endDate = /*[[${product.endDate}]]*/ null;
+		let detailContent = /*[[${product.detailContent}]]*/ null;
+
+		let offset = new Date().getTimezoneOffset() * 60000;
+		let start = new Date(new Date(startDate) - offset).toISOString().slice(0,16);
+		let end = new Date(new Date(endDate) - offset).toISOString().slice(0,16);
+		
+    	$('.btn-arrow').addClass("up");
+    	$('#categoryNo').val(categoryNo).prop('selected', true);
+    	$("#exchangeRate").val(exchangeRate).prop('selected', true);
+  	
+    	// 할인 사용 체크 되어 있을 때
+    	if(discountCk == 'Y') {
+    		discount = discount == null ? undefined : discount;
+    		$(".discount").val(discount);
+    		$("input:radio[name='discountCk']:radio[value='Y']").prop('checked', true); 
+	    	$('.prdSale').show();
+    	}
+    	
+    	// 기간 할인 설정 체크 되어있을 때 
+		if (duringCheck == 'Y') {
+			$("input:checkbox[id='during-check']").prop("checked", true);
+			$('.sale-datetime').show();
+			$(".discount-start").val(start);    	
+			$(".discount-end").val(end);  
+		}
+		CKEDITOR.instances.detailContent.setData(detailContent, {
+			callback: function() {
+				this.checkDirty(); // true
+			}
+		});
+		/*]]>*/
+	</script>
+	<script th:src="@{/js/product.js}"></script>

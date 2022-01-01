@@ -3,8 +3,9 @@
 
 <!-- head -->
 <th:block th:include="@{/layout/user/includes/head.html}"></th:block>
+	<link th:href="@{/css/user_product.css}" rel="stylesheet" />
 <!-- head 끝 -->
-
+</head>
 <body>
     <div class="wrap">
         <!-- header -->
@@ -12,17 +13,68 @@
         <!-- header 끝 -->
         
         <!-- section -->
+        <!-- content 시작 -->
         <section>
-        	<!-- 내용 입력 -->
-        	<br><br><br><br><br><br>
-        	<br><br><br><br><br><br>
-        	<br><br><br><br><br><br>
-        
-        
-        
-        
-        	<!-- 내용 입력 끝 -->
+            <!-- NEW -->
+            <div class="container1">
+                <div class="section_area box_inner">
+                    <h2 id="product_head">NEW</h2>
+                </div>
+                <div class="product_list box_inner">
+                    <div class="product_list_wrapper">
+                        <ul class="product_new_menu">
+                        	<th:block th:each="dto : ${newList}">
+	                            <li class="product_new_item">
+	                                <a th:href="@{/layout/user/product/view/} + ${dto.productNo}">
+	                                    <img th:src="@{/ckUpload/productImages/product/} + ${dto.imageSave}">
+	                                </a>
+	                                <div>
+	                                    <span class="product_new_title">[[${dto.name}]]</span>
+	                                    <span class="product_new_price">
+	                                    </span>
+	                                </div>
+	                            </li>
+                        	</th:block>
+                        </ul>
+                    </div>
+                    <div class="bx-controls">
+                        <a class="bx-prev"></a>
+                        <a class="bx-next"></a>
+                    </div>
+                </div>
+            </div>
+            <!-- NEW 끝 -->
+
+            <!-- BEST 3 -->
+            <div class="container2">
+                <div class="section_area box_inner">
+                    <h2 id="product_head">BEST 3</h2>
+                </div>
+                <div class="product_list box_inner">
+                    <div class="product_list_wrapper">
+                        <ul class="product_best_menu">
+                        	<th:block th:each="dto : ${bestList}">
+	                            <li class="product_best_item">
+	                                <a th:href="@{/layout/user/product/view/} + ${dto.productNo}">
+	                                    <img th:src="@{/ckUpload/productImages/product/} + ${dto.imageSave}">
+	                                </a>
+	                                <div class="product_best_content">
+	                                    <span class="product_best_title">[[${dto.name}]]</span>
+	                                    <span class="product_best_price">
+	                                    </span>
+	                                    <span class="product_best_cnt">
+	                                    	남은 수량 : 
+	                                    </span>
+	                                </div>
+	                            </li>
+                            </th:block>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- BEST 3 끝 -->
         </section>
+        <!-- content 끝-->
         <!-- section 끝 -->
         
         <!-- footer -->
@@ -31,7 +83,7 @@
     </div>
     <!-- plugin -->
     <th:block th:include="@{/layout/user/includes/plugin.html}"></th:block>
+    <script th:src="@{/js/includes.js}"></script>
     <!-- plugin 끝 -->
 </body>
-
 </html>

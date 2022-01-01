@@ -104,19 +104,8 @@
 										</tr>
 									</thead>
 									<tbody>
+
 										<tr th:each="dto: ${list}">
-
-											<!--<td style="width: 5%"><input type="checkbox"
-												id="checkbox" name="notice_checkbox" class="checkbox batch"
-												th:value="${dto.id.name}" onclick='checkSelectAll()' /></td>
-											<td style="width: 5%">[[${dto.noticeNo }]]</td>
-											<td style="width: 45%"><a
-												th:href="@{notice_view(noticeNo=${dto.noticeNo})}">[[${dto.title}]]</a></td>
-											<td style="width: 15%">[[${dto.id.name }]]</td>
-											<td style="width: 10%">[[${dto.viewCnt }]]</td>
-											<td style="width: 20%">[[${#temporals.format(dto.createdAt,
-												'yyyy-MM-dd HH:mm') }]]</td> -->
-
 											<td style="width: 5%"><input type="checkbox"
 												id="checkbox" name="notice_checkbox" class="checkbox batch"
 												th:value="${dto.noticeNo}"></td>

@@ -116,6 +116,23 @@ $(document).ready(function() {
 	});
 
 	/* 검색 날짜 */
+	$('.list-calendar').on('change', function() {
+		var start = $('#selectStartDate').val();
+		var end = $("#selectEndDate").val();
+
+		$('.btn-date').removeClass('now');
+		if (end == todayNow()) {
+			if (start == todayNow()) {
+				$('.today').addClass('now');
+			} else if (start == lastWeek()) {
+				$('.lastWeek').addClass('now');
+			} else if (start == lastMonth()) {
+				$('.lastMonth').addClass('now');
+			}
+		}
+	});
+
+	$('#selectEndDate').attr('max', todayNow());
 	$('.btn-date').on('click', function() {
 		var start = $('#selectStartDate');
 		var end = $("#selectEndDate");
@@ -173,45 +190,44 @@ $(document).ready(function() {
 	$('.apply').on('click', function() {
 		var selName = $('select[name=batch]').val();
 		var checkedValue = [];
-		
+
 		if (selName == 'batchDel') {
 			$('input:checkbox[name=productarr]:checked').each(function() {
 				checkedValue.push($(this).val());
 			});
-			console.log(checkedValue)
 			$.ajax({
 				url: "delete",
-				type:'POST',
+				type: 'POST',
 				dataType: 'JSON',
 				traditional: true,
 				data: {
 					'productNoArr': checkedValue
-				}, success: function(){
-				} 
+				}, success: function() {
+				}
 			});
 		}
 	});
-	
-	
+
+
 	/* 전체 선택 */
 	let productCk = $('input:checkbox[name=productarr]');
 	let allCk = $('input:checkbox[name=allCk]');
-	
-	allCk.on('change', function(){
-		if(allCk.is(':checked')){
+
+	allCk.on('change', function() {
+		if (allCk.is(':checked')) {
 			productCk.prop('checked', true);
 		} else {
-			if($('input:checkbox[name=productarr]:not(:checked)').length == 0){
+			if ($('input:checkbox[name=productarr]:not(:checked)').length == 0) {
 				productCk.prop('checked', false);
 			}
 		}
 		$('.ckCnt').text($('input:checkbox[name=productarr]:checked').length);
 	});
-	
+
 	/* 선택 */
 	productCk.on('change', function() {
-		if($('input:checkbox[name=productarr]:not(:checked)').length != 0){
-				allCk.prop('checked', false);
+		if ($('input:checkbox[name=productarr]:not(:checked)').length != 0) {
+			allCk.prop('checked', false);
 		} else {
 			allCk.prop('checked', true);
 		}
