@@ -34,5 +34,20 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 	@Query(value ="UPDATE member SET pw= ?1 WHERE id = ?2", nativeQuery = true)
 	void updatePwById(String find_pw_new, String find_id);
 
+	// 키워드로만 검색
+	List<Member> findByIdContainsIgnoreCase(String id);
+	List<Member> findByNameContainsIgnoreCase(String name);
+	List<Member> findByPhoneNoContainsIgnoreCase(String PhoneNo);
+	List<Member> findByEmailContainsIgnoreCase(String email);
+
+	// 날짜로만 검색
+	List<Member> findByCreatedAtBetween(LocalDateTime from, LocalDateTime to);
+
+	// 날짜와 키워드 검색
+	List<Member> findByIdContainsIgnoreCaseAndCreatedAtBetween(String id, LocalDateTime from, LocalDateTime to);
+	List<Member> findByNameContainsIgnoreCaseAndCreatedAtBetween(String name, LocalDateTime from, LocalDateTime to);
+	List<Member> findByPhoneNoContainsIgnoreCaseAndCreatedAtBetween(String phoneNo, LocalDateTime from, LocalDateTime to);
+	List<Member> findByEmailContainsIgnoreCaseAndCreatedAtBetween(String email, LocalDateTime from, LocalDateTime to);
+
 	
 }

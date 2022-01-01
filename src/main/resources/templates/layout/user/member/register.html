@@ -4,7 +4,7 @@
 <!-- head -->
 <th:block th:include="@{/layout/user/includes/head.html}"></th:block>
 <!-- head 끝 -->
-<link th:href="@{/css/member_two.css}" rel="stylesheet">
+<link th:href="@{/css/member.css}" rel="stylesheet">
 
 
 <body>
@@ -96,6 +96,11 @@
 								<td><input type="text" id="addr_detail"
 									class="longText addr2" name="detailAddr"
 									placeholder="상세주소를 입력해주세요"></td>
+							</tr>
+							<tr>
+								<th>추천인</th>
+								<td><input type="text" class="longText" name="recommender"
+									placeholder="추천인을 입력해주세요"></td>
 							</tr>
 						</table>
 					</div>

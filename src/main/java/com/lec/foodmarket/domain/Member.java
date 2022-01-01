@@ -73,18 +73,6 @@ public class Member extends BaseEntity implements Auditable {
 	@Column(name="phone_no")
 	private String phoneNo;
 	
-	// 원본사진이름(Null 허용x)
-	@NonNull
-	@NotNull
-	@Column(name="origin_profile")
-	private String originProfile;
-	
-	// 서버에 저장될 사진이름(Null 허용x)
-	@NotNull
-	@NonNull
-	@Column(name="save_profile")
-	private String saveProfile;
-	
 	// 추천인(Null 허용)
 	@Nullable
 	private String recommender;

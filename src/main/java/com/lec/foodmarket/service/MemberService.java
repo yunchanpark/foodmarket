@@ -2,6 +2,7 @@ package com.lec.foodmarket.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,14 +48,60 @@ public class MemberService {
 	/******************************************
 	 * 관리자
 	 ******************************************/
-	// TODO
+	// 모든 회원 검색
+	public List<Member> memberAllSelect() {
+		return memberRepository.findAll();
+	}
 	
+	// 키워드 아이디 검색
+	public List<Member> memberIdSelect(String id) {
+		return memberRepository.findByIdContainsIgnoreCase(id);
+	}	
 	
+	// 키워드 이름 검색
+	public List<Member> memberNameSelect(String name) {
+		return memberRepository.findByNameContainsIgnoreCase(name);
+	}	
 	
+	// 키워드 휴대폰번호 검색
+	public List<Member> memberPhoneNoSelect(String PhoneNo) {
+		return memberRepository.findByPhoneNoContainsIgnoreCase(PhoneNo);
+	}	
 	
+	// 키워드 이메일 검색
+	public List<Member> memberEmailSelect(String Email) {
+		return memberRepository.findByEmailContainsIgnoreCase(Email);
+	}	
 	
+	// 가입일로 회원 검색
+	public List<Member> memberCreateAtSelect(LocalDateTime from, LocalDateTime to) {
+		return memberRepository.findByCreatedAtBetween(from, to);
+	}
 	
+	// 가입일과 아이디로 회원 검색
+	public List<Member> memberCreateAtAndMemberId(String id, LocalDateTime from, LocalDateTime to) {
+		return memberRepository.findByIdContainsIgnoreCaseAndCreatedAtBetween(id, from, to);
+	}
+
+	// 가입일과 이름로 회원 검색
+	public List<Member> memberCreateAtAndMemberName(String name, LocalDateTime from, LocalDateTime to) {
+		return memberRepository.findByNameContainsIgnoreCaseAndCreatedAtBetween(name, from, to);
+	}
 	
+	// 가입일과 휴대폰번호로 회원 검색
+	public List<Member> memberCreateAtAndMemberPhoneNo(String phoneNo, LocalDateTime from, LocalDateTime to) {
+		return memberRepository.findByPhoneNoContainsIgnoreCaseAndCreatedAtBetween(phoneNo, from, to);
+	}
+	
+	// 가입일과 이메일로 회원 검색
+	public List<Member> memberCreateAtAndMemberEmail(String email, LocalDateTime from, LocalDateTime to) {
+		return memberRepository.findByEmailContainsIgnoreCaseAndCreatedAtBetween(email, from, to);
+	}
+	
+	// 회원 상세보기
+	public Optional<Member> findById(long uid) {
+		return memberRepository.findById(uid);
+	}
 	
 	
 	/******************************************
@@ -125,8 +172,11 @@ public class MemberService {
 	// 회원 탈퇴
 	public void memberDeleteByid(long uid) {
 		memberRepository.deleteById(uid);
-	}	
+	}
 
+
+	
+	
 	
 }
 

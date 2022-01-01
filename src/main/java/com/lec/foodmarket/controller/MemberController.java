@@ -105,9 +105,8 @@ public class MemberController {
 				.detailAddr(member.getDetailAddr())
 				.email(member.getEmail())
 				.phoneNo(member.getPhoneNo())
+				.recommender(member.getRecommender())
 				.role("MEMBER")
-				.originProfile("123")
-				.saveProfile("123")
 				.build();
 		memberService.memberSave(member);
 		return "redirect:/layout/user/member/login";

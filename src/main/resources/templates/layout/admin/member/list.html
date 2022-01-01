@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<!-- head -->
+<th:block th:include="@{/layout/admin/includes/head.html}"></th:block>
+<!-- head 끝 -->
+<link th:href="@{/css/adminMember.css}" rel="stylesheet" />
+<title>FoodMarket-회원관리</title>
+<body class="sb-nav-fixed">
+	<!--header menu-->
+	<th:block th:include="@{/layout/admin/includes/header.html}"></th:block>
+	<!--header menu 끝-->
+	<!-- 본문 -->
+	<div id="layoutSidenav">
+		<!--sidebar-->
+		<th:block th:include="@{/layout/admin/includes/sidebar.html}"></th:block>
+		<!--sidebar 끝-->
+		<!--content-->
+		<div id="layoutSidenav_content">
+			<main>
+				<!--내용 입력-->
+            	<div class=" px-4">
+                    <div class="mt-4 fs-5 fw-bold align-self-center">• 회원관리</div>
+                    <div class="list-wrap bg-white mt-4">
+                    	<form action="/layout/admin/member/list" method="get">
+
+                    	<div class="list-container flex-center bd-b-gray">
+                    		<span class="txt">가입일</span>
+                    		<ul class="date-select flex-center">
+								<li class="todayAll btn-date">전체</li>                    		
+								<li class="today btn-date">오늘</li>                    		
+								<li class="lastWeek btn-date">1주일</li>                    		
+								<li class="lastMonth btn-date">1개월</li>                    		
+                    		</ul>
+                    		<div class="ms-3">
+                    			<input type="date" name="selectStartDate" class="discount-calendar" id="selectStartDate">
+                    			<span class="sep">~</span>
+                    			<input type="date" name="selectEndDate" class="discount-calendar" id="selectEndDate">
+                    			<span class="err">[[${errSelectStartDate}]]</span>
+                    			<span class="err">[[${errSelectEndDate}]]</span>
+                    		</div>
+                    	</div>
+                    	<div class="list-container flex-center">
+                    		<span class="txt">고객 정보</span>
+                    		<select name="keyword" class="arr-bg arr-size-small" id="keyword">
+                    			<option value="memberId">아이디</option>
+                    			<option value="memberName">이름</option>
+                    			<option value="memberPhoneNo">휴대폰번호</option>
+                    			<option value="memberEmail">이메일</option>
+                    		</select>
+                    		<input type="text" name="searchKeyword" class="arr-bg arr-size-nomal" th:value="${search.searchKeyword}">
+                    	</div>
+                    	<div class="btn-c">
+                    		<input type="submit" class="btn-h52-blue w180 mr-20 btn-add-notice search_btn" value="검색"/>
+                    	</div>
+                    	</form>
+                    </div>
+            	</div>
+            	<div class="px-4 mb-5 mt-4">
+            		<div class="bg-white bd-gray">
+            			<div class="result-title">
+            				회원 검색 결과 
+            				<span class="title-option">
+            					( 검색고객 : 
+            					<span class="pil-so">
+            						<th:block th:if="${list != null}" th:text="${list.size}">0</th:block>
+            					</span>명 )
+            				</span>
+            			</div>
+            			<div class="px-4 result-container">
+            				<input type="button" value="적립금 관리" class="apply2 text-white">
+            				<input type="button" value="검색회원 SMS 발송" class="apply text-white">
+							<input type="button" value="선택회원 SMS 발송" class="apply text-white">
+            			</div>
+            			<div class="mt-2 table-wrap">
+	            			<table class="product-table">
+	            				<thead>
+	            					<tr>
+	            						<td style="min-width: 55px;"><input type="checkbox" name="allCk"></td>
+	            						<td style="min-width: 70px;">No</td>
+	            						<td style="min-width: 130px;">아이디</td>
+	            						<td style="min-width: 130px;">이름</td>
+	            						<td style="min-width: 180px;">휴대폰번호</td>
+	            						<td style="min-width: 200px;">이메일</td>
+	            						<td style="min-width: 130px;">누적 결제금액</td>
+	            						<td style="min-width: 100px;">적립금</td>
+	            						<td style="min-width: 180px;">회원가입일</td>
+	            						<td style="min-width: 180px;">최근로그인</td>
+	            						<td style="min-width: 120px;">관리</td>
+	            					</tr>
+	            				</thead>
+	            				<tbody>
+		            				<th:block th:if="${list.size == 0}">
+		            					<tr>
+		            						<td colspan="11" style="color: gray">검색 조건을 확인 하신 후 검색 버튼을 클릭하세요.</td>
+		            					</tr>
+		            				</th:block>
+		            				<th:block th:unless="${list == null}">
+		            					<th:block th:each="dto : ${list}">
+				            				<tr>
+				            					<td style="width: 55px;"><input type="checkbox" th:value="${dto.uid}" name="productarr"></td>
+				            					<td><span th:text="${dto.uid}"></span></td>
+				            					<td><span th:text="${dto.id}"></span></td>
+				            					<td><span th:text="${dto.name}"></span></td>
+				            					<td><span th:text="${dto.phoneNo}"></span></td>
+				            					<td><span th:text="${dto.email}"></span></td>
+				            					<td>.</td>
+				            					<td><span th:text="${dto.saveUpPoint}"></span></td>
+				            					<td><span th:text="${#temporals.format(dto.createdAt, 'yyyy-MM-dd HH:mm')}"></span></td>
+				            					<td><span th:text="${#temporals.format(dto.updatedAt, 'yyyy-MM-dd HH:mm')}"></span></td>
+				            					<td><input type="button" value="상세" th:onclick="'memberListUid('+${dto.uid}+')'" class="applyDetail text-white"></td>
+				            				</tr>
+		            					</th:block>
+		            				</th:block>
+	            				</tbody>
+	            			</table>
+            			</div>
+            		</div>
+            	</div>
+            	
+            	<!-- 회원 상세보기 레이어 -->
+				<div class="listDetailWrap">
+					<div class="listDetail">
+						<div class="DetailHeader">
+							<h4>회원 정보 상세</h4>
+							<img alt="" src="">
+						</div>
+						<table class="listTable">
+  							<tr>
+				                <th>아이디</th>
+				                <td><input type="text" class="no-edit" id="listId" readonly="readonly" value=""/></td>
+				            </tr>
+				            <tr>
+				                <th>이름</th>
+				                <td><input type="text" class="no-edit" id="listName" readonly="readonly" value=""/></td>
+				            </tr>
+				            <tr>
+				                <th>휴대폰번호</th>
+				                <td><input type="text" class="no-edit" id="listPhoneNo" readonly="readonly" value=""/></td>
+				            </tr>
+				            <tr>
+				                <th>이메일</th>
+				                <td><input type="text" class="no-edit" id="listEmail" readonly="readonly" value=""/></td>
+				            </tr>
+				            <tr>
+				                <th>주소</th>
+				                <td>
+				                    <input type="text" class="no-edit" id="listAddr" readonly="readonly" value=""/><br>
+				                    <input type="text" class="no-edit mt-10" id="listDetailAddr" readonly="readonly" value=""/>
+				                </td>
+				            </tr>
+						</table>
+					    <div class="btm">
+							<div class="btn-c">
+								<a href="" class="btn-h52-blue">닫기</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--내용 입력 끝-->
+			</main>
+			<!--footer-->
+			<th:block th:include="@{/layout/admin/includes/footer.html}"></th:block>
+			<!--footer 끝-->
+		</div>
+		<!--content 끝-->
+	</div>
+	<!-- 본문 끝 -->
+	<!--plugin-->
+	<th:block th:include="@{/layout/admin/includes/plugin.html}"></th:block>
+	    <script th:src="@{/js/adminMember.js}"></script>
+    <script th:inline="javascript">
+    	let keyword =  null;
+    	let startDate = null;
+		let endDate = null;
+
+		if(keyword == null) keyword = "memberId";
+		
+		// 검색 기간
+		$("#selectStartDate").val(startDate);    	
+		$("#selectEndDate").val(endDate);  
+		
+		// 검색 카테고리
+    	$('#keyword').val(keyword).prop('selected', true);
+		
+		function memberListUid(uid) {
+			$.ajax({
+				url: "/layout/admin/member/listUid/" + uid,
+				type:'get',
+				traditional : true,
+				data: {"uid": uid }, 
+				success: function(data){
+					var data = data.ck;
+					var memberList = data.split(",");
+				
+					for(var i = 3; i < 10; i++){
+						memberList[i] = memberList[i].substring(memberList[i].indexOf("=")+1);
+					}
+					
+					$('#listId').val(memberList[3]);
+					$('#listName').val(memberList[5]);
+					$('#listPhoneNo').val(memberList[9]);
+					$('#listEmail').val(memberList[8]);
+					$('#listAddr').val(memberList[6]);
+					$('#listDetailAddr').val(memberList[7]);
+					$('.listDetailWrap').show();
+				} 
+			});
+			
+		}
+		
+		
+	</script>
+	<!--plugin끝-->
+</body>
+</html>
