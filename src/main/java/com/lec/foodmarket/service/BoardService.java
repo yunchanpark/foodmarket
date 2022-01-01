@@ -65,8 +65,8 @@ public class BoardService {
 
 	// 공지사항 이름 검색
 	public List<Notice> noticeNameSelect(String name) {
-		Member member = memberRepository.findByNameContainsIgnoreCase(name);
-		return noticeRepository.findById(member);
+		List<Member> member = memberRepository.findByNameContainsIgnoreCase(name);
+		return noticeRepository.findById(member.get(0));
 	}
 
 	// 작성자와 제목 선택 안하고 등록날짜로 검색
@@ -81,8 +81,8 @@ public class BoardService {
 
 	// 공지사항 이름과 등록날짜로 검색
 	public List<Notice> noticeNameAndCreatedAtSelect(String name, LocalDateTime from, LocalDateTime to) {
-		Member member = memberRepository.findByNameContainsIgnoreCase(name);
-		return noticeRepository.findByIdAndCreatedAtBetween(member, from, to);
+		List<Member> member = memberRepository.findByNameContainsIgnoreCase(name);
+		return noticeRepository.findByIdAndCreatedAtBetween(member.get(0), from, to);
 	}
 
 	public int notice_write(Notice dto) {
@@ -168,8 +168,8 @@ public class BoardService {
 
 	// 1:1 문의 이름 검색
 	public List<Inquiry> inquiryNameSelect(String name) {
-		Member member = memberRepository.findByNameContainsIgnoreCase(name);
-		return inquiryRepository.findById(member);
+		List<Member> member = memberRepository.findByNameContainsIgnoreCase(name);
+		return inquiryRepository.findById(member.get(0));
 	}
 
 	// 작성자와 제목 선택 안하고 등록날짜로 검색
@@ -184,8 +184,8 @@ public class BoardService {
 
 	// 공지사항 이름과 등록날짜로 검색
 	public List<Inquiry> InquiryNameAndCreatedAtSelect(String name, LocalDateTime from, LocalDateTime to) {
-		Member member = memberRepository.findByNameContainsIgnoreCase(name);
-		return inquiryRepository.findByIdAndCreatedAtBetween(member, from, to);
+		List<Member> member = memberRepository.findByNameContainsIgnoreCase(name);
+		return inquiryRepository.findByIdAndCreatedAtBetween(member.get(0), from, to);
 	}
 	
 	
