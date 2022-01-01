@@ -1,5 +1,7 @@
 package com.lec.foodmarket.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -65,43 +68,21 @@ public class BoardController {
 	@GetMapping("/user_inquiry_view")
 	public void user_inquiry_view(int inquiryNo, Model model) {
 		model.addAttribute("user_inquiry_view", boardService.inquiry_viewByUid(inquiryNo));
+		model.addAttribute("user_inquiry_imageview", boardService.inquiryImagefind(inquiryNo));
 	}
-	
+
 	@RequestMapping("/user_inquiry_list")
 	public void user_inquiry_list(Model model) {
 		model.addAttribute("user_inquiry_list", boardService.user_inquiry_list());
 	}
 	
 	@RequestMapping("/user_inquiry_write")
-	public void inquiry_write(Model model) {
-		Member member = Member.builder()
-				.uid(1L)
-				.id("admin")
-				.addr("모충동")
-				.detailAddr("105호")
-				.name("운영자")
-				.email("kjh80441@naver.com")
-				.originProfile("안녕")
-				.phoneNo("010-5103-1570")
-				.pw("admin")
-				.recommender("안녕")
-				.saveProfile("안녕")
-				.saveUpPoint(12)
-				.build();
-		model.addAttribute("member", member);
-		
-		
-	}   //   /board/write.html
-	
-	
-	
-		
-	
-
-	
+	public void inquiry_write(Model model) {;}
 	
 	@PostMapping("/user_inquiry_writeOk")
-	public void writeOk(Inquiry inquiry, BindingResult result, @RequestParam("image") MultipartFile upload, HttpSession session, RedirectAttributes redirectAttrs) throws Exception {
+	public void writeOk(Member member, Inquiry inquiry, BindingResult result, @RequestParam("image") MultipartFile upload, HttpSession session, RedirectAttributes redirectAttrs) throws Exception {
+		member = (Member)session.getAttribute("member");
+		inquiry.setId(member);
 		int cnt = boardService.inquiry_write(inquiry);
 		session.setAttribute("result", cnt);
 		session.setAttribute("inquiry", inquiry);
@@ -115,13 +96,13 @@ public class BoardController {
 				.inquirySave(dto.getSaveName())
 				.build();
 		boardService.inquiryImageSave(inquiryimage);
-		session.setAttribute("inquiryimage", inquiryimage);
 	}
 	
+
 	
 	@GetMapping("/user_inquiry_deleteOk")
-	public void deleteOk(int inquiryNo, int inquiryimage, Model model) {
-		model.addAttribute("result1", boardService.inquiryImageDelete(inquiryimage));
+	public void deleteOk(int inquiryNo, Model model) {
+		model.addAttribute("result1", boardService.inquiryImageDelete(inquiryNo, "inquiryImages\\inquiry"));
 		model.addAttribute("result", boardService.inquiry_deleteByUid(inquiryNo));
 	}
 	

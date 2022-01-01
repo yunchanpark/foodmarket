@@ -129,7 +129,7 @@ public class MemberService {
 
 	// 회원 조회
 	public Member findById(String username) {
-		return memberRepository.findById(username);
+		return memberRepository.findById(username).orElse(null);
 	}
 
 	// 회원 가입

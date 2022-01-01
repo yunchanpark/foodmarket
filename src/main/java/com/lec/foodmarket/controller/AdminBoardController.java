@@ -1,105 +1,181 @@
 package com.lec.foodmarket.controller;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.lec.foodmarket.domain.Inquiry;
 import com.lec.foodmarket.domain.Member;
 import com.lec.foodmarket.domain.Notice;
+import com.lec.foodmarket.domain.dto.InquirySearchDTO;
+import com.lec.foodmarket.domain.dto.NoticeSearchDTO;
 import com.lec.foodmarket.service.BoardService;
+import com.lec.foodmarket.validator.InquirySearchValidator;
+import com.lec.foodmarket.validator.NoticeSearchValidator;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @Controller
 @RequestMapping("/layout/admin/board")
 public class AdminBoardController {
 
 	private BoardService boardService;
 
+	// 공지사항 유효성
+	private NoticeSearchValidator noticesearchValidator;
+
+	// 1:1문의 유효성
+	private InquirySearchValidator inquirysearchValidator;
+
 	@Autowired
-	public AdminBoardController(BoardService boardService) {
+	public AdminBoardController(BoardService boardService, NoticeSearchValidator noticesearchValidator,
+			InquirySearchValidator inquirysearchValidator) {
 		this.boardService = boardService;
+		this.noticesearchValidator = noticesearchValidator;
+		this.inquirysearchValidator = inquirysearchValidator;
 	}
-	
-	public AdminBoardController() {;}
-	
-	
-	//inquiry
-	
+
+	public AdminBoardController() {
+		;
+	}
+
+	// inquiry
+
 	@RequestMapping("/inquiry_list")
 	public void inquiry_list(Model model) {
 		model.addAttribute("inquiry_list", boardService.inquiry_list());
 	}
-	
+
 	@GetMapping("/inquiry_update")
 	public void inquiry_update(int inquiryNo, Model model) {
 		model.addAttribute("list", boardService.inquiry_viewByUid(inquiryNo));
+		model.addAttribute("user_inquiry_imageview", boardService.inquiryImagefind(inquiryNo));
 	}
-	
+
 	@PostMapping("/inquiry_updateOk")
 	public void inquiry_updateOk(@ModelAttribute("dto") Inquiry dto, Model model) {
 		model.addAttribute("result", boardService.inquiry_update(dto));
 	}
-	
-	
-	
-	
-	//notice
-	
-	@RequestMapping("/notice_list")
-	public void notice_list(Model model) {
-		model.addAttribute("notice_list", boardService.notice_list());
+
+	// -------------------------------------------------------------
+
+	// 공지사항 list (검색)
+	@GetMapping("/inquiry_list")
+	public String inquiryList(@Valid InquirySearchDTO inquirysearchDTO, BindingResult result, Model model,
+			RedirectAttributes redirectAttrs) {
+		// 상품 검색 유효성 바인딩
+		inquirysearchValidator.validate(inquirysearchDTO, result);
+
+		if (result.hasErrors()) {
+			System.out.println(inquirysearchDTO);
+			if (result.getFieldError("selectStartDate") != null)
+				redirectAttrs.addFlashAttribute("errSelectStartDate",
+						result.getFieldError("selectStartDate").getCode());
+			if (result.getFieldError("selectEndDate") != null)
+				redirectAttrs.addFlashAttribute("errSelectEndDate", result.getFieldError("selectEndDate").getCode());
+			redirectAttrs.addFlashAttribute("search", inquirysearchDTO);
+			return "redirect:/layout/admin/board/inquiry_list";
+		}
+
+		String keyword = inquirysearchDTO.getKeyword();
+		int answerkeyword = inquirysearchDTO.getAnswerkeyword();
+		String searchKeyword = inquirysearchDTO.getSearchKeyword();
+		LocalDate selectStartDate = inquirysearchDTO.getSelectStartDate();
+		LocalDate selectEndDate = inquirysearchDTO.getSelectEndDate();
+		LocalDateTime start;
+		LocalDateTime end;
+
+		List<Inquiry> list = new ArrayList<Inquiry>();
+		Inquiry inquiry;
+
+//		if(answerkeyword == 1) {
+//			list = boardService.inquiryStatusSelect(searchKeyword);
+//		}
+		
+		
+		// 검색 버튼만 눌렀을 때
+		if (answerkeyword != 2 && keyword != null && (searchKeyword == null || searchKeyword.trim().length() == 0)
+				&& selectStartDate == null && selectEndDate == null) {
+			list = boardService.inquiry_list();
+			System.out.println(list + ";;");
+		}
+		// 답변 여부 전체
+		if (answerkeyword == 2) {
+			// 검색 카테고리와 검색 키워드만 입력했을 때
+			if (keyword != null && (searchKeyword != null || searchKeyword.trim().length() == 0)
+					&& selectStartDate == null && selectEndDate == null) {
+				// 검색 카테고리가 제목일 때
+				if (keyword.equals("inquiry_title"))
+					list = boardService.inquiryTitleSelect(searchKeyword);
+				// 검색 카테고리가 이름일 때
+				if (keyword.equals("inquiry_id"))
+					list = boardService.inquiryNameSelect(searchKeyword);
+			}
+			// 검색 카테고리와 날짜를 같이 입력했을 때////////////////
+			else if (keyword != null && (searchKeyword == null || searchKeyword.trim().length() == 0)
+					&& selectStartDate != null && selectEndDate != null) {
+				start = selectStartDate.atTime(0, 0, 0);
+				end = selectEndDate.atTime(23, 59, 59);
+				list = boardService.InquiryCreatedAtSelect(start, end);
+			} 
+			else if (keyword != null && (searchKeyword != null || searchKeyword.trim().length() != 0)
+					&& selectStartDate != null && selectEndDate != null) {
+				start = selectStartDate.atTime(0, 0, 0);
+				end = selectEndDate.atTime(23, 59, 59);
+				if (keyword.equals("inquiry_title"))
+					list = boardService.InquiryTitleAndCreatedAtSelect(searchKeyword, start, end);
+				if (keyword.equals("inquiry_id"))
+					list = boardService.InquiryNameAndCreatedAtSelect(searchKeyword, start, end);
+			}
+		}
+
+
+		model.addAttribute("search", inquirysearchDTO);
+		model.addAttribute("inquiry_list", list);
+		System.out.println(list);
+		return "layout/admin/board/inquiry_list";
 	}
 
+	// notice
 
-       
+//	@RequestMapping("/notice_list")
+//	public void notice_list(Model model) {
+//		model.addAttribute("notice_list", boardService.notice_list());
+//	}
 
-	
-	
 	@RequestMapping("/notice_write")
-	public void notice_write(Model model) {
-		Member member = Member.builder()
-				.uid(1L)
-				.id("admin")
-				.addr("모충동")
-				.detailAddr("105호")
-				.name("운영자")
-				.email("kjh80441@naver.com")
-				.originProfile("안녕")
-				.phoneNo("010-5103-1570")
-				.pw("admin")
-				.recommender("안녕")
-				.saveProfile("안녕")
-				.saveUpPoint(12)
-				.build();
-		model.addAttribute("member", member);
-		System.out.println(member.getName());
+	public void notice_write() {
+		;
 	}
-	
+
 	@PostMapping("/notice_writeOk")
-	public void notice_write(Notice dto, Model model) {
+	public void notice_write(Member member, Notice dto, BindingResult result, HttpSession session, Model model) {
+		member = (Member) session.getAttribute("member");
+		dto.setId(member);
 		int cnt = boardService.notice_write(dto);
 		model.addAttribute("result", cnt);
 		model.addAttribute("dto", dto);
-		
 	}
-	
-	
+
 	@GetMapping("/notice_update")
 	public void update(int noticeNo, Model model) {
 		model.addAttribute("list", boardService.notice_selectByUid(noticeNo));
 	}
-	
+
 	@PostMapping("/notice_updateOk")
 	public void notice_updateOk(@ModelAttribute("dto") Notice dto, Model model) {
 		model.addAttribute("result", boardService.notice_update(dto));
@@ -109,64 +185,85 @@ public class AdminBoardController {
 	public void notice_view(int noticeNo, Model model) {
 		model.addAttribute("list", boardService.notice_viewByUid(noticeNo));
 	}
-	
-	@GetMapping("/notice_deleteOk")
-	public void notice_deleteOk(int noticeNo, Model model) {
-		model.addAttribute("result", boardService.notice_deleteByUid(noticeNo));
+
+	// 공지사항 삭제(view에서)
+//	@GetMapping("/notice_deleteOk")
+//	public void notice_deleteOk(int noticeNo, Model model) {
+//		model.addAttribute("result", boardService.notice_deleteByUid(noticeNo));
+//	}
+
+	// 공지사항 일괄삭제(list에서)
+	@ResponseBody
+	@PostMapping(value = "/notice_deleteOk", produces = "application/json")
+	public void noticeSelectDelete(@RequestParam("noticeNoArr") List<Long> arrStringNoticeNo) throws Exception {
+		boardService.noticeDeleteInBatch(arrStringNoticeNo);
 	}
-	
-	
-	
-	
-	
-	
-	/*삭제부분인데 오류나면 삭제하기*/
 
+	// 공지사항 list (검색)
+	@GetMapping("/notice_list")
+	public String noticeList(@Valid NoticeSearchDTO noticesearchDTO, BindingResult result, Model model,
+			RedirectAttributes redirectAttrs) {
+		// 상품 검색 유효성 바인딩
+		noticesearchValidator.validate(noticesearchDTO, result);
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	/******************************************
-	 * 관리자 
-	 *   1대1문의 (조회, 삭제, 답변, 수정???)
-	 *   공지사항 (조회, 삭제, 수정, 등록)
-	 * 추가사항이나 수정사항 알아서   
-	 ******************************************/
-	
-	/******************************************
-	 * GET 방식
-	 ******************************************/
-	// TODO
-	
-	
-	
-	
-	/******************************************
-	 * POST 방식
-	 ******************************************/
-	// TODO
-	
-	
-	
-	
-	
+		if (result.hasErrors()) {
+			System.out.println(noticesearchDTO);
+			if (result.getFieldError("selectStartDate") != null)
+				redirectAttrs.addFlashAttribute("errSelectStartDate",
+						result.getFieldError("selectStartDate").getCode());
+			if (result.getFieldError("selectEndDate") != null)
+				redirectAttrs.addFlashAttribute("errSelectEndDate", result.getFieldError("selectEndDate").getCode());
+			redirectAttrs.addFlashAttribute("search", noticesearchDTO);
+			return "redirect:/layout/admin/board/notice_list";
+		}
+
+		String keyword = noticesearchDTO.getKeyword();
+		String searchKeyword = noticesearchDTO.getSearchKeyword();
+		LocalDate selectStartDate = noticesearchDTO.getSelectStartDate();
+		LocalDate selectEndDate = noticesearchDTO.getSelectEndDate();
+		LocalDateTime start;
+		LocalDateTime end;
+
+		List<Notice> list = new ArrayList<Notice>();
+		Notice notice;
+
+		// 검색 버튼만 눌렀을 때
+		System.out.println(2);
+		if (keyword != null && (searchKeyword == null || searchKeyword.trim().length() == 0) && selectStartDate == null
+				&& selectEndDate == null) {
+			list = boardService.notice_list();
+			System.out.println(list + ";;");
+		}
+		// 검색 카테고리와 검색 키워드만 입력했을 때
+		else if (keyword != null && (searchKeyword != null || searchKeyword.trim().length() == 0)
+				&& selectStartDate == null && selectEndDate == null) {
+			// 검색 카테고리가 제목일 때
+			if (keyword.equals("notice_title"))
+				list = boardService.noticeTitleSelect(searchKeyword);
+			// 검색 카테고리가 이름일 때
+			if (keyword.equals("notice_id"))
+				list = boardService.noticeNameSelect(searchKeyword);
+		}
+		// 검색 카테고리와 날짜를 같이 입력했을 때////////////////
+		else if (keyword != null && (searchKeyword == null || searchKeyword.trim().length() == 0)
+				&& selectStartDate != null && selectEndDate != null) {
+			start = selectStartDate.atTime(0, 0, 0);
+			end = selectEndDate.atTime(23, 59, 59);
+			list = boardService.noticeCreatedAtSelect(start, end);
+		} else if (keyword != null && (searchKeyword != null || searchKeyword.trim().length() != 0)
+				&& selectStartDate != null && selectEndDate != null) {
+			start = selectStartDate.atTime(0, 0, 0);
+			end = selectEndDate.atTime(23, 59, 59);
+			if (keyword.equals("notice_title"))
+				list = boardService.noticeTitleAndCreatedAtSelect(searchKeyword, start, end);
+			if (keyword.equals("notice_id"))
+				list = boardService.noticeNameAndCreatedAtSelect(searchKeyword, start, end);
+		}
+
+		model.addAttribute("search", noticesearchDTO);
+		model.addAttribute("list", list);
+		System.out.println(list);
+		return "layout/admin/board/notice_list";
+	}
+
 }
-
-
-
-
-
-
-
-
-
-

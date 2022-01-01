@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<!-- head -->
+<th:block th:include="@{/layout/user/includes/head.html}"></th:block>
+	<link th:href="@{/css/user_product.css}" rel="stylesheet" />
+<!-- head 끝 -->
+</head>
+<body>
+    <div class="wrap">
+        <!-- header -->
+		<th:block th:include="@{/layout/user/includes/header.html}"></th:block>
+        <!-- header 끝 -->
+        
+        <!-- section -->
+        <!-- content 시작 -->
+        <section>
+        	<div class="box_inner">
+        		<div id="product_view_no">[[${dto.productNo}]]</div>
+        		<div class="list_view_product">
+        			<div class="product_view_image">
+	            		<img th:src="@{/ckUpload/productImages/product/} + ${dto.imageSave}">
+	            	</div>
+	            	<div class="product_view_content">
+			            <div class="product_view_table">
+			            	<span id="product_view_name">[[${dto.name}]]</span>
+							    <span class="lickCnt" id="product_view_lick"></span>
+			            	<span id="product_likeCnt"></span>
+			            </div>
+			            <div class="product_view_table">
+			            	<span class="product_view_menu">가격</span>
+			            	<span>
+			            		<span class="product_view_price">${dto.price}</span>
+			            	</span>
+			            </div>
+			            <div class="product_view_table">
+			            	<span class="product_view_menu">남은 수량</span>
+			            	<span>
+			            		<span class="product_view_stock">${dto.stock}</span>
+			            	</span>
+			            </div>
+			            <div class="product_view_table">
+			            	<span class="product_view_menu">구매 수량</span>
+			            	<div class="option">
+				           		<span class="product_cnt">
+				           			<input type="button" class="sub_btn">
+				           			<input type="hidden" name="product_no" th:value="${dto.productNo}" id="product_no">
+				           			<input type="number" value="1" class="view_product_cnt" readonly="readonly" name="product_cnt" id="product_cnt">
+				           			<input type="button" class="plus_btn">
+				           		</span>
+			            	</div>
+			            </div>
+			            <div class="product_view_table">
+			            	<span class="product_view_mondey">총 상품금액:</span>
+			            	<span class="product_value">
+			            	</span>
+			            </div>
+			            <div class="product_view_submit">
+			            		<th:block th:unless="${#authorization.getAuthentication() != null and #authorization.expr('isAuthenticated()')}">
+			            			<input type="button" value="장바구니 담기" id="basket_no_login" class="basket">
+			            		</th:block>
+			            		<th:block th:if="${#authorization.getAuthentication() != null and #authorization.expr('isAuthenticated()')}">
+						           	<input type="button" value="장바구니 담기" id="basket" class="basket">
+			            		</th:block>
+			            </div>
+	            	</div>
+        		</div>
+        	</div>
+        </section>
+        <!-- content 끝-->
+        <!-- section 끝 -->
+        
+        <!-- footer -->
+		<th:block th:include="@{/layout/user/includes/footer.html}"></th:block>
+        <!-- footer 끝 -->
+    </div>
+    <!-- plugin -->
+    <th:block th:include="@{/layout/user/includes/plugin.html}"></th:block>
+    <script th:src="@{/js/includes.js}"></script>
+    <script th:src="@{/js/product.js}"></script>
+    <script type="text/javascript">
+	    /* 상품 좋아요 */
+		$('.lickCnt').on('click', function() {
+			var productNo = $("#product_view_no").text();
+	    	$.ajax({
+				url: "like/" + productNo,
+				type: "get",
+				contentType: "application/json; charset=utf-8",
+				success: function(data) {
+					console.log(data)
+					if(data.ck) {
+						$(".lickCnt").css("background", "url(/images/heart_color.png) no-repeat 50% 50%")
+						$(".lickCnt").css("background-size", "30px 30px")
+					} else {
+						$(".lickCnt").css("background", "url(/images/heart.png) no-repeat 50% 50%")
+						$(".lickCnt").css("background-size", "30px 30px")
+					}
+					$("#product_likeCnt").text(data.likeCnt);
+				}
+			});
+		});
+	    
+	    (like = function() {
+	    	var productNo = $("#product_view_no").text();
+	    	$.ajax({
+				url: "likeCk/" + productNo,
+				type: "get",
+				contentType: "application/json; charset=utf-8",
+				success: function(data) {
+					console.log(data)
+					if(data.ck) {
+						$(".lickCnt").css("background", "url(/images/heart_color.png) no-repeat 50% 50%")
+						$(".lickCnt").css("background-size", "30px 30px")
+					} else {
+						$(".lickCnt").css("background", "url(/images/heart.png) no-repeat 50% 50%")
+						$(".lickCnt").css("background-size", "30px 30px")
+					}
+					$("#product_likeCnt").text(data.likeCnt);
+				}
+			});
+		})();
+    </script>
+    <!-- plugin 끝 -->
+</body>
+</html>

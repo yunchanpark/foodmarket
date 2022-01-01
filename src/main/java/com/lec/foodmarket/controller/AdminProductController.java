@@ -1,10 +1,6 @@
 package com.lec.foodmarket.controller;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -14,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -66,6 +63,35 @@ public class AdminProductController {
 		model.addAttribute("category", productService.productCategorySelect());
 	}
 
+	// 상품 수정
+	@GetMapping("/update/{productNo}")
+	public String productUpdate(ProductDTO productDTO, @PathVariable("productNo") Long productNo
+			, Model model) {
+		Product product = productService.productProductNoSelect(productNo).orElse(null);
+		productDTO = ProductDTO.builder()
+				.categoryNo(product.getCategoryNo())
+				.name(product.getName())
+				.description(product.getDescription())
+				.price(product.getPrice())
+				.purchasePrice(product.getPurchasePrice())
+				.stock(product.getStock())
+				.discount(product.getDiscount())
+				.exchangeRate(product.getExchangeRate())
+				.detailContent(product.getDetailContent())
+				.startDate(product.getDisStart())
+				.endDate(product.getDisEnd())
+				.discountCk(product.getDiscount() == 0 ? "N" : "Y")
+				.duringCheck(product.getDisStart() != null && product.getDisEnd() != null ? "Y":"")
+				.build();
+
+		model.addAttribute("category", productService.productCategorySelect());
+		model.addAttribute("productNo", productNo);
+		model.addAttribute("product", productDTO);
+		model.addAttribute("result", 0);
+		
+		return "layout/admin/product/update";
+	}
+
 	// 상품 목록
 	@GetMapping("/list")
 	public String productList(@Valid SearchDTO searchDTO, BindingResult result,
@@ -84,46 +110,8 @@ public class AdminProductController {
 			redirectAttrs.addFlashAttribute("search", searchDTO);
 			return "redirect:/layout/admin/product/list";
 		}
-		
-		String keyword = searchDTO.getKeyword();
-		String searchKeyword = searchDTO.getSearchKeyword();
-		LocalDate selectStartDate = searchDTO.getSelectStartDate();
-		LocalDate selectEndDate = searchDTO.getSelectEndDate();
-		LocalDateTime start;
-		LocalDateTime end;
-		
-		List<Product> list = new ArrayList<Product>();
-		Product product;
-		
-		// 검색 버튼만 눌렀을 때
-		if(keyword != null && (searchKeyword == null || searchKeyword.trim().length() == 0) && selectStartDate == null && selectEndDate == null) {
-			list = productService.productAllSelecet();
-		}
-		// 검색 카테고리와 검색 키워드만 입력했을 때
-		else if (keyword != null && (searchKeyword != null || searchKeyword.trim().length() == 0) && selectStartDate == null && selectEndDate == null) {
-			// 검색 카테고리가 상품명일 때
-			if(keyword.equals("name")) list = productService.productNameSelecet(searchKeyword);
-			// 검색 카테고리가 추가 상품명일 때
-			if(keyword.equals("description")) list = productService.productDescriptionSelect(searchKeyword);
-			// 검색 카테고리가 상품번호일 때
-			if(keyword.equals("productNo")) {
-				product = productService.productProductNoSelect(Long.parseLong(searchKeyword)).orElse(null);
-				list.add(product);
-			}
-		} 
-		// 검색 카테고리와 날짜를 같이 입력했을 때
-		else if (keyword != null && (searchKeyword == null || searchKeyword.trim().length() == 0) && selectStartDate != null && selectEndDate != null) {
-			start = selectStartDate.atTime(0, 0, 0);
-			end = selectEndDate.atTime(23, 59, 59);
-			list = productService.productUpdateAtSelect(start, end);
-		}
-		else if (keyword != null && (searchKeyword != null || searchKeyword.trim().length() != 0) && selectStartDate != null && selectEndDate != null) {
-			start = selectStartDate.atTime(0, 0, 0);
-			end = selectEndDate.atTime(23, 59, 59);
-			if(keyword.equals("name")) list = productService.productUpdateAtAndName(searchKeyword, start, end);
-			if(keyword.equals("description")) list = productService.productUpdateAtAndDescription(searchKeyword, start, end);
-			if(keyword.equals("productNo")) list = productService.productUpdateAtAndProductNo(Long.parseLong(searchKeyword), start, end);
-		}
+
+		List<Product> list = productService.productSelecet(searchDTO);
 		
 		model.addAttribute("search", searchDTO);
 		model.addAttribute("list",list);
@@ -168,13 +156,80 @@ public class AdminProductController {
 		FileUploadDTO dto = file.ckUpload("/productImages/product/", "productImages\\product", upload);
 		
 		// 상품 값 세팅
-		Product product = Product.builder().categoryNo(productDTO.getCategoryNo()).name(productDTO.getName())
-				.description(productDTO.getDescription()).price(productDTO.getPrice())
-				.purchasePrice(productDTO.getPurchasePrice()).stock(productDTO.getStock())
-				.imageOrgin(dto.getOrginName()).imageSave(dto.getSaveName())
+		Product product = Product.builder()
+				.categoryNo(productDTO.getCategoryNo())
+				.name(productDTO.getName())
+				.description(productDTO.getDescription())
+				.price(productDTO.getPrice())
+				.purchasePrice(productDTO.getPurchasePrice())
+				.stock(productDTO.getStock())
+				.imageOrgin(dto.getOrginName())
+				.imageSave(dto.getSaveName())
 				.discount(productDTO.getDiscount() == null ? 0 : productDTO.getDiscount())
-				.exchangeRate(productDTO.getExchangeRate()).detailContent(productDTO.getDetailContent())
-				.disStart(productDTO.getStartDate()).disEnd(productDTO.getEndDate()).build();
+				.exchangeRate(productDTO.getExchangeRate())
+				.detailContent(productDTO.getDetailContent())
+				.disStart(productDTO.getStartDate())
+				.disEnd(productDTO.getEndDate())
+				.build();
+		productService.productSave(product);
+		return "redirect:/layout/admin/product/list";
+	}
+
+	// 상품 수정
+	@PostMapping("/update")
+	public String productUpdate(@ModelAttribute("product") @Valid ProductDTO productDTO, BindingResult result,
+			@RequestParam(value = "image", required = false) MultipartFile upload, Long productNo, Model model, RedirectAttributes redirectAttrs)
+					throws Exception {
+		// 상품 등록 유효성 검사 바인딩
+		productValidator.validate(productDTO, result);
+		if (result.hasErrors()) {
+			if (result.getFieldError("categoryNo") != null)
+				redirectAttrs.addFlashAttribute("errCategoryNo", result.getFieldError("categoryNo").getCode());
+			if (result.getFieldError("name") != null)
+				redirectAttrs.addFlashAttribute("errProductname", result.getFieldError("name").getCode());
+			if (result.getFieldError("price") != null)
+				redirectAttrs.addFlashAttribute("errPrice", result.getFieldError("price").getCode());
+			if (result.getFieldError("purchasePrice") != null)
+				redirectAttrs.addFlashAttribute("errPurchasePrice", result.getFieldError("purchasePrice").getCode());
+			if (result.getFieldError("stock") != null)
+				redirectAttrs.addFlashAttribute("errStock", result.getFieldError("stock").getCode());
+			if (result.getFieldError("discount") != null)
+				redirectAttrs.addFlashAttribute("errDiscount", result.getFieldError("discount").getCode());
+			if (result.getFieldError("startDate") != null)
+				redirectAttrs.addFlashAttribute("errDiscountTime", result.getFieldError("startDate").getCode());
+			
+			redirectAttrs.addFlashAttribute("result", 0);
+			redirectAttrs.addFlashAttribute("productRedirect", productDTO);
+			return "redirect:/layout/admin/product/update/" + productNo;
+		}
+
+		Product product = productService.productProductNoSelect(productNo).orElse(null);
+		
+		// 상품 값 세팅
+		product.setCategoryNo(productDTO.getCategoryNo());
+		product.setName(productDTO.getName());
+		product.setDescription(productDTO.getDescription());
+		product.setPrice(productDTO.getPrice());
+		product.setPurchasePrice(productDTO.getPurchasePrice());
+		product.setStock(productDTO.getStock());
+		product.setDiscount(productDTO.getDiscount() == null ? 0 : productDTO.getDiscount());
+		product.setExchangeRate(productDTO.getExchangeRate());
+		product.setDetailContent(productDTO.getDetailContent());
+		product.setDisStart(productDTO.getStartDate());
+		product.setDisEnd(productDTO.getEndDate());
+		
+		// 상품 이미지 업로드가 수정 되었을 때
+		if(upload.getSize() != 0) {
+			FileUpload file = new FileUpload();
+			FileUploadDTO dto = file.ckUpload("/productImages/product/", "productImages\\product", upload);
+			product.setImageOrgin(dto.getOrginName());
+			product.setImageSave(dto.getSaveName());
+		} else {
+			product.setImageOrgin(product.getImageOrgin());
+			product.setImageSave(product.getImageSave());
+		}
+
+		System.out.println(product);
 		productService.productSave(product);
 		return "redirect:/layout/admin/product/list";
 	}
