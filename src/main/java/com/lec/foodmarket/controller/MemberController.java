@@ -1,5 +1,7 @@
 package com.lec.foodmarket.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.lec.foodmarket.domain.Member;
+import com.lec.foodmarket.domain.Point;
+import com.lec.foodmarket.domain.PointCondition;
 import com.lec.foodmarket.domain.dto.MemberDTO;
 import com.lec.foodmarket.service.MemberService;
 
@@ -94,7 +98,8 @@ public class MemberController {
 
 	// 회원가입
 	@PostMapping("/registerOk")
-	public String registerOk(Member member) {
+	public String registerOk(Member member, Point point) {
+		List<PointCondition> p =  memberService.pointConditionAllSelect();
 		String encPassword = passwordEncoder.encode(member.getPw());
 		member = Member.builder()
 				.uid(member.getUid())
@@ -106,9 +111,19 @@ public class MemberController {
 				.email(member.getEmail())
 				.phoneNo(member.getPhoneNo())
 				.recommender(member.getRecommender())
+				.saveUpPoint(p.get(0).getJoinPoint())
 				.role("MEMBER")
 				.build();
 		memberService.memberSave(member);
+		
+		point = Point.builder()
+				.name("회원가입 시, 적립금 지급")
+				.point(p.get(0).getJoinPoint())
+				.uid(member)
+				.status(0)
+				.build();
+		memberService.pointSave(point);
+		
 		return "redirect:/layout/user/member/login";
 	}
 

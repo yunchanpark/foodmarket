@@ -20,7 +20,7 @@
 				<!--내용 입력-->
             	<div class=" px-4">
                     <div class="mt-4 fs-5 fw-bold align-self-center">• 회원관리</div>
-                    <div class="list-wrap bg-white mt-4">
+                    <div class="list-wrap-3 bg-white mt-4">
                     	<form action="/layout/admin/member/list" method="get">
 
                     	<div class="list-container flex-center bd-b-gray">
@@ -67,25 +67,23 @@
             				</span>
             			</div>
             			<div class="px-4 result-container">
-            				<input type="button" value="적립금 관리" class="apply2 text-white">
-            				<input type="button" value="검색회원 SMS 발송" class="apply text-white">
+            				<input type="button" value="적립금 관리" id="point_ck" class="apply2 text-white">
 							<input type="button" value="선택회원 SMS 발송" class="apply text-white">
             			</div>
             			<div class="mt-2 table-wrap">
 	            			<table class="product-table">
 	            				<thead>
 	            					<tr>
-	            						<td style="min-width: 55px;"><input type="checkbox" name="allCk"></td>
-	            						<td style="min-width: 70px;">No</td>
-	            						<td style="min-width: 130px;">아이디</td>
-	            						<td style="min-width: 130px;">이름</td>
-	            						<td style="min-width: 180px;">휴대폰번호</td>
-	            						<td style="min-width: 200px;">이메일</td>
-	            						<td style="min-width: 130px;">누적 결제금액</td>
-	            						<td style="min-width: 100px;">적립금</td>
-	            						<td style="min-width: 180px;">회원가입일</td>
-	            						<td style="min-width: 180px;">최근로그인</td>
-	            						<td style="min-width: 120px;">관리</td>
+	            						<td style="width: 3%"><input type="checkbox" name="allCk"></td>
+	            						<td style="width: 4%">No</td>
+	            						<td style="width: 7%">아이디</td>
+	            						<td style="width: 5%">이름</td>
+	            						<td style="width: 8%">휴대폰번호</td>
+	            						<td style="width: 10%">이메일</td>
+	            						<td style="width: 5%">적립금</td>
+	            						<td style="width: 10%">회원가입일</td>
+	            						<td style="width: 10%">최근로그인</td>
+	            						<td style="width: 7%">관리</td>
 	            					</tr>
 	            				</thead>
 	            				<tbody>
@@ -97,13 +95,12 @@
 		            				<th:block th:unless="${list == null}">
 		            					<th:block th:each="dto : ${list}">
 				            				<tr>
-				            					<td style="width: 55px;"><input type="checkbox" th:value="${dto.uid}" name="productarr"></td>
+				            					<td><input type="checkbox" th:value="${dto.uid}" name="productarr"></td>
 				            					<td><span th:text="${dto.uid}"></span></td>
 				            					<td><span th:text="${dto.id}"></span></td>
 				            					<td><span th:text="${dto.name}"></span></td>
 				            					<td><span th:text="${dto.phoneNo}"></span></td>
 				            					<td><span th:text="${dto.email}"></span></td>
-				            					<td>.</td>
 				            					<td><span th:text="${dto.saveUpPoint}"></span></td>
 				            					<td><span th:text="${#temporals.format(dto.createdAt, 'yyyy-MM-dd HH:mm')}"></span></td>
 				            					<td><span th:text="${#temporals.format(dto.updatedAt, 'yyyy-MM-dd HH:mm')}"></span></td>
@@ -122,7 +119,6 @@
 					<div class="listDetail">
 						<div class="DetailHeader">
 							<h4>회원 정보 상세</h4>
-							<img alt="" src="">
 						</div>
 						<table class="listTable">
   							<tr>
@@ -156,6 +152,43 @@
 						</div>
 					</div>
 				</div>
+				
+				<!-- 적립금 관리 레이어 -->
+				<form action="pointSave" method="post">
+					<div class="listDetailWrap-2">
+					<div class="listDetail">
+						<div class="pointHeader">
+							<h4>적립금 관리</h4>
+							<span class="pointscript">선택된 1명의 적립금을 일괄 지급/차감합니다.</span>
+						</div>
+                			<input type="hidden" name="pointUid" id="pointUid" value="">
+						<table class="listTable-2">
+  							<tr>
+  								<th></th>
+  								<td>
+					            	<select name="pointStatus" class="arr-bg arr-size-small" id="pointStatus">
+	                    				<option value="0">+ 지급</option>
+	                    				<option value="1">- 차감</option>
+	                    			</select>
+                    			</td>
+				            </tr>
+				            <tr>
+				                <th>사유</th>
+				                <td><input type="text" class="pointTable" name="pointName" readonly="readonly" value="관리자 수기 지급"/></td>
+				            </tr>
+				            <tr>
+				                <th>금액</th>
+				                <td><input type="text" class="pointTable-price" name="pointPrice" value=""/>원</td>
+				            </tr>
+						</table>
+					    <div class="btm">
+							<div class="btn-c">
+								<input type="button" id="pointSavebtn" value="저장"/>
+							</div>
+						</div>
+					</div>
+					</div>
+				</form>
 				<!--내용 입력 끝-->
 			</main>
 			<!--footer-->

@@ -3,36 +3,91 @@
 <!-- head -->
 <th:block th:include="@{/layout/admin/includes/head.html}"></th:block>
 <!-- head 끝 -->
+<link th:href="@{/css/adminMember.css}" rel="stylesheet" />
+<title>FoodMarket-적립금관리</title>
 <body class="sb-nav-fixed">
-    <!--header menu-->
+	<!--header menu-->
 	<th:block th:include="@{/layout/admin/includes/header.html}"></th:block>
-    <!--header menu 끝-->
+	<!--header menu 끝-->
 	<!-- 본문 -->
-    <div id="layoutSidenav">
-        <!--sidebar-->
+	<div id="layoutSidenav">
+		<!--sidebar-->
 		<th:block th:include="@{/layout/admin/includes/sidebar.html}"></th:block>
-        <!--sidebar 끝-->
-        <!--content-->
-        <div id="layoutSidenav_content">
-            <main>
-                <!--내용 입력-->
-
-
-bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
-
-
-
-                <!--내용 입력 끝-->
-            </main>
-            <!--footer-->
+		<!--sidebar 끝-->
+		<!--content-->
+		<div id="layoutSidenav_content">
+			<main>
+            <th:block th:each="point : ${point}">
+				<!--내용 입력-->
+            	<div class="px-4">
+                   	<form action="point" method="post">
+	                    <div class="mt-4 fs-5 fw-bold align-self-center">• 적립금 관리</div>
+	                    <div class="tab-menu">
+		           		 	<ul>
+								<li class="now"><a th:href="@{/layout/admin/member/point}">적립금 설정</a></li>
+		        			    <li class=""><a th:href="@{/layout/admin/member/pointList}">적립금 내역</a></li>
+							</ul>
+						</div>
+	                    <div class="list-wrap bg-white mt-4">
+	                    	<div class="point-header flex-center bd-b-gray">
+	                    		<span class="txt-2">적립금 지급설정</span>
+	                    	</div>
+                    	<div class="list-container flex-center bd-b-gray">
+                    		<span class="txt">회원 가입</span>
+                    		<span >회원가입 시, </span>
+                    		<input type="hidden" name="pointConditionNo" class="arr-bg arr-size-3" th:value="${point.pointConditionNo}">
+                    		<input type="number" name="joinPoint" class="arr-bg arr-size-3" th:value="${point.joinPoint}">
+                    		<span>원 적립금 지급</span><span class="txt-3">0원 입력시, 미지급</span>
+                    	</div>
+                    	<div class="list-container flex-center bd-b-gray">
+                    		<span class="txt">상품 적립금</span>
+                    		<span>상품 구매 시, 총 결제 금액</span>
+                    		<input type="number" name="productPoint" class="arr-bg arr-size-3" th:value="${point.productPoint}">
+                    		<span> % 적립금 지급</span>
+                    	</div>
+                    	<div class="list-container flex-center">
+                    		<span class="txt">추천인</span>
+                    		<span>추천 받을 시, </span>
+                    		<input type="number" name="recommenderGive" class="arr-bg arr-size-3" th:value="${point.recommenderGive}" >
+                    		<span>원 적립금 지급</span>
+                    	</div>
+                    	<div class="list-container flex-center bd-b-gray">
+                    		<span class="txt"></span>
+                    		<span>추천인 입력 시, </span>
+                    		<input type="number" name="recommenderReceive" class="arr-bg arr-size-3" th:value="${point.recommenderReceive}">
+                    		<span>원 적립금 지급</span>
+                    	</div>
+                    </div>
+					<div class="list-wrap-2 bg-white mt-4">
+                    	<div class="point-header flex-center bd-b-gray">
+                    		<span class="txt-2">적립금 사용 설정</span>
+                    	</div>
+                    	<div class="list-container flex-center ">
+                    		<span class="txt">사용 조건</span>
+                    		<span >전체 상품 구매금액이 </span>
+                    		<input type="number" name="useCondition" class="arr-bg arr-size-3" th:value="${point.useCondition}">
+                    		<span>원 이상일 때 적립금 사용 가능</span>
+                    	</div>
+                    	<span class="txt-4">전체 상품 구매금액 = 판매가격(할인가) 및 배송비는 제외</span>
+	                </div>      
+                    <div class="btn-c">
+                    	<input type="button" class="btn-h52-blue w180 mr-20 btn-add-notice search_btn pointConditionBtn" value="저장"/>
+                    </div>
+                 </form>
+		    	</div>            	
+	       </th:block>      	
+				<!--내용 입력 끝-->
+			</main>
+			<!--footer-->
 			<th:block th:include="@{/layout/admin/includes/footer.html}"></th:block>
-            <!--footer 끝-->
-        </div>
-        <!--content 끝-->
-    </div>
+			<!--footer 끝-->
+		</div>
+		<!--content 끝-->
+	</div>
 	<!-- 본문 끝 -->
-    <!--plugin-->
+	<!--plugin-->
 	<th:block th:include="@{/layout/admin/includes/plugin.html}"></th:block>
-    <!--plugin끝-->
+	    <script th:src="@{/js/adminMember.js}"></script>
+	<!--plugin끝-->
 </body>
 </html>
