@@ -2,7 +2,9 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <!-- head -->
 <th:block th:include="@{/layout/admin/includes/head.html}"></th:block>
+<link th:href="@{/css/adminMember.css}" rel="stylesheet" />
 <!-- head 끝 -->
+<title>FoodMarket-운영자관리</title>
 <body class="sb-nav-fixed">
     <!--header menu-->
 	<th:block th:include="@{/layout/admin/includes/header.html}"></th:block>
@@ -16,9 +18,44 @@
         <div id="layoutSidenav_content">
             <main>
                 <!--내용 입력-->
-
-			aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-
+			    <div class=" px-4">
+                    <div class="mt-4 fs-5 fw-bold align-self-center">• 운영자 관리</div>
+            	</div>
+            	<div class="px-4 mb-5 mt-4">
+            		<div class="bg-white bd-gray">
+            			<div class="result-title-2">
+            				<input type="button" value="운영자 등록" class="apply2 text-white">
+            			</div>
+            			<div class="mt-30 table-wrap-2">
+	            			<table class="product-table">
+	            				<thead>
+	            					<tr>
+	            						<td style="width: 4%">No</td>
+	            						<td style="width: 8%">이름</td>
+	            						<td style="width: 8%">아이디</td>
+	            						<td style="width: 12%">상품관리</td>
+	            						<td style="width: 12%">주문관리</td>
+	            						<td style="width: 12%">사용자관리</td>
+	            						<td style="width: 10%">관리</td>
+	            					</tr>
+	            				</thead>
+	            				<tbody>
+	            					<th:block th:each="dto : ${list}">
+			            				<tr>
+			            					<td><span th:text="${dto.uid}"></span></td>
+			            					<td><span th:text="${dto.id}"></span></td>
+			            					<td><span th:text="${dto.name}"></span></td>
+			            					<td><span th:text="${dto.phoneNo}"></span></td>
+			            					<td><span th:text="${dto.email}"></span></td>
+			            					<td><span th:text="${dto.saveUpPoint}"></span></td>
+			            					<td><input type="button" value="상세" class="applyDetail text-white"></td>
+			            				</tr>
+	            					</th:block>
+	            				</tbody>
+	            			</table>
+            			</div>
+            		</div>
+            	</div>
 
 
 

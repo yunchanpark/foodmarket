@@ -40,8 +40,8 @@ public class Point extends BaseEntity implements Auditable {
 	@ManyToOne
 	@NotNull
 	@NonNull
-	@JoinColumn(name="id")
-	private Member id;
+	@JoinColumn(name="uid")
+	private Member uid;
 	
 	// 포인트 이름
 	@NotNull

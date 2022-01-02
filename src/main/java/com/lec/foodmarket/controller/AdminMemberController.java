@@ -8,21 +8,28 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import org.hibernate.internal.build.AllowSysOut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.google.gson.JsonObject;
 import com.lec.foodmarket.domain.Member;
+import com.lec.foodmarket.domain.Point;
+import com.lec.foodmarket.domain.PointCondition;
 import com.lec.foodmarket.domain.dto.MemberSerchDTO;
+import com.lec.foodmarket.domain.dto.PointDTO;
 import com.lec.foodmarket.service.MemberService;
 import com.lec.foodmarket.validator.MemberValidator;
+import com.lec.foodmarket.validator.PointValidator;
 
 @Controller
 @RequestMapping("/layout/admin/member")
@@ -30,12 +37,16 @@ public class AdminMemberController {
 
 	private MemberService memberService;
 	
+	// 회원관리 유효성
 	private MemberValidator memberValidator;
+	
+	private PointValidator pointValidator;
 
 	@Autowired
-	public AdminMemberController(MemberService memberService, MemberValidator memberValidator) {
+	public AdminMemberController(MemberService memberService, MemberValidator memberValidator, PointValidator pointValidator) {
 		this.memberService = memberService;
 		this.memberValidator = memberValidator;
+		this.pointValidator = pointValidator;
 	}
 	
 	public AdminMemberController() {;}
@@ -121,23 +132,132 @@ public class AdminMemberController {
 		json.addProperty("ck", memberList);
 		return json;
 	}
+
+	// 적립금 내역
+	@GetMapping("/pointList")
+	public String pointList(@Valid PointDTO pointDTO, BindingResult result,
+			Model model, RedirectAttributes redirectAttributes) {
+		pointValidator.validate(pointDTO, result);
+		
+		if(result.hasErrors()) {
+			if (result.getFieldError("selectStartDate") != null)
+				redirectAttributes.addFlashAttribute("errSelectStartDate", result.getFieldError("selectStartDate").getCode());
+			if (result.getFieldError("selectEndDate") != null)
+				redirectAttributes.addFlashAttribute("errSelectEndDate", result.getFieldError("selectEndDate").getCode());
+			redirectAttributes.addFlashAttribute("search", pointDTO);
+			return "redirect:/layout/admin/member/pointList";
+		}
+		
+		int division = pointDTO.getDivision();
+		String keyword = pointDTO.getKeyword();
+		String searchKeyword = pointDTO.getSearchKeyword();
+		LocalDate selectStartDate = pointDTO.getSelectStartDate();
+		LocalDate selectEndDate = pointDTO.getSelectEndDate();
+		LocalDateTime start;
+		LocalDateTime end;
+		
+		List<Point> list = new ArrayList<Point>();
+		
+		if(division == 2) {
+			if(keyword != null && (searchKeyword == null || searchKeyword.trim().length() == 0) && selectStartDate == null && selectEndDate == null) {
+				list = memberService.pointAllSelect();
+			}
+			else if (keyword != null && (searchKeyword != null || searchKeyword.trim().length() != 0) && selectStartDate == null && selectEndDate == null) {
+				// 키워드가 아이디일 때
+				if(keyword.equals("pointListId")) list = memberService.pointIdSelect(searchKeyword);
+				// 키워드가 회원명일 때
+				if(keyword.equals("pointListName")) list = memberService.pointNameSelect(searchKeyword);
+				// 키워드가 사유일 때
+				if(keyword.equals("pointListReason")) list = memberService.pointReasonSelect(searchKeyword);
+			} 
+			// 검색 카테고리와 날짜만 같이 입력했을 때
+			else if (keyword != null && (searchKeyword == null || searchKeyword.trim().length() == 0) && selectStartDate != null && selectEndDate != null) {
+				start = selectStartDate.atTime(0, 0, 0);
+				end = selectEndDate.atTime(23, 59, 59);
+				list = memberService.pointCreateAtSelect(start, end);
+			}
+			// 검색 카테고리와 날짜를 같이 입력했을 때
+			else if (keyword != null && (searchKeyword != null || searchKeyword.trim().length() != 0) && selectStartDate != null && selectEndDate != null) {
+				start = selectStartDate.atTime(0, 0, 0);
+				end = selectEndDate.atTime(23, 59, 59);
+				if(keyword.equals("pointListId")) list = memberService.pointCreateAtAndMemberId(searchKeyword, start, end);
+				if(keyword.equals("pointListName")) list = memberService.pointCreateAtAndMemberName(searchKeyword, start, end);
+				if(keyword.equals("pointListReason")) list = memberService.pointCreateAtAndReason(searchKeyword, start, end);
+			}
+		} else if (division != 2) {
+			if(keyword != null && (searchKeyword == null || searchKeyword.trim().length() == 0) && selectStartDate == null && selectEndDate == null) {
+				list = memberService.pointStatusSelect(division);
+			}
+			else if (keyword != null && (searchKeyword != null || searchKeyword.trim().length() != 0) && selectStartDate == null && selectEndDate == null) {
+				// 키워드가 아이디일 때
+				if(keyword.equals("pointListId")) list = memberService.pointStatusAndIdSelect(division, searchKeyword);
+				// 키워드가 회원명일 때
+				if(keyword.equals("pointListName")) list = memberService.pointStatusAndNameSelect(division, searchKeyword);
+				// 키워드가 사유일 때
+				if(keyword.equals("pointListReason")) list = memberService.pointStatusAndReasonSelect(division, searchKeyword);
+			} 
+			// 검색 카테고리와 날짜만 같이 입력했을 때
+			else if (keyword != null && (searchKeyword == null || searchKeyword.trim().length() == 0) && selectStartDate != null && selectEndDate != null) {
+				start = selectStartDate.atTime(0, 0, 0);
+				end = selectEndDate.atTime(23, 59, 59);
+				list = memberService.pointStatusAndCreateAtSelect(division, start, end);
+			}
+			// 검색 카테고리와 날짜를 같이 입력했을 때
+			else if (keyword != null && (searchKeyword != null || searchKeyword.trim().length() != 0) && selectStartDate != null && selectEndDate != null) {
+				start = selectStartDate.atTime(0, 0, 0);
+				end = selectEndDate.atTime(23, 59, 59);
+				if(keyword.equals("pointListId")) list = memberService.pointStatusAndCreateAtAndMemberId(division, searchKeyword, start, end);
+				if(keyword.equals("pointListName")) list = memberService.pointStatusAndCreateAtAndMemberName(division, searchKeyword, start, end);
+				if(keyword.equals("pointListReason")) list = memberService.pointStatusAndCreateAtAndReason(division, searchKeyword, start, end);
+			}
+		}
+		
+		model.addAttribute("search", pointDTO);
+		model.addAttribute("list",list);
+		
+		return "layout/admin/member/pointList";
+	}
+	
+	// 적립금 설정 
+	@GetMapping("/point")
+	public void point(PointCondition pointCondition, Model model) {
+		List<PointCondition> p =  memberService.pointConditionAllSelect();
+		model.addAttribute("point", p);
+	}
+
+	@PostMapping("/point")
+	public String updatePoint(PointCondition pointCondition) {
+		memberService.updatepointCondition(pointCondition);
+		return "redirect:/layout/admin/member/point";
+	}
+	
+	@PostMapping("/pointSave")
+	public String pointSave(@RequestParam(value="pointStatus", required = false) int Status, @RequestParam(value="pointName", required = false) String Name, 
+			@RequestParam(value="pointPrice", required = false) int price, @RequestParam(value="pointUid", required = false) Member uid, Point point, Member member) {
+		point = Point.builder()
+				.name(Name)
+				.point(price)
+				.uid(uid)
+				.status(Status)
+				.build();
+		memberService.pointSave(point);
+		System.out.println(point.getUid());
+		
+		member = point.getUid();
+		int a = member.getSaveUpPoint();
+		
+		if(Status == 0) {
+			price = price + a;
+		} else {
+			price = a - price;
+			price = price < 0 ? 0 : price;
+		}
+		memberService.memberSaveUpdate(member, price);
+		return "redirect:/layout/admin/member/list";
+	}
 	
 	@GetMapping("/operator")
 	public void operator() {;}
-	
-	@GetMapping("/point")
-	public void point() {;}
-	
-	
-	
-	/******************************************
-	 * POST 방식
-	 ******************************************/
-	// TODO
-	
-	
-	
-	
 	
 }
 
