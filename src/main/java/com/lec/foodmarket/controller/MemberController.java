@@ -89,7 +89,7 @@ public class MemberController {
 	public String deleteOk(HttpSession session) {
 		Member member = (Member)session.getAttribute("member");
 		long uid = member.getUid();
-		
+		memberService.pointDeleteByMember(member);
 		memberService.memberDeleteByid(uid);
 		session.invalidate();
 		
@@ -123,6 +123,30 @@ public class MemberController {
 				.status(0)
 				.build();
 		memberService.pointSave(point);
+		
+		if(memberService.checkIdDuplicate(member.getRecommender())) {
+			point = Point.builder()
+					.name("추천인, 적립금 지급")
+					.point(p.get(0).getRecommenderGive())
+					.uid(member)
+					.status(0)
+					.build();
+			memberService.pointSave(point);
+
+			int  saveUpPoint = (member.getSaveUpPoint() + p.get(0).getRecommenderGive());
+			memberService.memberSaveUpdate(member, saveUpPoint);
+			
+			Member mem = memberService.findById(member.getRecommender());
+			point = Point.builder()
+					.name("추천인, 적립금 지급")
+					.point(p.get(0).getRecommenderReceive())
+					.uid(mem)
+					.status(0)
+					.build();
+			memberService.pointSave(point);
+			int recommenderReceive = mem.getSaveUpPoint() + p.get(0).getRecommenderReceive();
+			memberService.memberSaveUpdate(mem, recommenderReceive);
+		}
 		
 		return "redirect:/layout/user/member/login";
 	}
