@@ -207,7 +207,7 @@ public class BoardService {
 		List<Member> member = memberRepository.findByNameContainsIgnoreCase(name);
 		List<Inquiry> list = new ArrayList<>();
 		for (int i = 0; i < member.size(); i++) {
-		list.addAll(inquiryRepository.findByIdAndStatus(member.get(0), status));
+		list.addAll(inquiryRepository.findByIdAndStatus(member.get(i), status));
 		}
 		return list;
 	}

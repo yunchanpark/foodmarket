@@ -147,7 +147,7 @@ public class AdminBoardController {
 						listt = boardService.InquiryNoAnswerTitleCreatedAtCnt(inquirycnt, searchKeyword, start, end);
 				}
 				if (keyword.equals("inquiry_id")) {
-					list = boardService.inquiryNameAndCreatedAtSelect(searchKeyword, start, end);
+					list = boardService.InquiryStatusAndNameAndCreatedAtSelect(inquirycnt, searchKeyword, start, end);
 					if (inquirycnt == 0)
 						listt = boardService.InquiryNoAnswerIdCreatedCnt(inquirycnt, searchKeyword, start, end);
 				}
