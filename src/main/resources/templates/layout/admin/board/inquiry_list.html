@@ -29,21 +29,21 @@
 					<div class="sect-top mt-30">
 						<form action="inquiry_list" method="get">
 							<div class="list-container flex-center bd-b-gray">
-								<span class="txt">구분</span>
-								<select style="width: 230px" name="answerkeyword" class="arr-bg arr-size-small">
-										<option value="2">--답변여부 전체--</option>
-										<option value="1">답변완료</option>
-										<option value="0">미답변</option>
+								<span class="txt">구분</span> <select style="width: 230px"
+									name="answerkeyword" class="arr-bg arr-size-small">
+									<option value="2">--답변여부 전체--</option>
+									<option value="1">답변완료</option>
+									<option value="0">미답변</option>
 								</select>
 							</div>
- 							<div class="list-container flex-center bd-b-gray">
-								<span class="txt">키워드</span> 
-								<select name="keyword" class="arr-bg arr-size-small" id="keyword">
+							<div class="list-container flex-center bd-b-gray">
+								<span class="txt">키워드</span> <select name="keyword"
+									class="arr-bg arr-size-small" id="keyword">
 									<option value="inquiry_title">제목</option>
 									<option value="inquiry_id">작성자</option>
-								</select> 
-								<input type="text" name="searchKeyword" class="arr-bg arr-size-nomal" value=""> 
-								<span class="err">[[${errSearchKeyword}]]</span>
+								</select> <input type="text" name="searchKeyword"
+									class="arr-bg arr-size-nomal" value=""> <span
+									class="err">[[${errSearchKeyword}]]</span>
 							</div>
 
 
@@ -62,7 +62,7 @@
 										class="err">[[${errSelectStartDate}]]</span> <span class="err">[[${errSelectEndDate}]]</span>
 								</div>
 							</div>
-							
+
 							<div class="btn-c">
 								<input type="submit"
 									class="btn-h52-blue w180 mr-20 btn-add-notice search_btn"
@@ -73,19 +73,15 @@
 				</div>
 				<div class="pc-switch">
 					<div class="sect-hd">
-            			<div class="result-title">
-            				검색 결과 
-            				<span class="title-option">
-            					( 총 : 
-            					<span class="pil-so">
-            						<th:block th:if="${inquiry_list != null}" th:text="${inquiry_list.size}">0</th:block>
-            					</span>개 / 미답변 : 
-            					<span class="pil-so">
-            						<th:block th:if="${listt != null}" th:text="${listt}" name="inquirycnt">0</th:block>
-            					</span>개
-            					)
-            				</span>
-            			</div>
+						<div class="result-title">
+							검색 결과 <span class="title-option"> ( 총 : <span
+								class="pil-so"> <th:block th:if="${inquiry_list != null}"
+										th:text="${inquiry_list.size}">0</th:block>
+							</span>개 / 미답변 : <span class="pil-so"> <th:block
+										th:if="${listt != null}" th:text="${listt}" name="inquirycnt">0</th:block>
+							</span>개 )
+							</span>
+						</div>
 					</div>
 					<!-- .sect-hd -->
 
@@ -110,6 +106,12 @@
 									</tr>
 								</thead>
 								<tbody>
+									<th:block th:if="${inquiry_list.size == 0}">
+										<tr>
+											<td colspan="11" style="color: gray">검색 조건을 확인 하신 후 검색
+												버튼을 클릭하세요.</td>
+										</tr>
+									</th:block>
 									<tr th:each="dto: ${inquiry_list}">
 										<td style="width: 10%"><div th:switch="${dto.status}"
 												class="inquiry_status">
