@@ -19,6 +19,10 @@
 				<form action="updateOk" method="post">
 					<div id="first">
 						<div id="register_title">내 정보</div>
+						<div id="pilsu-2">
+							사용가능 적립금 👉
+							<input type="text" class="longText-2" readonly="readonly" th:value="${session.member.saveUpPoint}">
+						</div>
 					</div>
 					<div id="second">
 						<table class="member_table">

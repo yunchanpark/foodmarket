@@ -233,6 +233,9 @@ public class AdminMemberController {
 	@PostMapping("/pointSave")
 	public String pointSave(@RequestParam(value="pointStatus", required = false) int Status, @RequestParam(value="pointName", required = false) String Name, 
 			@RequestParam(value="pointPrice", required = false) int price, @RequestParam(value="pointUid", required = false) Member uid, Point point, Member member) {
+		if(Status == 1) {
+			Name = "관리자 수기 차감";
+		}
 		point = Point.builder()
 				.name(Name)
 				.point(price)
@@ -256,8 +259,20 @@ public class AdminMemberController {
 	}
 	
 	@GetMapping("/operator")
-	public void operator() {;}
+	public void operator(Model model) {
+		String ADMIN = "ADMIN";
+		List<Member> list = new ArrayList<Member>();
+		list = memberService.findByRole(ADMIN);
+		model.addAttribute("list", list);
+	}
 	
+	@PostMapping("/operatorIns")
+	public String operatorIns(@RequestParam(value="operatorName", required = false) String operatorName, @RequestParam(value="operatorId", required = false) String operatorId, 
+			@RequestParam(value="operatorPw", required = false) String operatorPw, @RequestParam(value="pointUid", required = false) Member uid, Member member, Model model) {
+		
+	
+		return "redirect:/layout/admin/member/operator";
+	}
 }
 
 

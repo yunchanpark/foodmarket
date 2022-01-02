@@ -50,5 +50,20 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 	List<Member> findByPhoneNoContainsIgnoreCaseAndCreatedAtBetween(String phoneNo, LocalDateTime from, LocalDateTime to);
 	List<Member> findByEmailContainsIgnoreCaseAndCreatedAtBetween(String email, LocalDateTime from, LocalDateTime to);
 
+	// 키워드로만 검색
+	List<Member> findByRoleAndIdContainsIgnoreCase(String role, String id);
+	List<Member> findByRoleAndNameContainsIgnoreCase(String role, String name);
+	List<Member> findByRoleAndPhoneNoContainsIgnoreCase(String role, String phoneNo);
+	List<Member> findByRoleAndEmailContainsIgnoreCase(String role, String email);
 	
+	// 날짜로만 검색
+	List<Member> findByRoleAndCreatedAtBetween(String role, LocalDateTime from, LocalDateTime to);
+
+	// 날짜와 키워드 검색
+	List<Member> findByRoleAndIdContainsIgnoreCaseAndCreatedAtBetween(String role, String id, LocalDateTime from, LocalDateTime to);
+	List<Member> findByRoleAndNameContainsIgnoreCaseAndCreatedAtBetween(String role, String name, LocalDateTime from, LocalDateTime to);
+	List<Member> findByRoleAndPhoneNoContainsIgnoreCaseAndCreatedAtBetween(String role, String phoneNo, LocalDateTime from, LocalDateTime to);
+	List<Member> findByRoleAndEmailContainsIgnoreCaseAndCreatedAtBetween(String role, String email, LocalDateTime from, LocalDateTime to);
+
+	List<Member> findByRole(String role);
 }

@@ -24,7 +24,7 @@
 				<div class="px-4 mb-5 mt-4">
 					<div class="bg-white bd-gray">
 						<div class="result-title-2">
-							<input type="button" value="운영자 등록" class="apply2 text-white">
+							<input type="button" value="운영자 등록" id="operatorInsert" class="apply2 text-white ">
 						</div>
 						<div class="mt-30 table-wrap-2">
 							<table class="product-table">
@@ -43,13 +43,14 @@
 									<th:block th:each="dto : ${list}">
 										<tr>
 											<td><span th:text="${dto.uid}"></span></td>
-											<td><span th:text="${dto.id}"></span></td>
 											<td><span th:text="${dto.name}"></span></td>
+											<td><span th:text="${dto.id}"></span></td>
 											<td><span th:text="${dto.phoneNo}"></span></td>
 											<td><span th:text="${dto.email}"></span></td>
 											<td><span th:text="${dto.saveUpPoint}"></span></td>
-											<td><input type="button" value="상세"
-												class="applyDetail text-white"></td>
+											<td><input type="button" value="수정" id="operatorCor" class="applyDetail text-white">
+												<img class="memberdelete" th:src="@{/images/delete.png}">
+											</td>
 										</tr>
 									</th:block>
 								</tbody>
@@ -59,6 +60,7 @@
 				</div>
 
 				<!-- 운영자 등록 레이어 -->
+				<form action="operatorIns" method="post">
 				<div class="listDetailWrap-3">
 					<div class="listDetail">
 						<div class="DetailHeader">
@@ -67,37 +69,36 @@
 						<table class="listTable">
 							<tr>
 								<th>이름</th>
-								<td><input type="text" class="edit" id="listName"
-									 value="" /></td>
+								<td><input type="text" class="edit" id="operatorName" name="operatorName" value="" /></td>
 							</tr>
 							<tr>
 								<th>아이디</th>
-								<td><input type="text" class="edit" id="listPhoneNo"
-									 value="" /></td>
+								<td><input type="text" class="edit" id="operatorId" name="operatorId" value="" /></td>
 							</tr>
 							<tr>
 								<th>비밀번호</th>
-								<td><input type="text" class="edit" id="listEmail"
-									 value="" /></td>
+								<td><input type="text" class="edit" id="operatorPw" name="operatorPw" value="" /></td>
 							</tr>
 							<tr>
 								<th class="underth">권한</th>
-								<td class="undertd"><input type="checkbox" id="checkbox" name="checkbox"
-									class="checkbox" onclick='selectAll(this)'> 상품관리</td>
+								<td class="undertd">
+									<input type="checkbox" id="checkbox" name="checkbox" class="checkbox" onclick='selectAll(this)'> 상품관리
+								</td>
 							</tr>
 
 							<tr>
 								<th class="underth"></th>
-								<td class="undertd"><input type="checkbox" id="checkbox" name="checkbox"
-									class="checkbox" onclick='selectAll(this)'> 사용자관리</td>
+								<td class="undertd">
+									<input type="checkbox" id="checkbox" name="checkbox" class="checkbox" onclick='selectAll(this)'> 사용자관리
+								</td>
 							</tr>
 
 							<tr>
 								<th class="underth"></th>
-								<td class="undertd"><input type="checkbox" id="checkbox" name="checkbox"
-									class="checkbox" onclick='selectAll(this)'> 게시판관리</td>
+								<td class="undertd">
+									<input type="checkbox" id="checkbox" name="checkbox" class="checkbox" onclick='selectAll(this)'> 게시판관리
+								</td>
 							</tr>
-
 						</table>
 						<div class="btm">
 							<div class="btn-c">
@@ -106,7 +107,7 @@
 						</div>
 					</div>
 				</div>
-
+				</form>
 
 				<!-- 운영자 수정 레이어 -->
 				<div class="listDetailWrap-4">
@@ -168,6 +169,7 @@
 	<!-- 본문 끝 -->
 	<!--plugin-->
 	<th:block th:include="@{/layout/admin/includes/plugin.html}"></th:block>
+	<script th:src="@{/js/adminMember.js}"></script>
 	<!--plugin끝-->
 </body>
 </html>

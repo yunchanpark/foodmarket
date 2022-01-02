@@ -127,8 +127,17 @@ $(document).ready(function() {
 		alert("저장되었습니다.");
 		$("form").submit();
 	});
+	
+	$('#operatorInsert').on('click', function() {
+		$('.listDetailWrap-3').show();
+	});
+
+	$('#operatorCor').on('click', function() {
+		$('.listDetailWrap-4').show();
+	});
 
 });
+
 
 
 

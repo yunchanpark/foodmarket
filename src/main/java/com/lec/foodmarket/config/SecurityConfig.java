@@ -42,6 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { // 등록할 
 			.headers()
 			.frameOptions()
 			.sameOrigin();
+		
 		// HttpSecurity 객체
 		http
 			.csrf().disable()

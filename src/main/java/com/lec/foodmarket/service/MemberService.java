@@ -127,54 +127,55 @@ public class MemberService {
 	/******************************************
 	 * 관리자
 	 ******************************************/
+	String role = "MEMBER";
 	// 모든 회원 검색
 	public List<Member> memberAllSelect() {
-		return memberRepository.findAll();
+		return memberRepository.findByRole(role);
 	}
 
 	// 키워드 아이디 검색
 	public List<Member> memberIdSelect(String id) {
-		return memberRepository.findByIdContainsIgnoreCase(id);
+		return memberRepository.findByRoleAndIdContainsIgnoreCase(role, id);
 	}
 
 	// 키워드 이름 검색
 	public List<Member> memberNameSelect(String name) {
-		return memberRepository.findByNameContainsIgnoreCase(name);
+		return memberRepository.findByRoleAndNameContainsIgnoreCase(role, name);
 	}
 
 	// 키워드 휴대폰번호 검색
 	public List<Member> memberPhoneNoSelect(String PhoneNo) {
-		return memberRepository.findByPhoneNoContainsIgnoreCase(PhoneNo);
+		return memberRepository.findByRoleAndPhoneNoContainsIgnoreCase(role, PhoneNo);
 	}
 
 	// 키워드 이메일 검색
 	public List<Member> memberEmailSelect(String Email) {
-		return memberRepository.findByEmailContainsIgnoreCase(Email);
+		return memberRepository.findByRoleAndEmailContainsIgnoreCase(role, Email);
 	}
 
 	// 가입일로 회원 검색
 	public List<Member> memberCreateAtSelect(LocalDateTime from, LocalDateTime to) {
-		return memberRepository.findByCreatedAtBetween(from, to);
+		return memberRepository.findByRoleAndCreatedAtBetween(role, from, to);
 	}
 
 	// 가입일과 아이디로 회원 검색
 	public List<Member> memberCreateAtAndMemberId(String id, LocalDateTime from, LocalDateTime to) {
-		return memberRepository.findByIdContainsIgnoreCaseAndCreatedAtBetween(id, from, to);
+		return memberRepository.findByRoleAndIdContainsIgnoreCaseAndCreatedAtBetween(role, id, from, to);
 	}
 
 	// 가입일과 이름로 회원 검색
 	public List<Member> memberCreateAtAndMemberName(String name, LocalDateTime from, LocalDateTime to) {
-		return memberRepository.findByNameContainsIgnoreCaseAndCreatedAtBetween(name, from, to);
+		return memberRepository.findByRoleAndNameContainsIgnoreCaseAndCreatedAtBetween(role, name, from, to);
 	}
 
 	// 가입일과 휴대폰번호로 회원 검색
 	public List<Member> memberCreateAtAndMemberPhoneNo(String phoneNo, LocalDateTime from, LocalDateTime to) {
-		return memberRepository.findByPhoneNoContainsIgnoreCaseAndCreatedAtBetween(phoneNo, from, to);
+		return memberRepository.findByRoleAndPhoneNoContainsIgnoreCaseAndCreatedAtBetween(role, phoneNo, from, to);
 	}
 
 	// 가입일과 이메일로 회원 검색
 	public List<Member> memberCreateAtAndMemberEmail(String email, LocalDateTime from, LocalDateTime to) {
-		return memberRepository.findByEmailContainsIgnoreCaseAndCreatedAtBetween(email, from, to);
+		return memberRepository.findByRoleAndEmailContainsIgnoreCaseAndCreatedAtBetween(role, email, from, to);
 	}
 
 	// 회원 상세보기
@@ -318,6 +319,10 @@ public class MemberService {
 	// 지급내역 or 사용내역과 사유와 날짜로 검색
 	public List<Point> pointStatusAndCreateAtAndReason(int status, String reason, LocalDateTime from, LocalDateTime to) {
 		return pointRepository.findByStatusAndNameContainsIgnoreCaseAndCreatedAtBetween(status, reason, from, to);
+	}
+
+	public List<Member> findByRole(String admin) {
+		return memberRepository.findByRole(admin);
 	}
 
 	
