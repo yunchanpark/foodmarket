@@ -27,15 +27,15 @@ public class NoticeSearchValidator implements Validator{
 	
 		
 		if(noticeselectStartDate != null && noticeselectEndDate == null) {
-			errors.rejectValue("selectEndDate", "검색 끝나는 날짜도 입력해주세요");
+			errors.rejectValue("selectEndDate", "검색 종료 날짜도 입력해주세요.");
 		}
 		
 		if(noticeselectStartDate == null && noticeselectEndDate != null) {
-			errors.rejectValue("selectStartDate", "검색 시작하는 날짜도 입력해주세요");
+			errors.rejectValue("selectStartDate", "검색 시작 날짜도 입력해주세요.");
 		}
 		
 		if (noticeselectStartDate != null && noticeselectEndDate != null) {
-			if ((noticeselectEndDate.compareTo(noticeselectStartDate) < 0)) errors.rejectValue("selectStartDate", "등록 시작 시간이 등록 끝 시간 보다 클 수 없습니다.");
+			if ((noticeselectEndDate.compareTo(noticeselectStartDate) < 0)) errors.rejectValue("selectStartDate", "검색 시작 날짜가 검색 종료 날짜보다 클 수 없습니다.");
 		}
 	}
 	

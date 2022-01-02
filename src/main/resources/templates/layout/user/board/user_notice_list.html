@@ -33,7 +33,6 @@
 							</tr>
 						</thead>
 						<tbody>
-
 							<tr th:each="dto: ${user_notice_list}">
 								<td>[[${dto.noticeNo }]]</td>
 								<td><a th:href="@{user_notice_view(noticeNo=${dto.noticeNo })}">[[${dto.title }]]</a></td>

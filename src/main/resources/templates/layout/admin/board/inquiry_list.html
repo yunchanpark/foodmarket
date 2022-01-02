@@ -36,7 +36,7 @@
 										<option value="0">미답변</option>
 								</select>
 							</div>
-							<div class="list-container flex-center bd-b-gray">
+ 							<div class="list-container flex-center bd-b-gray">
 								<span class="txt">키워드</span> 
 								<select name="keyword" class="arr-bg arr-size-small" id="keyword">
 									<option value="inquiry_title">제목</option>
@@ -73,10 +73,19 @@
 				</div>
 				<div class="pc-switch">
 					<div class="sect-hd">
-						<h3>검색 결과</h3>
-						<span> (미답변 : <em class="prd-total js-commentEmptyCnt">0</em>
-							/ 총 : <em class="prd-total js-totalCnt">0</em>)
-						</span>
+            			<div class="result-title">
+            				검색 결과 
+            				<span class="title-option">
+            					( 총 : 
+            					<span class="pil-so">
+            						<th:block th:if="${inquiry_list != null}" th:text="${inquiry_list.size}">0</th:block>
+            					</span>개 / 미답변 : 
+            					<span class="pil-so">
+            						<th:block th:if="${listt != null}" th:text="${listt}" name="inquirycnt">0</th:block>
+            					</span>개
+            					)
+            				</span>
+            			</div>
 					</div>
 					<!-- .sect-hd -->
 
@@ -88,7 +97,6 @@
 									<col style="width: 108px">
 									<col style="width: 95px">
 									<col style="width: 79px">
-									<col>
 									<col style="width: 110px">
 									<col style="width: 119px">
 								</colgroup>

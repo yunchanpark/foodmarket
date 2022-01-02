@@ -15,6 +15,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class InquirySearchDTO {
+	
+	private int inquirycnt;
 
 	private String keyword;
 	

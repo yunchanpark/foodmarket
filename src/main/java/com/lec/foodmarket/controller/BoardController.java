@@ -107,7 +107,11 @@ public class BoardController {
 	}
 	
 	
-	
+	// road
+	@RequestMapping("/road")
+	public void road(Model model) {
+		model.addAttribute("road", boardService.user_road());}
+
 	
 	
 	

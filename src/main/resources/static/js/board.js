@@ -79,10 +79,10 @@ $(document).ready(function() {
 				data: {
 					'noticeNoArr': checkedValue
 				}, success: function() {
-
 				}
 			});
 		}
+		location.reload();
 	});
 
 	/* 전체 선택 */

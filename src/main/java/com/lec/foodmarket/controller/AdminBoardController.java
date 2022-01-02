@@ -79,7 +79,7 @@ public class AdminBoardController {
 			RedirectAttributes redirectAttrs) {
 		// 상품 검색 유효성 바인딩
 		inquirysearchValidator.validate(inquirysearchDTO, result);
-
+		int listt = 0;
 		if (result.hasErrors()) {
 			System.out.println(inquirysearchDTO);
 			if (result.getFieldError("selectStartDate") != null)
@@ -91,6 +91,7 @@ public class AdminBoardController {
 			return "redirect:/layout/admin/board/inquiry_list";
 		}
 
+		int inquirycnt = inquirysearchDTO.getInquirycnt();
 		String keyword = inquirysearchDTO.getKeyword();
 		int answerkeyword = inquirysearchDTO.getAnswerkeyword();
 		String searchKeyword = inquirysearchDTO.getSearchKeyword();
@@ -100,53 +101,147 @@ public class AdminBoardController {
 		LocalDateTime end;
 
 		List<Inquiry> list = new ArrayList<Inquiry>();
+
 		Inquiry inquiry;
 
-//		if(answerkeyword == 1) {
-//			list = boardService.inquiryStatusSelect(searchKeyword);
-//		}
-		
-		
 		// 검색 버튼만 눌렀을 때
-		if (answerkeyword != 2 && keyword != null && (searchKeyword == null || searchKeyword.trim().length() == 0)
-				&& selectStartDate == null && selectEndDate == null) {
+		if (keyword != null && (searchKeyword == null || searchKeyword.trim().length() == 0) && selectStartDate == null
+				&& selectEndDate == null) {
 			list = boardService.inquiry_list();
-			System.out.println(list + ";;");
 		}
-		// 답변 여부 전체
-		if (answerkeyword == 2) {
+
+		// 미 답변일 때
+		if (answerkeyword == 0) {
 			// 검색 카테고리와 검색 키워드만 입력했을 때
 			if (keyword != null && (searchKeyword != null || searchKeyword.trim().length() == 0)
 					&& selectStartDate == null && selectEndDate == null) {
+
 				// 검색 카테고리가 제목일 때
-				if (keyword.equals("inquiry_title"))
-					list = boardService.inquiryTitleSelect(searchKeyword);
+				if (keyword.equals("inquiry_title")) {
+					list = boardService.inquiryStatusAndTitleSelect(answerkeyword, searchKeyword);
+					if (inquirycnt == 0)
+						listt = boardService.InquiryNoAnswerTitleCnt(inquirycnt, searchKeyword);
+				}
 				// 검색 카테고리가 이름일 때
-				if (keyword.equals("inquiry_id"))
-					list = boardService.inquiryNameSelect(searchKeyword);
+				if (keyword.equals("inquiry_id")) {
+					list = boardService.inquiryStatusAndNameSelect(searchKeyword, answerkeyword);
+					if (inquirycnt == 0)
+						listt = boardService.InquiryNoAnswerIdCnt(inquirycnt, searchKeyword);
+				}
 			}
 			// 검색 카테고리와 날짜를 같이 입력했을 때////////////////
 			else if (keyword != null && (searchKeyword == null || searchKeyword.trim().length() == 0)
 					&& selectStartDate != null && selectEndDate != null) {
 				start = selectStartDate.atTime(0, 0, 0);
 				end = selectEndDate.atTime(23, 59, 59);
-				list = boardService.InquiryCreatedAtSelect(start, end);
-			} 
-			else if (keyword != null && (searchKeyword != null || searchKeyword.trim().length() != 0)
+				list = boardService.InquiryStatusAndCreatedAtSelect(answerkeyword, start, end);
+				if (inquirycnt == 0)
+					listt = boardService.InquiryNoAnswerTitleCreatedAtCnt(inquirycnt, searchKeyword, start, end);
+			} else if (keyword != null && (searchKeyword != null || searchKeyword.trim().length() != 0)
+					&& selectStartDate != null && selectEndDate != null) {
+				start = selectStartDate.atTime(0, 0, 0);
+				end = selectEndDate.atTime(23, 59, 59);
+				if (keyword.equals("inquiry_title")) {
+					list = boardService.InquiryStatusAndTitleAndCreatedAtSelect(inquirycnt,searchKeyword, start, end);
+					if (inquirycnt == 0)
+						listt = boardService.InquiryNoAnswerTitleCreatedAtCnt(inquirycnt, searchKeyword, start, end);
+				}
+				if (keyword.equals("inquiry_id")) {
+					list = boardService.inquiryNameAndCreatedAtSelect(searchKeyword, start, end);
+					if (inquirycnt == 0)
+						listt = boardService.InquiryNoAnswerIdCreatedCnt(inquirycnt, searchKeyword, start, end);
+				}
+			}
+		}
+
+		// 답변완료일 때
+		if (answerkeyword == 1) {
+			// 검색 카테고리와 검색 키워드만 입력했을 때
+			if (keyword != null && (searchKeyword != null || searchKeyword.trim().length() == 0)
+					&& selectStartDate == null && selectEndDate == null) {
+
+				// 검색 카테고리가 제목일 때
+				if (keyword.equals("inquiry_title")) {
+					list = boardService.inquiryStatusAndTitleSelect(answerkeyword, searchKeyword);
+				}
+				// 검색 카테고리가 이름일 때
+				if (keyword.equals("inquiry_id"))
+					list = boardService.inquiryStatusAndNameSelect(searchKeyword, answerkeyword);
+			}
+			// 검색 카테고리와 날짜를 같이 입력했을 때////////////////
+			else if (keyword != null && (searchKeyword == null || searchKeyword.trim().length() == 0)
+					&& selectStartDate != null && selectEndDate != null) {
+				start = selectStartDate.atTime(0, 0, 0);
+				end = selectEndDate.atTime(23, 59, 59);
+				list = boardService.InquiryStatusAndCreatedAtSelect(answerkeyword, start, end);
+			} else if (keyword != null && (searchKeyword != null || searchKeyword.trim().length() != 0)
 					&& selectStartDate != null && selectEndDate != null) {
 				start = selectStartDate.atTime(0, 0, 0);
 				end = selectEndDate.atTime(23, 59, 59);
 				if (keyword.equals("inquiry_title"))
-					list = boardService.InquiryTitleAndCreatedAtSelect(searchKeyword, start, end);
+					list = boardService.InquiryStatusAndTitleAndCreatedAtSelect(answerkeyword, searchKeyword, start,
+							end);
 				if (keyword.equals("inquiry_id"))
-					list = boardService.InquiryNameAndCreatedAtSelect(searchKeyword, start, end);
+					list = boardService.InquiryStatusAndNameAndCreatedAtSelect(answerkeyword, searchKeyword, start,
+							end);
 			}
 		}
 
+		// 답변 여부 전체일 때
+		if (answerkeyword == 2) {
+			// 검색 카테고리와 검색 키워드만 입력했을 때
+			if (keyword != null && (searchKeyword == null || searchKeyword.trim().length() == 0)
+					&& selectStartDate == null && selectEndDate == null) {
+				list = boardService.inquiry_list();
+				if (inquirycnt == 0)
+					listt = boardService.InquiryNoAnswerCnt(inquirycnt);
+			}
+			// 검색 카테고리와 검색 키워드만 입력했을 때
+			else if (keyword != null && (searchKeyword != null || searchKeyword.trim().length() == 0)
+					&& selectStartDate == null && selectEndDate == null) {
+				// 검색 카테고리가 제목일 때
+				if (keyword.equals("inquiry_title")) {
+					list = boardService.inquiryStatusAndTitleSelect(inquirycnt, searchKeyword);
+					if (inquirycnt == 0)
+						listt = boardService.InquiryNoAnswerTitleCnt(inquirycnt, searchKeyword);
+				}
+				// 검색 카테고리가 이름일 때
+				if (keyword.equals("inquiry_id")) {
+					list = boardService.inquiryNameSelect(searchKeyword);
+					if (inquirycnt == 0)
+						listt = boardService.InquiryNoAnswerIdCnt(inquirycnt, searchKeyword);
+				}
+			}
+			// 검색 카테고리와 날짜를 같이 입력했을 때////////////////
+			else if (keyword != null && (searchKeyword == null || searchKeyword.trim().length() == 0)
+					&& selectStartDate != null && selectEndDate != null) {
+				start = selectStartDate.atTime(0, 0, 0);
+				end = selectEndDate.atTime(23, 59, 59);
+				list = boardService.inquiryCreatedAtSelect(start, end);
+				if (inquirycnt == 0)
+					listt = boardService.InquiryNoAnswerTitleCreatedAtCnt(inquirycnt, searchKeyword, start, end);
+			} else if (keyword != null && (searchKeyword != null || searchKeyword.trim().length() != 0)
+					&& selectStartDate != null && selectEndDate != null) {
+				start = selectStartDate.atTime(0, 0, 0);
+				end = selectEndDate.atTime(23, 59, 59);
+				if (keyword.equals("inquiry_title")) {
+					list = boardService.inquiryTitleAndCreatedAtSelect(searchKeyword, start, end);
+					if (inquirycnt == 0)
+						listt = boardService.InquiryNoAnswerTitleCreatedAtCnt(inquirycnt, searchKeyword, start, end);
+				}
+				if (keyword.equals("inquiry_id")) {
+					list = boardService.inquiryNameAndCreatedAtSelect(searchKeyword, start, end);
+					if (inquirycnt == 0)
+						listt = boardService.InquiryNoAnswerIdCreatedCnt(inquirycnt, searchKeyword, start, end);
+				}
+			}
+		}
 
 		model.addAttribute("search", inquirysearchDTO);
 		model.addAttribute("inquiry_list", list);
+		model.addAttribute("listt", listt);
 		System.out.println(list);
+		System.out.println(listt + "?????????");
 		return "layout/admin/board/inquiry_list";
 	}
 

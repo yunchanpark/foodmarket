@@ -158,11 +158,43 @@ table {
     width: 650px;
     height: 50px;
     vertical-align:middle;
+    float : right;
+    margin-right : 70px;
+    padding : 10px;
+}
+.form-content{
+	height : 200px;
+	padding : 10px;
+}
+
+.imageinput{
+	height : 40px;
+	background-color: var(--sect-gray);
+    border: 1px solid var(--bd-gray);
+}
+
+.fileselect{
+	cursor: pointer;
+    border-radius: 5px;
+    color: white;
+    background-color: var(--bg-green);
+    font-size: 16px;
+    text-align: center;
+    width: 80px;
+    height: 40px;
+    line-height: 35px;
+    float:right;
+    margin-right : 450px;
+    margin-top : 9px;
 }
 
 .total{
-    margin-top: 5px;
-    
+    margin-top: 20px;
+}
+
+.imagess{
+	width:100%;
+	margin-top : 10px;
 }
 
 .notice_list_title{
@@ -292,9 +324,7 @@ table {
     height: 600px;
 }
 
-.fileselect{
-	background-color: #337ab7;
-}
+
   
 }
 /* pc 화면 끝 */

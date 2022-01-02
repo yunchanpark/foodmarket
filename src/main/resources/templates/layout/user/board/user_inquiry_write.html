@@ -10,6 +10,37 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <!-- head 끝 -->
 
+<script>
+	// form 검증(validation)
+	function chkSubmit() {
+
+		frm = document.forms['frm'];
+
+		var content = frm['content'].value.trim();
+		var subject = frm['title'].value.trim();
+		var product_image_orgin_name = frm['product_image_orgin_name'].value
+				.trim();
+
+		if (subject == "") {
+			alert("제목은 반드시 작성해야 합니다");
+			frm["title"].focus();
+			return false;
+		}
+		if (product_image_orgin_name == "") {
+			alert("사진은 반드시 첨부해야 합니다");
+			frm['product_image_orgin_name'].focus();
+			return false;
+		}
+		if (content == "") {
+			alert("내용은 반드시 입력해야 합니다");
+			frm['content'].focus();
+			return false;
+		}
+
+		return true;
+	}
+</script>
+
 <body>
 	<div class="wrap">
 		<!-- header -->
@@ -28,37 +59,37 @@
 					<form id="frm" name="frm" action="user_inquiry_writeOk"
 						method="post" onsubmit="return chkSubmit()"
 						enctype="Multipart/form-data">
-
-						<div class="notice_list_title total">
-							<label class="lab" for="title">제목</label> <input type="text"
-								class="form-control" id="title" placeholder="제목을 입력하세요"
-								name="title">
-						</div>
-
-						<div class="notice_list_writer total">
-							<label class="lab" for="id">작성자</label> <input type="text"
-								class="form-control" id="id" th:value="${session.member.name }" name="id"
-								readonly="readonly">
-						</div>
-
-						<div class="notice_list_content total">
-							<label class="lab lab_content" for="content">내용</label>
-							<textarea class="form-control" rows="5" id="content"
-								placeholder="내용을 입력하세요" name="content" style="resize: none;"></textarea>
-						</div>
-
-						<!-- 첨부파일 -->
-
-						<div class="container mt-3 mb-3 border rounded">
-							<div class="mb-3 mt-3 total">
-								<span class="lab"> 이미지</span> 
-								<input type="text" id="product_image_value" class="arr-bg arr-size-2 product_image_value" disabled /> 
-								<input type="file" name="image" id="product_image_orgin_name"class="product_image_orgin_name" /> 
-								<label for="product_image_orgin_name" class="product_image_label fileselect">파일선택 </label>
-								
+						<div class="notice_middle">
+							<div class="notice_list_title total">
+								<label class="lab" for="title"><a>제목</a></label> <input
+									type="text" class="form-control" id="title"
+									placeholder="제목을 입력하세요" name="title">
 							</div>
+
+							<div class="notice_list_writer total">
+								<label class="lab" for="id"><a>작성자</a></label> <input
+									type="text" class="form-control" id="id"
+									th:value="${session.member.name }" name="id"
+									readonly="readonly">
+							</div>
+							<div class="mb-3 mt-3 total imagess">
+								<span class="lab"> <a>이미지</a></span> 
+								<input type="text" id="product_image_value" class="product_image_value imageinput" disabled /> 
+									<input type="file" name="image" id="product_image_orgin_name" class="product_image_orgin_name" />
+								<label for="product_image_orgin_name" class="fileselect">파일선택
+								</label>
+							</div>
+
+							<div class="notice_list_content total">
+								<label class="lab lab_content" for="content"><a>내용</a></label>
+								<textarea class="form-control form-content" rows="5"
+									id="content" placeholder="내용을 입력하세요" name="content"
+									style="resize: none;"></textarea>
+							</div>
+
+							<!-- 첨부파일 -->
+
 						</div>
-						
 						<!-- 첨부파일 -->
 
 						<button type="submit" class="btn btn-outline-dark"
@@ -80,7 +111,7 @@
 	</div>
 	<!-- plugin -->
 	<th:block th:include="@{/layout/user/includes/plugin.html}"></th:block>
-		<script th:src="@{/js/board.js}"></script>
+	<script th:src="@{/js/board.js}"></script>
 	<!-- plugin 끝 -->
 </body>
 

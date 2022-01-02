@@ -66,7 +66,11 @@ public class BoardService {
 	// 공지사항 이름 검색
 	public List<Notice> noticeNameSelect(String name) {
 		List<Member> member = memberRepository.findByNameContainsIgnoreCase(name);
-		return noticeRepository.findById(member.get(0));
+		List<Notice> list = new ArrayList<Notice>();
+		for(int i = 0; i < member.size(); i++) {
+		list.addAll(noticeRepository.findById(member.get(i)));
+		}
+		return list;
 	}
 
 	// 작성자와 제목 선택 안하고 등록날짜로 검색
@@ -82,7 +86,11 @@ public class BoardService {
 	// 공지사항 이름과 등록날짜로 검색
 	public List<Notice> noticeNameAndCreatedAtSelect(String name, LocalDateTime from, LocalDateTime to) {
 		List<Member> member = memberRepository.findByNameContainsIgnoreCase(name);
-		return noticeRepository.findByIdAndCreatedAtBetween(member.get(0), from, to);
+		List<Notice> list = new ArrayList<Notice>();
+		for(int i = 0; i < member.size(); i++) {
+		list.addAll(noticeRepository.findByIdAndCreatedAtBetween(member.get(i), from, to));
+		}
+		return list;
 	}
 
 	public int notice_write(Notice dto) {
@@ -154,13 +162,6 @@ public class BoardService {
 		return inquiryRepository.findAll(Sort.by(Direction.DESC, "inquiryNo"));
 	}
 
-	// 1:1 문의 미답변 검색
-//	public List<Inquiry> inquiryStatusSelect(String status){
-//		return inquiryRepository.findByStatus(status);
-//	}
-
-
-
 	// 1:1 문의 제목 검색
 	public List<Inquiry> inquiryTitleSelect(String title) {
 		return inquiryRepository.findByTitleContainsIgnoreCase(title);
@@ -169,37 +170,99 @@ public class BoardService {
 	// 1:1 문의 이름 검색
 	public List<Inquiry> inquiryNameSelect(String name) {
 		List<Member> member = memberRepository.findByNameContainsIgnoreCase(name);
-		return inquiryRepository.findById(member.get(0));
+		List<Inquiry> list = new ArrayList<>();
+		for (int i = 0; i < member.size(); i++) {
+			list.addAll(inquiryRepository.findById(member.get(i)));
+		}
+		return list;
 	}
 
 	// 작성자와 제목 선택 안하고 등록날짜로 검색
-	public List<Inquiry> InquiryCreatedAtSelect(LocalDateTime from, LocalDateTime to) {
+	public List<Inquiry> inquiryCreatedAtSelect(LocalDateTime from, LocalDateTime to) {
 		return inquiryRepository.findByCreatedAtBetween(from, to);
 	}
 
-	// 공지사항 제목과 등록날짜로 검색
-	public List<Inquiry> InquiryTitleAndCreatedAtSelect(String title, LocalDateTime from, LocalDateTime to) {
+	// 1:1 문의 제목과 등록날짜로 검색
+	public List<Inquiry> inquiryTitleAndCreatedAtSelect(String title, LocalDateTime from, LocalDateTime to) {
 		return inquiryRepository.findByTitleContainsIgnoreCaseAndCreatedAtBetween(title, from, to);
 	}
 
-	// 공지사항 이름과 등록날짜로 검색
-	public List<Inquiry> InquiryNameAndCreatedAtSelect(String name, LocalDateTime from, LocalDateTime to) {
+	// 1:1 문의 이름과 등록날짜로 검색
+	public List<Inquiry> inquiryNameAndCreatedAtSelect(String name, LocalDateTime from, LocalDateTime to) {
 		List<Member> member = memberRepository.findByNameContainsIgnoreCase(name);
-		return inquiryRepository.findByIdAndCreatedAtBetween(member.get(0), from, to);
+		List<Inquiry> list = new ArrayList<>();
+		for (int i = 0; i < member.size(); i++) {
+			list.addAll(inquiryRepository.findByIdAndCreatedAtBetween(member.get(i), from, to));
+		}
+		return list;
+	}
+
+	// 1:1 문의 답변상태와 제목 검색
+	public List<Inquiry> inquiryStatusAndTitleSelect(int status, String title) {
+		return inquiryRepository.findByStatusAndTitleContainsIgnoreCase(status, title);
+	}
+
+	// 1:1 문의 답변상태와 이름 검색
+	public List<Inquiry> inquiryStatusAndNameSelect(String name, int status) {
+		List<Member> member = memberRepository.findByNameContainsIgnoreCase(name);
+		List<Inquiry> list = new ArrayList<>();
+		for (int i = 0; i < member.size(); i++) {
+		list.addAll(inquiryRepository.findByIdAndStatus(member.get(0), status));
+		}
+		return list;
+	}
+
+	// 작성자와 제목 선택 안하고 답변상태와 등록날짜로 검색
+	public List<Inquiry> InquiryStatusAndCreatedAtSelect(int status, LocalDateTime from, LocalDateTime to) {
+		return inquiryRepository.findByStatusAndCreatedAtBetween(status, from, to);
+	}
+
+	// 1:1 문의 답변상태와 제목과 등록날짜로 검색
+	public List<Inquiry> InquiryStatusAndTitleAndCreatedAtSelect(int status, String title, LocalDateTime from,
+			LocalDateTime to) {
+		return inquiryRepository.findByStatusAndTitleContainsIgnoreCaseAndCreatedAtBetween(status, title, from, to);
+	}
+
+	// 1:1 문의 답변상태와 이름과 등록날짜로 검색
+	public List<Inquiry> InquiryStatusAndNameAndCreatedAtSelect(int status, String name, LocalDateTime from,
+			LocalDateTime to) {
+		List<Member> member = memberRepository.findByNameContainsIgnoreCase(name);
+		List<Inquiry> list = new ArrayList<>();
+		for (int i = 0; i < member.size(); i++) {
+		list.addAll(inquiryRepository.findByStatusAndIdAndCreatedAtBetween(status, member.get(i), from, to));
+		}
+		return list;
+	}
+
+	// 미답변 cnt
+	public int InquiryNoAnswerCnt(int status) {
+		return inquiryRepository.countByStatus(status);
+	}
+
+	// 제목과 미답변 개수
+	public int InquiryNoAnswerTitleCnt(int status, String title) {
+		return inquiryRepository.countByStatusAndTitleContainsIgnoreCase(status, title);
+	}
+
+	// 이름과 미답변 개수
+	public int InquiryNoAnswerIdCnt(int status, String name) {
+		List<Member> member = memberRepository.findByNameContainsIgnoreCase(name);
+		return inquiryRepository.countByStatusAndId(status, member.get(0));
 	}
 	
+	// 이름 시간 미답변 개수
+	public int InquiryNoAnswerIdCreatedCnt(int status, String name , LocalDateTime from, LocalDateTime to) {
+		List<Member> member = memberRepository.findByNameContainsIgnoreCase(name);
+		return inquiryRepository.countByIdAndStatusAndCreatedAtBetween(member.get(0), status, from, to);
+
+	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+	// 제목 시간 미답변 개수
+	public int InquiryNoAnswerTitleCreatedAtCnt(int status, String title, LocalDateTime from, LocalDateTime to) {
+		return inquiryRepository.countByStatusAndTitleContainsIgnoreCaseAndCreatedAtBetween(status, title, from, to);
+	}
+
 	// 글 수정
 	public int inquiry_update(Inquiry dto) {
 		int cnt = 0;
@@ -214,8 +277,7 @@ public class BoardService {
 		}
 		return cnt;
 	}
-	
-	
+
 	// 미답변 개수
 
 	/******************************************
@@ -290,6 +352,11 @@ public class BoardService {
 
 		return result;
 
+	}
+
+	public Object user_road() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
