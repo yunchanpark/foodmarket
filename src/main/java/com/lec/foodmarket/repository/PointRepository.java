@@ -24,6 +24,8 @@ public interface PointRepository extends JpaRepository<Point, Long> {
 	List<Point> findByStatusAndCreatedAtBetween(int status, LocalDateTime from, LocalDateTime to);
 	List<Point> findByStatusAndUidAndCreatedAtBetween(int status, Member member, LocalDateTime from, LocalDateTime to);
 	List<Point> findByStatusAndNameContainsIgnoreCaseAndCreatedAtBetween(int status, String reason, LocalDateTime from,	LocalDateTime to);
+	
+	void deleteByUid(Member member);
 
 
 

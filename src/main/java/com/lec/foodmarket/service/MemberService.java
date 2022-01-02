@@ -108,9 +108,15 @@ public class MemberService {
 		memberRepository.saveAndFlush(member);
 	}
 	
+	// 포인트 누적
 	public void memberSaveUpdate(Member member, int price) {
 		member.setSaveUpPoint(price);
 		memberRepository.saveAndFlush(member);
+	}
+	
+	@Transactional
+	public void pointDeleteByMember(Member member) {
+		pointRepository.deleteByUid(member);
 	}
 
 	// 회원 탈퇴
@@ -313,5 +319,7 @@ public class MemberService {
 	public List<Point> pointStatusAndCreateAtAndReason(int status, String reason, LocalDateTime from, LocalDateTime to) {
 		return pointRepository.findByStatusAndNameContainsIgnoreCaseAndCreatedAtBetween(status, reason, from, to);
 	}
+
+	
 
 }
