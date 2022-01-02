@@ -104,6 +104,12 @@
 										</tr>
 									</thead>
 									<tbody>
+										<th:block th:if="${list.size == 0}">
+											<tr>
+												<td colspan="11" style="color: gray">검색 조건을 확인 하신 후 검색
+													버튼을 클릭하세요.</td>
+											</tr>
+										</th:block>
 
 										<tr th:each="dto: ${list}">
 											<td style="width: 5%"><input type="checkbox"

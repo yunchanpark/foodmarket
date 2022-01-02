@@ -543,3 +543,39 @@ a {
 	margin-left: 280px;
 	
 }
+
+
+.listDetailWrap-3 {
+	z-index: 130;
+	position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.2);
+    display: none;
+}
+
+.listDetailWrap-4 {
+	z-index: 130;
+	position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.2);
+    display: none;
+}
+
+.undertd, .underth{
+	border-bottom: solid white;
+}
+
+.edit {
+	background: white;
+	height: 36px;
+	width: 480px;
+	line-height: 36px;
+	border: 1px solid #c0c0c0;
+	border-radius: 5px;
+}
