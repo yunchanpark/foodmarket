@@ -111,7 +111,7 @@
 											</tr>
 										</th:block>
 
-										<tr th:each="dto: ${list}">
+										<tr th:each="dto: ${list}" th:id="${dto.noticeNo}">
 											<td style="width: 5%"><input type="checkbox"
 												id="checkbox" name="notice_checkbox" class="checkbox batch"
 												th:value="${dto.noticeNo}"></td>

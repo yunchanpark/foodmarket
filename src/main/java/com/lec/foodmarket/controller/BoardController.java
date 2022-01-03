@@ -89,7 +89,6 @@ public class BoardController {
 		
 		FileUpload file = new FileUpload();
 		FileUploadDTO dto = file.ckUpload("/inquiryImages/inquiry/", "inquiryImages\\inquiry", upload);
-		
 		InquiryImage inquiryimage = InquiryImage.builder()
 				.inquiryNo(inquiry)
 				.inquiryOrgin(dto.getOrginName())

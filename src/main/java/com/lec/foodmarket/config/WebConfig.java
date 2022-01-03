@@ -24,8 +24,8 @@ public class WebConfig implements WebMvcConfigurer {
 			.addResourceLocations("file:///C:/spring_foodmarket/ckupload/productImages/product/")
 			;	
 		registry
-			.addResourceHandler("/ckUpload/inquiryImages/**")
-			.addResourceLocations("file:///D:/spring_foodmarket/ckupload/inquiryImages/")
+			.addResourceHandler("/ckUpload/inquiryImages/inquiry/**")
+			.addResourceLocations("file:///C:/spring_foodmarket/ckupload/inquiryImages/inquiry/")
 			;	
 		registry
 			.addResourceHandler("/ckUpload/memberImages/**")

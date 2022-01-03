@@ -172,8 +172,9 @@ public class ProductService {
 	}
 
 	// 일괄 삭제
-	public void productDeleteInBatch(List<Long> productIds) {
+	public int productDeleteInBatch(List<Long> productIds) {
 		productRepository.deleteAllByIdInBatch(productIds);
+		return 1;
 	}
 
 	// 첨부파일 삭제

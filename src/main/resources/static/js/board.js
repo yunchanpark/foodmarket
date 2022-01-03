@@ -78,11 +78,15 @@ $(document).ready(function() {
 				traditional: true,
 				data: {
 					'noticeNoArr': checkedValue
-				}, success: function() {
+				}, success: function(data) {
+					if (data == 1) {
+					for (var i = 0; i < checkedValue.length; i++) {
+						$(`#${checkedValue[i]}`).remove();
+					}
+				}
 				}
 			});
 		}
-		location.reload();
 	});
 
 	/* 전체 선택 */

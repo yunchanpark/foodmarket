@@ -188,24 +188,26 @@ $(document).ready(function() {
 
 	/* 일괄 적용 버튼 */
 	$('.apply').on('click', function() {
-		var selName = $('select[name=batch]').val();
 		var checkedValue = [];
 
-		if (selName == 'batchDel') {
-			$('input:checkbox[name=productarr]:checked').each(function() {
-				checkedValue.push($(this).val());
-			});
-			$.ajax({
-				url: "delete",
-				type: 'POST',
-				dataType: 'JSON',
-				traditional: true,
-				data: {
-					'productNoArr': checkedValue
-				}, success: function() {
+		$('input:checkbox[name=productarr]:checked').each(function() {
+			checkedValue.push($(this).val());
+		});
+		$.ajax({
+			url: "delete",
+			type: 'POST',
+			dataType: 'JSON',
+			traditional: true,
+			data: {
+				'productNoArr': checkedValue
+			}, success: function(data) {
+				if (data == 1) {
+					for (var i = 0; i < checkedValue.length; i++) {
+						$(`#${checkedValue[i]}`).remove();
+					}
 				}
-			});
-		}
+			}
+		});
 	});
 
 
@@ -270,10 +272,10 @@ $(document).ready(function() {
 				$("#resultFail").text(data.fail)
 				var temp;
 				$.each(data.data, function(index, item) {
-				console.log(item)
+					console.log(item)
 					temp += `
-						<tr>
-			            	<td style="width: 55px;"><input type="checkbox" th:value="${index}" name="productarr"></td>
+						<tr id="${index}">
+			            	<td><span>${index+1}</span></td>
 			            	<td><img alt="" src="/ckUpload/productImages/product/${item.saveName}"></td>
 			            	<td><span>${item.name}</span></td>
 			            	<td><span>${item.description}</span></td>

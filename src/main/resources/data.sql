@@ -1,19 +1,18 @@
 -- 카테고리
 INSERT INTO product_category (category_name) VALUES ('채소');
 INSERT INTO product_category (category_name) VALUES ('과일');
+INSERT INTO product_category (category_name) VALUES ('해산물');
 INSERT INTO product_category (category_name) VALUES ('육류');
 INSERT INTO product_category (category_name) VALUES ('건강식품');
 
--- 회원
-INSERT INTO member VALUES(1, now(), now(), "충북 청주시 청원구 내수읍 마산길 72", "진흥아파트 103동 507호", "123",'kdnews77', "김상호", "010-8923-7325", "$2a$10$pG2Q3DrIIdJlmhdsOEAq5OcwTseGRqszChN9nJli//S4JI8SDFbHu","안녕", "MEMBER", 12);
-INSERT INTO member VALUES(2, now(), now(), "충북 청주시 청원구 내수읍 마산길 72", "진흥아파트 103동 507호", "123",'yongp99', "박윤찬",  "010-8923-7325", "$2a$10$pG2Q3DrIIdJlmhdsOEAq5OcwTseGRqszChN9nJli//S4JI8SDFbHu","안녕", "MEMBER", 12);
-INSERT INTO member VALUES(3, now(), now(), ".", ".", ".",'yongp9', "관리자",  ".", "$2a$10$pG2Q3DrIIdJlmhdsOEAq5OcwTseGRqszChN9nJli//S4JI8SDFbHu",".", "ADMIN", 0);
 
 -- 포인트설정
 insert into point_condition values(1, 2000, 5, 1000, 1000, 10000);
 
+-- 공지사항'
+
 -- 상품
-INSERT INTO product
+/*INSERT INTO product
 (`created_at`, `updated_at`, `product_description`, `product_detail_content`, `product_discount_end`, `product_discount_start`, `product_image_orgin`, `product_image_save`, `product_name`, `product_price`, `product_purchase_price`, `product_stock`,
 `category_no`)
 VALUES
@@ -166,4 +165,4 @@ INSERT INTO product
 `product_exchange_rate`, `product_image_orgin`, `product_image_save`, `product_name`, `product_price`, `product_purchase_price`, `product_stock`,
 `category_no`)
 VALUES
-(now(), now(), "맛있는 쌈채소", "쌈채소", now(), now(), 10, "percent", "greenvegetables.jpg", "greenvegetables.jpg", "쌈채소", 1000, 500, 999, 2);
+(now(), now(), "맛있는 쌈채소", "쌈채소", now(), now(), 10, "percent", "greenvegetables.jpg", "greenvegetables.jpg", "쌈채소", 1000, 500, 999, 2);*/

@@ -15,6 +15,13 @@
         <!-- section -->
         <!-- content 시작 -->
         <section>
+        	<th:block th:if="${cartList.size == 0}">
+        	<div class="box_inner not">
+				<img src="/images/empty_cart.png" id="not_found">
+				<span id="not_found_title">장바구니가 비어 있습니다.</span>
+			</div>
+        	</th:block>
+        	<th:block th:if="${cartList.size != 0}">
             <div class="product_container">
                 <div class="section_area box_inner">
                     <h2 id="product_head">
@@ -90,14 +97,16 @@
                                     <span class="cart_addr_name">배송지</span>
                                 </div>
                                 <div class="cart_addr_content">
+									[[${session.member.addr}]][[${session.member.detailAddr}]]
                                 </div>
                             </div>
                             <div class="cart_amount_list">
                                 <span class="cart_amount_tit">결제예정금액</span>
                                 <span class="cart_amount">
                                     <span class="amount">
-                                    1000원
+                                    0
                                     </span>
+                                    원
                                 </span>
                             </div>
                         </div>
@@ -105,6 +114,7 @@
                     </div>
                 </div>
             </div>
+            </th:block>
         </section>
         <!-- content 끝-->
         <!-- section 끝 -->

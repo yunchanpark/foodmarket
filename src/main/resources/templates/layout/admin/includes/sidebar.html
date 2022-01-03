@@ -3,7 +3,7 @@
 	    <div class="sb-sidenav-menu">
 	        <div class="nav">
 	            <div class="sb-sidenav-menu-heading">바로가기</div>
-	            <a class="nav-link" th:href="@{/}">
+	            <a class="nav-link" th:href="@{/layout/user/index}">
 	                <span class="sb-nav-link-icon">
 	                    <i class="fas fa-tachometer-alt"></i>
 	                </span>
@@ -25,22 +25,6 @@
 	                <nav class="sb-sidenav-menu-nested nav">
 	                    <a class="nav-link" th:href="@{/layout/admin/product/write}">상품등록</a>
 	                    <a class="nav-link" th:href="@{/layout/admin/product/list}">상품리스트</a>
-	                </nav>
-	            </div>
-	            <a class="nav-link collapsed" th:href="@{/}" data-bs-toggle="collapse"
-	                data-bs-target="#collapseOrder" aria-expanded="false" aria-controls="collapseOrder">
-	                <span class="sb-nav-link-icon icon-w">
-	                    <i class="fas fa-shopping-cart"></i>
-	                </span>
-	                주문관리
-	                <span class="sb-sidenav-collapse-arrow">
-	                    <i class="fas fa-angle-down"></i>
-	                </span>
-	            </a>
-	            <div class="collapse" id="collapseOrder" aria-labelledby="headingOne"
-	                data-bs-parent="#sidenavAccordion">
-	                <nav class="sb-sidenav-menu-nested nav">
-	                    <a class="nav-link" th:href="@{/}">주문내역</a>
 	                </nav>
 	            </div>
 	            <a class="nav-link collapsed" th:href="@{/}" data-bs-toggle="collapse"
@@ -78,13 +62,6 @@
 	                    <a class="nav-link" th:href="@{/layout/admin/board/notice_list}">공지사항관리</a>
 	                </nav>
 	            </div>
-	            <div class="sb-sidenav-menu-heading">차트</div>
-	            <a class="nav-link" th:href="@{/layout/admin/board/total}">
-	                <span class="sb-nav-link-icon">
-	                	<i class="fas fa-chart-area"></i>
-	                </span>
-	                통계
-	            </a>
 	        </div>
 	    </div>
 	</nav>

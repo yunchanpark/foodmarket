@@ -452,6 +452,10 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 	justify-content: center;
 }
 
+.cart {
+	margin-top: 250px;
+}
+
 #not_found {
 	width: 150px;
 	height: 150px;

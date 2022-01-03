@@ -290,8 +290,10 @@ public class AdminBoardController {
 	// 공지사항 일괄삭제(list에서)
 	@ResponseBody
 	@PostMapping(value = "/notice_deleteOk", produces = "application/json")
-	public void noticeSelectDelete(@RequestParam("noticeNoArr") List<Long> arrStringNoticeNo) throws Exception {
-		boardService.noticeDeleteInBatch(arrStringNoticeNo);
+	public int noticeSelectDelete(@RequestParam("noticeNoArr") List<Long> arrStringNoticeNo) throws Exception {
+		int result = 0;
+		result = boardService.noticeDeleteInBatch(arrStringNoticeNo);
+		return result;
 	}
 
 	// 공지사항 list (검색)

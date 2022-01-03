@@ -65,6 +65,7 @@ $(document).ready(function() {
 			$('.cart_product_no').prop('checked', true);
 		}
 		cartCk();
+		amountTotal();
 	});
 
 	/* 장바구니 체크 */

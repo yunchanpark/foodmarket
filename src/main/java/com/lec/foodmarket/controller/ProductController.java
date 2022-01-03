@@ -4,6 +4,8 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.lec.foodmarket.domain.Cart;
+import com.lec.foodmarket.domain.Member;
 import com.lec.foodmarket.domain.Product;
 import com.lec.foodmarket.service.ProductService;
 
@@ -119,7 +121,7 @@ public class ProductController {
 	}
 	
 	@GetMapping("/cartList")
-	public void memberCart(Principal principal, Model model) {
+	public void memberCart(Principal principal, Model model, HttpSession session) {
 		List<Cart> cartList = new ArrayList<Cart>();
 		if (principal != null) cartList = productService.memberCart(principal.getName());
 		model.addAttribute("cartList", cartList);

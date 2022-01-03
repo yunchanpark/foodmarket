@@ -337,7 +337,7 @@ public class BoardService {
 	public int inquiryImageDelete(long inquiry_Image_no, String realPath) {
 		// 물리적인 경로
 		int result = 0;
-		String ckUploadPath = "D:\\spring_foodmarket\\ckupload\\" + realPath;
+		String ckUploadPath = "C:\\spring_foodmarket\\ckupload\\" + realPath;
 		InquiryImage inquiryList = inquiryImageRepository.findById(inquiry_Image_no).get();
 		File f = new File(ckUploadPath, inquiryList.getInquirySave());
 		if (f.exists()) {
