@@ -67,10 +67,6 @@ public class Product extends BaseEntity implements Auditable {
 	@NotNull
 	@Column(name = "product_stock")
 	private int stock;
-	
-	// 상품 판매 개수
-	@Column(name = "product_buyCnt", columnDefinition = "integer default 0")
-	private int buyCnt;
 
 	// 상품 좋아요 개수
 	@Column(name = "product_likeCnt", columnDefinition = "integer default 0")

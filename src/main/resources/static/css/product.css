@@ -49,7 +49,7 @@
 }
 
 .sect-hd .btn-arrow.up { 
-	background-image:url(../images//arr_h11_bottom.png); 
+	background-image:url(../images/arr_h11_bottom.png); 
 }
 
 .txt {
@@ -307,6 +307,177 @@
 	background-color: black; 
 	color: white;
 }
+
+/* 일괄 등록 */
+.pop {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	background: rgba(0,0,0,0.2);
+	display: none;
+}
+
+.popContent {
+	position: absolute;
+	width: 800px;
+	min-height: 620px;
+	max-height: 620px;
+	top: 60px;
+	left: 50%;
+	margin-left: -300px;
+	background-color: #fff;
+	overflow: auto;
+}
+
+.popTitle {
+	text-align: center;
+	padding: 20px;
+	background-color: #eef1f4;
+}
+
+.multImage {
+	position: relative;
+    display: flex;
+    padding: 20px 30px;
+    border: 1px solid var(--bd-gray);
+    background-color: white;
+    font-weight: bold;
+    line-height: 35px;
+}
+
+.popImages span {
+	display: inline-block;
+	padding-left: 20px;
+	width: 200px;
+	height: 35px;
+	font-weight: bold;
+}
+
+#multUpload {
+	display: none;
+}
+
+#multCnt {
+	width: 120px;
+	height: 35px;
+}
+
+#multBtn {
+	width: 80px;
+	height: 35px;
+	background-color: var(--btn-blue);
+	border: none;
+}
+
+.images_submit {
+	position: absolute;
+	height: 35px;
+	border-radius: 5px;
+	border: none;
+	right: 20px;;
+	color: white;
+	background-color: var(--btn-blue)
+}
+
+#allProductUpload {
+	cursor: pointer; 
+}
+
+.btn-close { 
+	position:absolute; 
+	top:17px; 
+	right:20px; 
+	width:25px; 
+	height:25px; 
+	background:url(//image.makeshop.co.kr/mysoho/assets/admin/images/btn/h25_close.png) no-repeat 50% 50%; 
+	text-indent:-9999px; 
+}
+
+.excelImage_label {
+	cursor: pointer;
+	border-radius: 5px;
+	color: white;
+	background-color: var(--btn-blue);
+	font-size: 16px;
+	text-align: center;
+	width: 110px;
+	height: 35px;
+	line-height: 35px;
+	margin-left: 10px;
+}
+
+.des-txt {
+	font-weight: normal;
+	font-size: 14px;
+	color: gray;
+}
+
+.result {
+	width: 700px;
+	height: 75px;
+	background-color: var(--bg-light-gray-1);
+	border: 1px solid var(--bd-gray);
+	margin: 20px auto;
+	display: flex;
+	justify-content: space-between;
+}
+
+.resultContent {
+	width: 230px;
+	text-align: center;
+	line-height: 75px;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.resultSucces {
+	color: blue;
+}
+
+.resultFail {
+	color: red;
+	text-decoration: underline; 
+}
+
+.All-table-wrap {
+	width: 700px;;
+	max-height: 200px;
+	overflow: auto;
+	margin: 0 auto;
+	padding: 0;
+}
+
+.AllBtn {
+	margin: 50px 40px 50px 0;
+	text-align: right;
+}
+
+.AllBtn input[type=button],
+.AllBtn input[type=submit] {
+	width: 85px;
+	height: 40px;
+	color: white;
+	border: none;
+	border-radius: 5px;
+}
+
+.deleteBtn {
+	margin-right:  15px;
+	background-color: var(--bg-black-1);
+}
+
+.writeBtn {
+	background-color: var(--btn-blue);
+}
+
+.goUpdate {
+	text-decoration: none;
+	font-weight: bold;
+	color: black;
+}
+
 
 
 

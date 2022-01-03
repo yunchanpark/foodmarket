@@ -27,33 +27,35 @@
 		<div class="bottom_gnb_main box_inner">
 			<ul class="bottom_gnb_menu">
 				<li class="menu1">
-					<a th:href="@{/}" class="category"> 
+					<a class="category"> 
 						<img th:src="@{/images/menu.png}">
 						<span class="txt">전체 카테고리</span>
 					</a>
 					<ul class="service_sub_category">
-					
+						<th:block th:each="category : ${category}">
+							<li th:onclick="'location.href=\'/layout/user/product/list/category/'+ @{${category.categoryNo}} + '\''"><a>[[${category.name}]]</a></li>
+						</th:block>
 					</ul>
 				</li>
 				<li class="menu2"><a href="/layout/user/product/list/categoryList/1"> <span class="txt">NEW</span>
 				</a></li>
 				<li class="menu3"><a href="/layout/user/product/list/categoryList/2"> <span class="txt">BEST</span>
 				</a></li>
-				<li class="menu4"><a href="/layout/user/product/list/categoryList/3"> <span class="txt">알뜰쇼핑</span>
+				<li class="menu4"><a href="/layout/user/product/list/categoryList/3"> <span class="txt">추천순</span>
 				</a></li>
 				<li class="menu5"><a href="/layout/user/product/list/categoryList/4"> <span class="txt">가격순</span>
 				</a></li>
 			</ul>
 			<div class="gnb_search">
-				<form action="" id="word_search" class="word_search" method="get">
+				<form action="/layout/user/product/searchList" id="word_search" class="word_search" method="get">
 					<input type="text" name="sword" id="sword" class="sword" placeholder="검색어를 입력해주세요"> 
 					<input type="image" th:src="@{/images/search_ico.png}" id="search_btn" class="search_btn"> 
 				</form>
 			</div>
 			<div class="inner_cart_count">
-				<a th:href="@{/}" class="btn_cart"> 
+				<a th:href="@{/layout/user/product/cartList}" class="btn_cart"> 
 					<img th:src="@{/images/cart_ico.png}" alt="장바구니" class="cart_ico">
-					<span class="cart_count"></span>
+					<span class="cart_count">0</span>
 				</a>
 				<div class="cart_content">
 					<img th:src="@{/images/cloud.webp}" class="cloud"> 

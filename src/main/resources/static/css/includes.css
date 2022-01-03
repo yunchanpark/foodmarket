@@ -146,7 +146,7 @@ header {
     display: flex;
 }
 
-.bottom_gnb_main ul li {
+.bottom_gnb_main > ul > li {
     float: left;
     height: 75px;
     line-height: 75px;
@@ -157,7 +157,7 @@ header {
     display: block;
 }
 
-.bottom_gnb_main ul li+li {
+.bottom_gnb_main > ul > li+li {
     width: 140px;
     text-align: center;
 }
@@ -291,8 +291,7 @@ header {
     z-index: 100;
 }
 
-
-.service_sub_category li {
+.service_sub_category  li {
     border: 1px solid var(--bs-border-3);
     border-top: none;
     background-color: white;
@@ -313,6 +312,11 @@ header {
     font-weight: 800;
 }
 
+.menu1:hover .service_sub_category {
+	cursor: pointer;
+	display: block;
+}
+
 .service_sub_category li:hover {
     background: rgb(246, 246, 246);
     cursor: pointer;
@@ -326,6 +330,7 @@ header {
 .bottom_gnb_menu li:first-child:hover #service_sub_category {
     display: block;
 }
+
 /* 하단 메뉴 끝*/
 /* Header 끝 */
 

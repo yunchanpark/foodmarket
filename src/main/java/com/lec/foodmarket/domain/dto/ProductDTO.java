@@ -1,6 +1,7 @@
 package com.lec.foodmarket.domain.dto;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -58,4 +59,6 @@ public class ProductDTO {
 	
 	// 상품 기간 할인 설정
 	private String duringCheck;
+	
+	private List<ProductDTO> productList;
 }

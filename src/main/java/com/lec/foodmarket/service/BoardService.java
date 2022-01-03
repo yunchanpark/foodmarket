@@ -15,6 +15,7 @@ import com.lec.foodmarket.domain.Notice;
 import com.lec.foodmarket.domain.Product;
 import com.lec.foodmarket.repository.InquiryImageRepository;
 import com.lec.foodmarket.repository.InquiryRepository;
+import com.lec.foodmarket.repository.MemberRepository;
 import com.lec.foodmarket.repository.NoticeRepository;
 
 @Service

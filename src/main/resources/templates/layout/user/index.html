@@ -29,9 +29,24 @@
 	                                    <img th:src="@{/ckUpload/productImages/product/} + ${dto.imageSave}">
 	                                </a>
 	                                <div>
-	                                    <span class="product_new_title">[[${dto.name}]]</span>
-	                                    <span class="product_new_price">
-	                                    </span>
+		                                <div>
+		                                    <span class="product_new_title">[[${dto.name}]]</span>
+		                                </div>
+	                                    <div class="priceWrap">
+		                                    <span class="disCount" th:if="${dto.discount != 0}">
+		                                    	[[${dto.discount}]][[${dto.exchangeRate == 'percent' ? '%' : '원'}]]
+		                                    </span>
+		                                    <span class="product_new_price" th:if="${dto.exchangeRate == 'percent'}">[[${#numbers.formatInteger((dto.price)*((100 - dto.discount)*0.01), 0, 'COMMA')}]]<span class="won">원</span></span> 
+						            		<span class="product_new_price" th:if="${dto.exchangeRate == 'won'}">[[${#numbers.formatInteger(dto.price - dto.discount, 0, 'COMMA')}]]<span class="won">원</span></span> 
+						            		<span class="product_new_price" th:if="${dto.exchangeRate != 'percent'} and ${dto.exchangeRate != 'won'}">
+													[[${#numbers.formatInteger(dto.price, 0, 'COMMA')}]]<span class="won">원</span>
+				            				</span>
+	                                    </div>
+	                                    <div>
+	                                    	<span class="real_price" th:if="${dto.discount != 0}">
+		                                    	[[${#numbers.formatInteger(dto.price, 0, 'COMMA')}]]원
+	                                    	</span>
+	                                    </div>
 	                                </div>
 	                            </li>
                         	</th:block>
@@ -59,12 +74,22 @@
 	                                    <img th:src="@{/ckUpload/productImages/product/} + ${dto.imageSave}">
 	                                </a>
 	                                <div class="product_best_content">
-	                                    <span class="product_best_title">[[${dto.name}]]</span>
-	                                    <span class="product_best_price">
-	                                    </span>
-	                                    <span class="product_best_cnt">
-	                                    	남은 수량 : 
-	                                    </span>
+	                                    <div>
+		                                    <span class="product_best_title">[[${dto.name}]]</span>
+		                                </div>
+	                                    <div class="priceWrap">
+		                                    <span class="disCount" th:if="${dto.discount != 0}">
+		                                    	[[${dto.discount}]][[${dto.exchangeRate == 'percent' ? '%' : '원'}]]
+		                                    </span>
+		                                    <span class="product_best_price">
+		                                    	[[${#numbers.formatInteger((dto.price)*((100 - dto.discount)*0.01), 0, 'COMMA')}]]원
+		                                    </span>
+	                                    </div>
+	                                    <div>
+	                                    	<span class="real_price" th:if="${dto.discount != 0}">
+		                                    	[[${#numbers.formatInteger(dto.price, 0, 'COMMA')}]]원
+	                                    	</span>
+	                                    </div>
 	                                </div>
 	                            </li>
                             </th:block>

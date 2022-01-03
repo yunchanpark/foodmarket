@@ -16,52 +16,69 @@
         <!-- content 시작 -->
         <section>
         	<div class="box_inner">
-        		<div id="product_view_no">[[${dto.productNo}]]</div>
         		<div class="list_view_product">
         			<div class="product_view_image">
 	            		<img th:src="@{/ckUpload/productImages/product/} + ${dto.imageSave}">
 	            	</div>
 	            	<div class="product_view_content">
 			            <div class="product_view_table">
-			            	<span id="product_view_name">[[${dto.name}]]</span>
-							    <span class="lickCnt" id="product_view_lick"></span>
-			            	<span id="product_likeCnt"></span>
-			            </div>
-			            <div class="product_view_table">
-			            	<span class="product_view_menu">가격</span>
-			            	<span>
-			            		<span class="product_view_price">${dto.price}</span>
-			            	</span>
-			            </div>
-			            <div class="product_view_table">
-			            	<span class="product_view_menu">남은 수량</span>
-			            	<span>
-			            		<span class="product_view_stock">${dto.stock}</span>
-			            	</span>
+				            <div class="product_view_name_warp">
+				            	<input type="hidden" th:value="${dto.productNo}" name="productNo" id="productNo">
+				            	<span id="product_view_name">[[${dto.name}]]</span>
+								<th:block th:unless="${#authorization.getAuthentication() != null and #authorization.expr('isAuthenticated()')}">
+		            				<span class="lickCnt" id="product_no_view_lick"></span>
+			            		</th:block>
+			            		<th:block th:if="${#authorization.getAuthentication() != null and #authorization.expr('isAuthenticated()')}">
+						           	<span class="lickCnt" id="product_view_lick"></span>
+			            		</th:block>
+				            	<span id="product_likeCnt"></span>
+				            	<p class="short_desc">[[${dto.description}]]</p>
+				            </div>
+				            <p class="product_dcinfo">상품가격</p>
+			            	<p class="product_price">
+			            		<span class="position">
+				            		<span class="dc">
+				            			<span class="dc_price" th:if="${dto.exchangeRate == 'percent'}">[[${#numbers.formatInteger((dto.price)*((100 - dto.discount)*0.01), 0, 'COMMA')}]]<span class="won">원</span></span> 
+				            			<span class="dc_price" th:if="${dto.exchangeRate == 'won'}">[[${#numbers.formatInteger(dto.price - dto.discount, 0, 'COMMA')}]]<span class="won">원</span></span> 
+				            			<span class="dc_price" th:if="${dto.exchangeRate != 'percent'} and ${dto.exchangeRate != 'won'}">
+				            				[[${#numbers.formatInteger(dto.price, 0, 'COMMA')}]]<span class="won">원</span>
+				            			</span>
+				            			<span class="dc_percent" th:if="${dto.discount != 0}">[[${dto.discount}]][[${dto.exchangeRate == 'percent' ? '%' : '원'}]]</span>
+				            		</span> 
+					            	<span class="price" th:if="${dto.discount != 0}">[[${#numbers.formatInteger(dto.price, 0, 'COMMA')}]]<span class="won">원</span></span>
+			            		</span>
+		            		</p>
 			            </div>
 			            <div class="product_view_table">
 			            	<span class="product_view_menu">구매 수량</span>
 			            	<div class="option">
 				           		<span class="product_cnt">
 				           			<input type="button" class="sub_btn">
-				           			<input type="hidden" name="product_no" th:value="${dto.productNo}" id="product_no">
-				           			<input type="number" value="1" class="view_product_cnt" readonly="readonly" name="product_cnt" id="product_cnt">
+				           			<input type="number" value="1" class="view_product_cnt" readonly="readonly" name="cnt" id="product_cnt">
 				           			<input type="button" class="plus_btn">
 				           		</span>
 			            	</div>
 			            </div>
-			            <div class="product_view_table">
-			            	<span class="product_view_mondey">총 상품금액:</span>
-			            	<span class="product_value">
-			            	</span>
-			            </div>
+			            <div class="total">
+			            	<div class="price">
+			            		<strong class="tit">총 상품금액 :</strong> 
+			            		<span class="sum">
+			            			<span class="num" th:if="${dto.exchangeRate == 'percent'}">[[${#numbers.formatInteger((dto.price)*((100 - dto.discount)*0.01), 0, 'COMMA')}]]</span> 
+				            		<span class="num" th:if="${dto.exchangeRate == 'won'}">[[${#numbers.formatInteger(dto.price - dto.discount, 0, 'COMMA')}]]</span> 
+				            		<span class="num" th:if="${dto.exchangeRate != 'percent'} and ${dto.exchangeRate != 'won'}">
+				            			[[${#numbers.formatInteger(dto.price, 0, 'COMMA')}]]
+				            		</span>
+			            			<span class="won">원</span>
+			            		</span>
+			            	</div>
+			            </div> 
 			            <div class="product_view_submit">
-			            		<th:block th:unless="${#authorization.getAuthentication() != null and #authorization.expr('isAuthenticated()')}">
-			            			<input type="button" value="장바구니 담기" id="basket_no_login" class="basket">
-			            		</th:block>
-			            		<th:block th:if="${#authorization.getAuthentication() != null and #authorization.expr('isAuthenticated()')}">
-						           	<input type="button" value="장바구니 담기" id="basket" class="basket">
-			            		</th:block>
+		            		<th:block th:unless="${#authorization.getAuthentication() != null and #authorization.expr('isAuthenticated()')}">
+		            			<input type="button" value="장바구니 담기" id="basket_no_login" class="basket">
+		            		</th:block>
+		            		<th:block th:if="${#authorization.getAuthentication() != null and #authorization.expr('isAuthenticated()')}">
+					           	<input type="button" value="장바구니 담기" id="basket" class="basket">
+		            		</th:block>
 			            </div>
 	            	</div>
         		</div>
@@ -77,11 +94,10 @@
     <!-- plugin -->
     <th:block th:include="@{/layout/user/includes/plugin.html}"></th:block>
     <script th:src="@{/js/includes.js}"></script>
-    <script th:src="@{/js/product.js}"></script>
     <script type="text/javascript">
 	    /* 상품 좋아요 */
-		$('.lickCnt').on('click', function() {
-			var productNo = $("#product_view_no").text();
+		$('#product_view_lick').on('click', function() {
+			var productNo = $("input[name='productNo']").val();
 	    	$.ajax({
 				url: "like/" + productNo,
 				type: "get",
@@ -101,7 +117,7 @@
 		});
 	    
 	    (like = function() {
-	    	var productNo = $("#product_view_no").text();
+	    	var productNo = $("input[name='productNo']").val();
 	    	$.ajax({
 				url: "likeCk/" + productNo,
 				type: "get",
@@ -119,7 +135,52 @@
 				}
 			});
 		})();
+	    
+		/* 비로그인 시 장바구니 클릭 */
+		$("#product_no_view_lick").on("click", function() {
+			alert("로그인을 하셔야 합니다.");
+		});
+		
+		/* 비로그인 시 장바구니 클릭 */
+		$("#basket_no_login").on("click", function() {
+			alert("로그인을 하셔야 합니다.");
+		});
     </script>
+    <script th:inline="javascript">
+    /*<![CDATA[*/
+    	let exchangeRate = /*[[${dto.exchangeRate}]]*/ 'percent';
+    	let price = /*[[${dto.price}]]*/ 0;
+    	let discount = /*[[${dto.discount}]]*/ 0;
+    	
+    	/* 수량 */
+    	$('.sub_btn').on('click', function(){
+    		var productCnt = $('.view_product_cnt').val();
+    		if(productCnt <= 1) return;
+    		$('.view_product_cnt').val(productCnt-1);
+    		$('.num').text(change());
+    	});
+    	
+    	$('.plus_btn').on('click', function(){
+    		var productCnt = $('.view_product_cnt').val();
+    		$('.view_product_cnt').val(Number(productCnt)+1);
+    		$('.num').text(change());
+    	});
+    	
+    	// 가격 변경
+    	function change(){
+    		var productCnt = $('.view_product_cnt').val();
+    		var exPrice;
+    		var totalPrice;
+    		
+    		if(exchangeRate == 'percent') exPrice = Number(price *(100-discount)*0.01);
+    		else if(exchangeRate == 'won') exPrice = Number(price - discount);
+    		else exPrice = Number(price);
+    		
+    		totalPrice = exPrice*productCnt
+    		return totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    	}
+	/*]]>*/
+	</script>
     <!-- plugin 끝 -->
 </body>
 </html>

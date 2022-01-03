@@ -16,6 +16,12 @@
         <!-- content 시작 -->
         <section>
             <div class="product_container">
+            	<th:block th:if="${list.size == 0}">
+            		<div class="box_inner not">
+						<img src="/images/not_found.png" id="not_found">
+						<span id="not_found_title">검색하신 데이터가 없습니다</span>
+					</div>
+            	</th:block>
 				<div class="section_area box_inner">
                     <h2 id="product_head">
 
@@ -24,18 +30,30 @@
 				<div class="box_inner">
               		<div class="list_product">
                   		<ul class="inner_listproduct">
-							<th:block th:each="dto : ${list}" th:if="${list != null}">
+						<th:block th:each="dto : ${list}" th:if="${list != null}">
 								<li class="item_product">
 									<a th:href="@{/layout/user/product/view/} + ${dto.productNo}">
                                			<img th:src="@{/ckUpload/productImages/product/} + ${dto.imageSave}">
                            			</a>
 		                            <div>
-		                                <span class="product_new_title">[[${dto.name}]]</span>
-		                                <span class="product_new_price">
-										</span>
-		                                <span class="product_new_cnt">
-		                                	수량 : 
-		                                </span>
+		                                <a class="info" th:href="@{/layout/user/product/view/} + ${dto.productNo}">
+		                                	<span class="name">[[${dto.name}]]</span> 
+		                                	<span class="cost">
+		                                		<span class="dc" th:if="${dto.discount != 0}">
+		                                			[[${dto.discount}]][[${dto.exchangeRate == 'percent' ? '%' : '원'}]]
+		                                		</span>
+												<span class="price" th:if="${dto.exchangeRate == 'percent'}">[[${#numbers.formatInteger((dto.price)*((100 - dto.discount)*0.01), 0, 'COMMA')}]]<span class="won">원</span></span> 
+						            			<span class="price" th:if="${dto.exchangeRate == 'won'}">[[${#numbers.formatInteger(dto.price - dto.discount, 0, 'COMMA')}]]<span class="won">원</span></span> 
+						            			<span class="price" th:if="${dto.exchangeRate != 'percent'} and ${dto.exchangeRate != 'won'}">
+													[[${#numbers.formatInteger(dto.price, 0, 'COMMA')}]]<span class="won">원</span>
+				            					</span>
+												<span class="original" th:if="${dto.discount != 0}">
+													[[${#numbers.formatInteger(dto.price, 0, 'COMMA')}]]원
+												</span>
+		                                	</span> 
+		                                	<span class="desc">[[${dto.description}]]</span>
+		                                	<span class="tag"><!----></span>
+		                                </a>
 		                            </div>
 	                            </li>
 							</th:block>

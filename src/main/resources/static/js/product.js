@@ -59,7 +59,7 @@ $(document).ready(function() {
 	});
 
 	/* 상품이미지 업로드 */
-	let fileTarget = $('.product_image_orgin_name');
+	let fileTarget = $('#product_image_orgin_name');
 	fileTarget.on("change", function() {
 		var filename = '';
 
@@ -68,7 +68,7 @@ $(document).ready(function() {
 		} else {
 			filename = $(this).val().split('/').pop().split('\\').pop();
 		}
-		$(this).siblings('.product_image_value').val(filename);
+		$(this).siblings('#product_image_value').val(filename);
 	});
 
 
@@ -232,6 +232,77 @@ $(document).ready(function() {
 			allCk.prop('checked', true);
 		}
 		$('.ckCnt').text($('input:checkbox[name=productarr]:checked').length);
+	});
+
+	/* 일괄 업로드 새창 띄우기 */
+	$('#allProductUpload').on('click', function() {
+		$(".pop").show();
+	});
+
+	$('.btn-close').on('click', function() {
+		$(".pop").hide();
+	});
+
+	/* 일괄 업로드 */
+	$('#multImage').on('change', function() {
+		var fileInput = document.getElementById("multImage");
+		var files = fileInput.files;
+
+		$('#multiImageValue').val(files.length + "의 상품 선택");
+		$('#multFrom').append('<input type="submit" id="imgesSubmit" name="imgesSubmit" value="엑셀 양식 받기" class="images_submit" onclick="imagesSubmit()">')
+	});
+
+	/* 엑셀 업로드 */
+	$('#excelImage').on('change', function() {
+		var form = $('#excel')[0];
+		var formData = new FormData(form);
+
+		$.ajax({
+			url: 'excel',
+			type: 'POST',
+			data: formData,
+			dataType: 'json',
+			contentType: false,
+			processData: false,
+			success: function(data) {
+				$("#resultTest").text(data.total)
+				$("#resultSucces").text(data.succes)
+				$("#resultFail").text(data.fail)
+				var temp;
+				$.each(data.data, function(index, item) {
+				console.log(item)
+					temp += `
+						<tr>
+			            	<td style="width: 55px;"><input type="checkbox" th:value="${index}" name="productarr"></td>
+			            	<td><img alt="" src="/ckUpload/productImages/product/${item.saveName}"></td>
+			            	<td><span>${item.name}</span></td>
+			            	<td><span>${item.description}</span></td>
+			            	<td><span>${item.price}</span></td>
+			            	<td><span>${item.purchasePrice}</span></td>
+			            	<td><span>${item.stock}</span></td>
+			            	<td><span>${item.discount}${item.exchangeRate == 'percent' ? '%' : item.exchangeRate == 'won' ? '원' : ''}</span></td>
+			            	<td><span>${item.startDate}</span><br>(<span>${item.endDate}</span>)</td>
+							<input type="hidden" name="productList[${index}].categoryNo" value="${item.categoryNo}"/>
+							<input type="hidden" name="productList[${index}].name" value="${item.name}"/>
+							<input type="hidden" name="productList[${index}].description" value="${item.description}"/>
+							<input type="hidden" name="productList[${index}].price" value="${item.price}"/>
+							<input type="hidden" name="productList[${index}].purchasePrice" value="${item.purchasePrice}"/>
+							<input type="hidden" name="productList[${index}].stock" value="${item.stock}"/>
+							<input type="hidden" name="productList[${index}].discount" value="${item.discount}"/>
+							<input type="hidden" name="productList[${index}].exchangeRate" value="${item.exchangeRate}"/>
+							<input type="hidden" name="productList[${index}].detailContent" value="${item.detailContent}"/>
+							<input type="hidden" name="productList[${index}].startDate" value="${item.startDate}"/>
+							<input type="hidden" name="productList[${index}].endDate" value="${item.endDate}"/>
+							<input type="hidden" name="productList[${index}].orginName" value="${item.orginName}"/>
+							<input type="hidden" name="productList[${index}].saveName" value="${item.saveName}"/>
+							<input type="hidden" name="productList[${index}].discountCk" value="${item.discountCk}"/>
+							<input type="hidden" name="productList[${index}].duringCheck" value="${item.duringCheck}"/>
+			            </tr>
+					`;
+				});
+				$(".writeList").append(temp);
+			}
+		});
 	});
 });
 
