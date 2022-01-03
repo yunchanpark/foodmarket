@@ -112,7 +112,7 @@ public class MemberController {
 				.phoneNo(member.getPhoneNo())
 				.recommender(member.getRecommender())
 				.saveUpPoint(p.get(0).getJoinPoint())
-				.role("MEMBER")
+				.role("ROLE_MEMBER")
 				.build();
 		memberService.memberSave(member);
 		

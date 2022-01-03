@@ -9,6 +9,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -39,10 +40,16 @@ public class AdminMemberController {
 	// 회원관리 유효성
 	private MemberValidator memberValidator;
 	
+	// 적립금관리 유효성
 	private PointValidator pointValidator;
+	
+	// 운영자 등록 유효성
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	@Autowired
-	public AdminMemberController(MemberService memberService, MemberValidator memberValidator, PointValidator pointValidator) {
+	public AdminMemberController(MemberService memberService, MemberValidator memberValidator, PointValidator pointValidator ) {
 		this.memberService = memberService;
 		this.memberValidator = memberValidator;
 		this.pointValidator = pointValidator;
@@ -258,21 +265,7 @@ public class AdminMemberController {
 		return "redirect:/layout/admin/member/list";
 	}
 	
-	@GetMapping("/operator")
-	public void operator(Model model) {
-		String ADMIN = "ADMIN";
-		List<Member> list = new ArrayList<Member>();
-		list = memberService.findByRole(ADMIN);
-		model.addAttribute("list", list);
-	}
-	
-	@PostMapping("/operatorIns")
-	public String operatorIns(@RequestParam(value="operatorName", required = false) String operatorName, @RequestParam(value="operatorId", required = false) String operatorId, 
-			@RequestParam(value="operatorPw", required = false) String operatorPw, @RequestParam(value="pointUid", required = false) Member uid, Member member, Model model) {
-		
-	
-		return "redirect:/layout/admin/member/operator";
-	}
+
 }
 
 

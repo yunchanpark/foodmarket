@@ -48,13 +48,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { // 등록할 
 			.csrf().disable()
 			.authorizeRequests()
 			
+			.antMatchers("/layout/user/member/update").authenticated()
+			.antMatchers("/layout/user/board/user_inquiry**").authenticated()
+			.antMatchers("/layout/user/product/cartList").authenticated()
+			.antMatchers("/layout/admin/**").access("hasRole('ROLE_ADMIN')")
 			
 			.anyRequest().permitAll()
 		
 			// 로그인 설정
 			.and()
 			.formLogin()
-			.loginPage("/login")
+			.loginPage("/layout/user/member/login")
 			.loginProcessingUrl("/loginOk")
 			.defaultSuccessUrl("/")
 			.failureHandler(new CustomLoginFailureHandler())
