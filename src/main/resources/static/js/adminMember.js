@@ -135,6 +135,11 @@ $(document).ready(function() {
 	$('#operatorCor').on('click', function() {
 		$('.listDetailWrap-4').show();
 	});
+	
+	$('.operatorInsBtn').on('click', function(){
+		console.log(1)
+		$("form").submit();
+	})
 
 });
 

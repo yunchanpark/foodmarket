@@ -25,6 +25,7 @@ import com.lec.foodmarket.domain.Member;
 import com.lec.foodmarket.domain.Point;
 import com.lec.foodmarket.domain.PointCondition;
 import com.lec.foodmarket.domain.dto.MemberSerchDTO;
+import com.lec.foodmarket.domain.dto.OperatorDTO;
 import com.lec.foodmarket.domain.dto.PointDTO;
 import com.lec.foodmarket.service.MemberService;
 import com.lec.foodmarket.validator.MemberValidator;
@@ -267,9 +268,9 @@ public class AdminMemberController {
 	}
 	
 	@PostMapping("/operatorIns")
-	public String operatorIns(@RequestParam(value="operatorName", required = false) String operatorName, @RequestParam(value="operatorId", required = false) String operatorId, 
-			@RequestParam(value="operatorPw", required = false) String operatorPw, @RequestParam(value="pointUid", required = false) Member uid, Member member, Model model) {
-		
+	public String operatorIns(OperatorDTO operatorDTO, Member member, Model model) {
+		System.out.println(1);
+		System.out.println(operatorDTO);
 	
 		return "redirect:/layout/admin/member/operator";
 	}

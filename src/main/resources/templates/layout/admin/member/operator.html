@@ -33,9 +33,6 @@
 										<td style="width: 4%">No</td>
 										<td style="width: 8%">이름</td>
 										<td style="width: 8%">아이디</td>
-										<td style="width: 12%">상품관리</td>
-										<td style="width: 12%">주문관리</td>
-										<td style="width: 12%">사용자관리</td>
 										<td style="width: 10%">관리</td>
 									</tr>
 								</thead>
@@ -45,9 +42,6 @@
 											<td><span th:text="${dto.uid}"></span></td>
 											<td><span th:text="${dto.name}"></span></td>
 											<td><span th:text="${dto.id}"></span></td>
-											<td><span th:text="${dto.phoneNo}"></span></td>
-											<td><span th:text="${dto.email}"></span></td>
-											<td><span th:text="${dto.saveUpPoint}"></span></td>
 											<td><input type="button" value="수정" id="operatorCor" class="applyDetail text-white">
 												<img class="memberdelete" th:src="@{/images/delete.png}">
 											</td>
@@ -77,32 +71,12 @@
 							</tr>
 							<tr>
 								<th>비밀번호</th>
-								<td><input type="text" class="edit" id="operatorPw" name="operatorPw" value="" /></td>
-							</tr>
-							<tr>
-								<th class="underth">권한</th>
-								<td class="undertd">
-									<input type="checkbox" id="checkbox" name="checkbox" class="checkbox" onclick='selectAll(this)'> 상품관리
-								</td>
-							</tr>
-
-							<tr>
-								<th class="underth"></th>
-								<td class="undertd">
-									<input type="checkbox" id="checkbox" name="checkbox" class="checkbox" onclick='selectAll(this)'> 사용자관리
-								</td>
-							</tr>
-
-							<tr>
-								<th class="underth"></th>
-								<td class="undertd">
-									<input type="checkbox" id="checkbox" name="checkbox" class="checkbox" onclick='selectAll(this)'> 게시판관리
-								</td>
+								<td><input type="password" class="edit" id="operatorPw" name="operatorPw" value="" /></td>
 							</tr>
 						</table>
 						<div class="btm">
 							<div class="btn-c">
-								<a href="" class="btn-h52-blue">등록</a>
+								<input type="button" class="btn-h52-blue operatorInsBtn" value="등록"></a>
 							</div>
 						</div>
 					</div>
@@ -131,24 +105,6 @@
 								<td><input type="text" class="edit" id="listEmail"
 									 value="" /></td>
 							</tr>
-							<tr>
-								<th class="underth">권한</th>
-								<td class="undertd"><input type="checkbox" id="checkbox" name="checkbox"
-									class="checkbox" onclick='selectAll(this)'> 상품관리</td>
-							</tr>
-
-							<tr>
-								<th class="underth"></th>
-								<td class="undertd"><input type="checkbox" id="checkbox" name="checkbox"
-									class="checkbox" onclick='selectAll(this)'> 사용자관리</td>
-							</tr>
-
-							<tr>
-								<th class="underth"></th>
-								<td class="undertd"><input type="checkbox" id="checkbox" name="checkbox"
-									class="checkbox" onclick='selectAll(this)'> 게시판관리</td>
-							</tr>
-
 						</table>
 						<div class="btm">
 							<div class="btn-c">
