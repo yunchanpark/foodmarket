@@ -201,7 +201,7 @@ public class AdminBoardController {
 					&& selectStartDate == null && selectEndDate == null) {
 				// 검색 카테고리가 제목일 때
 				if (keyword.equals("inquiry_title")) {
-					list = boardService.inquiryStatusAndTitleSelect(inquirycnt, searchKeyword);
+					list = boardService.inquiryTitleSelect(searchKeyword);
 					if (inquirycnt == 0)
 						listt = boardService.InquiryNoAnswerTitleCnt(inquirycnt, searchKeyword);
 				}
