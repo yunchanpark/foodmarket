@@ -1,5 +1,5 @@
 $(document).ready(function() {
-	// 화면 bottom_gnb 상단 고정
+	/* 화면 bottom_gnb 상단 고정 */
 	$(window).scroll(function() {
 		var num = $(this).scrollTop();
 		if (num > 167) {
@@ -15,49 +15,12 @@ $(document).ready(function() {
 		}
 	});
 
-	// 버튼 클릭시 검색 값 삭제
-	$(".search_del").on("click", function() {
-		$("#sword").val("");
-	});
-
-
+	/* 검색 커서 나왔을 때 */
 	$("#sword").on("blur", function() {
 		$(".search_del").css("background", "#F7F7F7");
 	});
 
-
-
-	// 구매 수량 버튼
-	let cnt = $(".view_product_cnt").val();
-
-	$(".plus_btn").on("click", function() {
-		let left_cnt = $(".product_view_stock").text();
-		left_cnt = Number(left_cnt);
-		cnt = $(".view_product_cnt").val();
-		if (cnt == left_cnt) return;
-		cnt = Number(cnt) + 1;
-		$(".view_product_cnt").val(cnt);
-		$(".product_value").text(change(cnt) + "원");
-	});
-	$(".sub_btn").on("click", function() {
-		cnt = $(".view_product_cnt").val();
-		if (cnt == 1) return;
-		cnt = Number(cnt) - 1;
-		$(".view_product_cnt").val(cnt);
-		$(".product_value").text(change(cnt) + "원");
-	});
-
-	// 가격 변경
-	function change(cnt) {
-		$(".product_value").empty();
-		let price = $(".product_view_price").text();
-		cnt = Number(cnt);
-		price = Number(price);
-		let value = cnt * price;
-		return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-	}
-
-	// 화면 이동 버튼
+	/* 화면 이동 버튼 */
 	let btn_width = 0;
 	let pos = 0;
 	function display_btn() {
@@ -88,35 +51,42 @@ $(document).ready(function() {
 		pos = pos - 1;
 		display_btn();
 	});
-
-	// 카트 담기
-	$("#basket").on("click", function() {
-		var product_no = $("#product_no").val();
-		var product_cnt = $("#product_cnt").val();
+	
+	/* 카트 개수 */
+	(cartCnt = function(){
 		$.ajax({
-			url: "product_cart.do",
+			url: "/layout/cart",
+			type: "get",
+			success: function(data) {
+				$(".cart_count").text(data.cnt);
+			}
+		});
+	})();
+
+	/* 카트 담기 */
+	$("#basket").on("click", function() {
+		var product_no = $("input[name='productNo']").val();
+		var product_cnt = $("input[name='cnt']").val();
+		$.ajax({
+			url: "/layout/user/product/cart",
 			type: "post",
 			data: {
-				"product_no": product_no,
-				"product_cnt": product_cnt
+				"productNo": product_no,
+				"cnt": product_cnt
 			}, success: function() {
-				cartList();
-				$("#cart_title").animate({
+				cartCnt();
+				$(".cart_title").animate({
 					opacity: "0.7"
 				}, 2000).animate({
 					opacity: "0"
 				}, 2000);
-				$("#cloud").animate({
+				$(".cloud").animate({
 					opacity: "1"
 				}, 2000).animate({
 					opacity: "0"
 				}, 2000);
 			}
 		});
-	});
-
-	$("#basket_no_login").on("click", function() {
-		alert("로그인을 하셔야 합니다.");
 	});
 });
 

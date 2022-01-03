@@ -1,5 +1,8 @@
 @charset "UTF-8";
 /* section */
+* {
+	color: #333333;
+}
 /* new 끝 */
 .container1 {
 	margin-top: 35px;
@@ -47,9 +50,7 @@
 	height: 320px;
 }
 
-.product_new_item span {
-	display: block;
-	color: #333333;
+.product_new_item div {
 	padding-top: 6px;
 	line-height: 20px;
 }
@@ -60,6 +61,24 @@
 
 .product_new_price {
 	font-weight: 800;
+	width: 60px;
+}
+
+.disCount {
+	margin-right: 7px;
+	font-weight: 800;
+	line-height: 1.5;
+	white-space: nowrap;
+	color: rgb(250, 98, 47);
+}
+
+.real_price {
+	color: rgb(153, 153, 153);
+	font-size: 14px;
+	font-weight: 400;
+	line-height: normal;
+	text-decoration: line-through;
+	margin-top: 2px;
 }
 
 .bx-controls .bx-next {
@@ -82,6 +101,11 @@
 	top: 120px;
 	cursor: pointer;
 }
+
+.priceWrap span {
+	display: inline-block;
+	font-size: 16px;
+}
 /* new 끝 */
 
 /* best 3 */
@@ -96,7 +120,6 @@
 }
 
 .product_best_item {
-	display: block;
 	margin-left: 20px;
 	margin-bottom: 20px;
 }
@@ -112,8 +135,6 @@
 }
 
 .product_best_item span {
-	display: block;
-	color: #333333;
 	padding-top: 6px;
 	line-height: 20px;
 }
@@ -139,6 +160,7 @@
 	padding-left: 0;
 	margin-right: 7px;
 	margin-left: 0;
+	vertical-align: top;
 }
 
 .item_product a {
@@ -151,18 +173,51 @@
 }
 
 .item_product span {
-	display: block;
-	color: #333333;
 	padding-top: 6px;
 	line-height: 20px;
 }
 
-.product_new_title {
-	font-size: 16px;
+.info {
+	display: block;
+	padding: 14px 10px 10px 0;
 }
 
-.product_new_price {
+.name {
+	display: block;
+	max-height: 58px;
+	font-weight: 400;
+	font-size: 18px;
+	word-wrap: break-word;
+}
+
+.cost {
+	display: block;
+	padding-top: 7px;
+	font-size: 18px;
+	line-height: 29px;
+	font-weight: bold;
+}
+
+.desc {
+	display: block;
+	padding-top: 11px;
+	font-size: 13px;
+	color: #999;
+	line-height: 19px;
+}
+
+.cost .dc {
+	padding-right: 2px;
 	font-weight: 800;
+	color: #fa622f;
+}
+
+.original {
+	display: block;
+	font-size: 16px;
+	color: #999;
+	font-weight: normal;
+	text-decoration: line-through;
 }
 /* 상품 리스트 끝 */
 
@@ -224,44 +279,17 @@
 	border-bottom: 1px solid #f4f4f4;
 }
 
-.product_view_table span:nth-child(2) {
-	font-size: 15px;
-	color: #333333;
-}
-
-.product_view_table:nth-child(5) {
-	padding-top: 40px;
-	border-bottom: none;
-	text-align: right;
-}
-
-.product_view_table:nth-child(5) span {
-	font-size: 13px;
-	color: #333333;
-	line-height: 20px;
-}
-
-.product_view_table:nth-child(5) span:nth-child(2) {
-	padding-left: 8px;
-	font-weight: 800;
-	font-size: 32px;
-	line-height: 32px;
-	width: 80px;
-}
-
 .product_view_menu {
 	display: inline-block;
 	font-size: 20px;
 	font-weight: 800;
 	line-height: 34px;
 	width: 200px;
-	color: #333333;
 }
 
 #product_view_name {
 	font-size: 24px;
 	line-height: 34px;
-	color: #333333;
 }
 
 .product_view_submit {
@@ -329,21 +357,97 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 	cursor: pointer;
 }
 
-.product_view_price, .product_view_stock {
-	display: none;
-}
-
 .lickCnt {
 	background: url("/images/heart.png") no-repeat 50% 50%;
 	background-size: 30px 30px;
 }
 
+.product_view_name_warp {
+	padding: 0 0 29px 0;
+}
+
+.short_desc {
+	padding: 6px 60px 0 0;
+	font-size: 14px;
+	color: #999;
+	line-height: 20px;
+	word-break: break-all;
+}
+
+.product_price {
+    width: 560px;
+    padding: 0 20px 0 0;
+}
+
+.product_dcinfo {
+    width: 560px;
+    padding-right: 21px;
+    font-size: 14px;
+    line-height: 20px;
+    margin: 0 0 8px 3px;
+}
+
+.dc_price {
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 30px;
+    letter-spacing: 0;
+    word-break: break-all;
+}
+
+.dc_price .won {
+    padding: 0 7px 0 2px;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 30px;
+    vertical-align: 2px;
+    letter-spacing: 0;
+}
+
+.dc_percent {
+    font-weight: 700;
+    font-size: 28px;
+    color: #fa622f;
+    line-height: 30px;
+    letter-spacing: 0;
+}
+
+.position .price {
+	display: block;
+	margin: 5px 0 0 3px;
+    font-size: 16px;
+    color: #999;
+    line-height: 24px;
+    text-decoration: line-through;
+}
+
+.price .won {
+	font-size: 16px;
+}
+
+.total {
+    padding: 30px 0 20px;
+    border-top: 1px solid #f4f4f4;
+}
+
+.total .price {
+    overflow: hidden;
+    text-align: right;
+}
+
+.total .num {
+    padding-left: 8px;
+    font-weight: 800;
+    font-size: 32px;
+    line-height: 32px;
+}
 /* 상품 조회 끝 */
 
 /* 상품 조회 결과 없을 때 */
 .not {
 	height: 300px;
 	padding: 70px;
+	margin-top: 170px;
 	display: flex;
 	justify-content: center;
 }

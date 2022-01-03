@@ -94,7 +94,7 @@
 			            				<tr>
 			            					<td style="width: 55px;"><input type="checkbox" th:value="${dto.productNo}" name="productarr"></td>
 			            					<td><img alt="" th:src="@{/ckUpload/productImages/product/} + ${dto.imageSave}"></td>
-			            					<td><a href="update/" th:attrappend="href=${dto.productNo}" th:text="${dto.name}"></a></td>
+			            					<td><a class="goUpdate" href="update/" th:attrappend="href=${dto.productNo}" th:text="${dto.name}"></a></td>
 			            					<td><span th:text="${dto.description}"></span></td>
 			            					<td><span th:text="${dto.price}"></span></td>
 			            					<td><span th:text="${dto.purchasePrice}"></span></td>
@@ -135,7 +135,7 @@
 		
 		// 검색 카테고리
     	$('#keyword').val(keyword).prop('selected', true);
-		/*]]>*/
+	/*]]>*/
 	</script>
     <!--plugin끝-->
 </body>

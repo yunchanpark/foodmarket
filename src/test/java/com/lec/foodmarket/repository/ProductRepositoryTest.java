@@ -1,9 +1,15 @@
 package com.lec.foodmarket.repository;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.lec.foodmarket.domain.Cart;
+import com.lec.foodmarket.domain.Member;
 import com.lec.foodmarket.domain.Product;
 import com.lec.foodmarket.domain.ProductCategory;
 
@@ -14,9 +20,15 @@ public class ProductRepositoryTest {
 	private ProductRepository productRepository;
 	
 	@Autowired
+	private CartRepository cartRepository;
+	
+	@Autowired
+	private MemberRepository memberRepository;
+	
+	@Autowired
 	private ProductCategoryRepository productCategoryRepository;
 	
-	@Test
+//	@Test
 	void crud() {
 		System.out.println("\n--TEST#crud()------------------------------------------------");
 		ProductCategory category = ProductCategory.builder()
@@ -46,4 +58,64 @@ public class ProductRepositoryTest {
 		
 		System.out.println("---------------------------------------------------------------");
 	}
+	
+	//@Test
+	void category() {
+		System.out.println(productCategoryRepository.findByName("채소").orElse(null));
+	}
+	
+	@Test
+	void cart() {
+		List<Member> member = memberRepository.findAll();
+		List<Product> product = productRepository.findAll();
+		List<Product> product1 = new ArrayList<Product>();
+		product1.add(product.get(0));
+		product1.add(product.get(1));
+
+		Member m = member.get(0);
+		Cart c = Cart.builder()
+				.cnt(0)
+				.productNo(product.get(0))
+				.id(m)
+				.build();
+		cartRepository.save(c);
+		
+		Cart c1 = Cart.builder()
+				.cnt(0)
+				.productNo(product.get(1))
+				.id(m)
+				.build();
+		cartRepository.save(c1);
+		
+		System.out.println(cartRepository.findAll().get(0));
+		List<Cart> cart = cartRepository.findMemberAndProductNoIn(m, product);
+		cart.forEach(k -> System.out.println(m));
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,7 +1,9 @@
 package com.lec.foodmarket.controller;
 
 import java.util.List;
+import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +18,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.lec.foodmarket.commond.FileUpload;
 import com.lec.foodmarket.domain.Product;
 import com.lec.foodmarket.domain.dto.FileUploadDTO;
 import com.lec.foodmarket.domain.dto.ProductDTO;
 import com.lec.foodmarket.domain.dto.SearchDTO;
+import com.lec.foodmarket.service.ExcelService;
 import com.lec.foodmarket.service.ProductService;
 import com.lec.foodmarket.validator.ProductValidator;
 import com.lec.foodmarket.validator.SearchValidator;
@@ -39,12 +45,16 @@ public class AdminProductController {
 	
 	// 상품 검색 유효성
 	private SearchValidator searchValidator;
-
+	
+	// 엑셀로 일괄 등록
+	private ExcelService excel;
+	
 	@Autowired
-	public AdminProductController(ProductService productService, ProductValidator productValidator, SearchValidator searchValidator) {
+	public AdminProductController(ProductService productService, ProductValidator productValidator, SearchValidator searchValidator, ExcelService excel) {
 		this.productService = productService;
 		this.productValidator = productValidator;
 		this.searchValidator = searchValidator;
+		this.excel = excel;
 	}
 
 	public AdminProductController() {;}
@@ -173,6 +183,68 @@ public class AdminProductController {
 				.build();
 		productService.productSave(product);
 		return "redirect:/layout/admin/product/list";
+	}
+	
+	@PostMapping("writeAll")
+	public String productAllWrite(@Valid ProductDTO productDTO) {
+		for(ProductDTO dto : productDTO.getProductList()) System.out.println(dto);
+		productService.productAllSave(productDTO.getProductList());
+		return "redirect:/layout/admin/product/list";
+	}
+	
+	// 상품 이미지 일괄 등록
+	@ResponseBody
+	@PostMapping("/writeImageAll")
+	public void productWriteAll(HttpServletResponse response, MultipartHttpServletRequest upload) throws Exception {
+		// 상품 다중 이미지 업로드
+		FileUpload file = new FileUpload();
+		List<FileUploadDTO> list = file.ckAllUpload("/productImages/product/", "productImages\\product", upload);
+
+		excel.downloadProductInfo(response, list);
+	}
+	
+	// 상품 엑셀 파일 읽기
+	@ResponseBody
+	@PostMapping("/excel")
+	public JsonObject productExcel(@RequestParam("excelImage") MultipartFile excelFile) throws Exception {
+		Map<ProductDTO, Integer> excelList = excel.uploadExcelFile(excelFile);
+		
+		int succes = 0;
+		
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty("total", excelList.size());		
+		
+		JsonArray array = new JsonArray();
+		
+		for( Map.Entry<ProductDTO, Integer> elem : excelList.entrySet() ){
+			JsonObject data = new JsonObject();
+			ProductDTO product = elem.getKey();
+			if(elem.getValue() != 1) {
+				data.addProperty("categoryNo", product.getCategoryNo().getCategoryNo());
+				data.addProperty("name", product.getName());
+				data.addProperty("description", (product.getDescription() == null ? "" : product.getDescription()));
+				data.addProperty("price", product.getPrice());
+				data.addProperty("purchasePrice", product.getPurchasePrice());
+				data.addProperty("stock", product.getStock());
+				data.addProperty("discount", (product.getDiscount() == null ? 0 : product.getDiscount()));
+				data.addProperty("exchangeRate", (product.getExchangeRate() == null ? "" : product.getExchangeRate()));
+				data.addProperty("detailContent", (product.getDetailContent() == null ? "" : product.getDetailContent()));
+				data.addProperty("startDate", (product.getStartDate() == null ? "" : product.getStartDate().toString()));
+				data.addProperty("endDate", (product.getEndDate() == null ? "" : product.getEndDate().toString()));
+				data.addProperty("orginName", product.getOrginName());
+				data.addProperty("saveName", product.getSaveName());
+				data.addProperty("discountCk", (product.getDiscountCk() == null ? "N" : product.getDiscountCk()));
+				data.addProperty("duringCheck", (product.getDuringCheck() == null ? "N" : product.getDuringCheck()));
+				array.add(data);
+				succes++;
+			} 
+		}
+		
+		jsonObject.addProperty("fail", (excelList.size() - succes));
+		jsonObject.addProperty("succes", (succes));
+		jsonObject.add("data", array);
+
+		return jsonObject;
 	}
 
 	// 상품 수정

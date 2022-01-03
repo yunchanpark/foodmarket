@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<!-- head -->
+<th:block th:include="@{/layout/user/includes/head.html}"></th:block>
+	<link th:href="@{/css/cart.css}" rel="stylesheet" />
+<!-- head 끝 -->
+</head>
+<body>
+    <div class="wrap">
+        <!-- header -->
+		<th:block th:include="@{/layout/user/includes/header.html}"></th:block>
+        <!-- header 끝 -->
+        
+        <!-- section -->
+        <!-- content 시작 -->
+        <section>
+            <div class="product_container">
+                <div class="section_area box_inner">
+                    <h2 id="product_head">
+                        장바구니
+                    </h2>
+                </div>
+            </div>
+            <div class="box_inner all_delete">
+            	<label for="all_check" class="cart_checkbox" id="all_checkbox">
+	            	<span id="all_check">
+	            		전체선택
+	            	</span>
+            	</label>
+            	<span id="check_cnt">
+            	</span>	
+            	<span id="select_del">
+            		선택삭제
+            	</span>
+            </div>
+            <div class="cart_wrapper">
+                <div class="cart_container box_inner">
+                    <ul>
+                    <th:block th:each="dto : ${cartList}">
+			             <li th:id="${dto.cartNo}">
+			                 <label th:for="cart_product_no + ${dto.cartNo}" class="cart_checkbox" th:id="cart_checkbox + ${dto.cartNo}">
+			                     <input type="checkbox" name="cart_product_no" th:id="cart_product_no + ${dto.cartNo}" class="cart_product_no" 
+			                     	th:value="${dto.cartNo}" checked="checked">
+			                 </label>
+			                 <a th:href="@{/layout/user/product/view/} + ${dto.productNo.productNo}" class="cart_img">
+			                     <img th:src="@{/ckUpload/productImages/product/} + ${dto.productNo.imageSave}" id="cart_product_img">
+			                 </a>
+			                 <div id="cart_product_name_warp">
+			                     <span class="cart_product_name">
+			                         [[${dto.productNo.name}]]
+			                     </span>
+			                 </div>
+			                 <div class="option">
+			                     <span class="cart_product_cnt_wrap">
+			                     	 <label th:for="cart_sub_btn + ${dto.cartNo}" class="cart_sub_btn">
+			                         	<input type="button" class="cart_sub" th:id="cart_sub_btn + ${dto.cartNo}" th:value="${dto.productNo.productNo}" style="display: none">
+			                         </label>
+			                         <input type="number" th:value="${dto.cnt}" class="cart_product_cnt" readonly="readonly"
+			                             name="cart_product_cnt" th:id="cart_product_cnt + ${dto.productNo.productNo}">
+			                         <label th:for="cart_plus_btn + ${dto.cartNo}" class="cart_plus_btn">
+				                         <input type="button" class="cart_plus" th:id="cart_plus_btn + ${dto.cartNo}" th:value="${dto.productNo.productNo}" style="display: none">
+				                     </label>
+			                     </span>
+			                 </div>
+			                 <div class="cart_product_price_wrap">
+			                    <span class="cart_product_price_wrap priceResult" th:id="cartPrice + ${dto.cartNo}" th:if="${dto.productNo.exchangeRate == 'percent'}">
+			                    	[[${#numbers.formatInteger((dto.productNo.price)*((100 - dto.productNo.discount)*0.01)*dto.cnt, 0, 'COMMA')}]]
+			                    </span>
+			                    <span class="cart_product_price_wrap priceResult" th:id="cartPrice + ${dto.cartNo}" th:if="${dto.productNo.exchangeRate == 'won'}">
+			                    	[[${#numbers.formatInteger((dto.productNo.price - dto.productNo.discount)*dto.cnt, 0, 'COMMA')}]]
+			                    </span>
+			                    <span class="cart_product_price_wrap priceResult" th:id="cartPrice + ${dto.cartNo}" th:if="${dto.productNo.exchangeRate != 'percent'} and ${dto.productNo.exchangeRate != 'won'}">
+			                    	[[${#numbers.formatInteger(dto.productNo.price*dto.cnt, 0, 'COMMA')}]]
+			                    </span>
+			                   	<span class="won">원</span>
+			                 </div>
+			                 <div class="cart_product_delete">
+			                 	<label th:for="del + ${dto.cartNo}" class="delete_btn">
+			                 		<input type="button" class="del" th:id="del + ${dto.cartNo}" th:value="${dto.cartNo}">
+			                 	</label>
+			                 </div>
+			             </li>
+		            </th:block>
+                    </ul>
+                    <div class="cart_box">
+                        <div class="cart_box_container">
+                            <div class="cart_addr_list">
+                                <div class="cart_addr_tit">
+                                    <span class="cart_addr_name">배송지</span>
+                                </div>
+                                <div class="cart_addr_content">
+                                </div>
+                            </div>
+                            <div class="cart_amount_list">
+                                <span class="cart_amount_tit">결제예정금액</span>
+                                <span class="cart_amount">
+                                    <span class="amount">
+                                    1000원
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                        <input type="button" value="주문하기" class="cart_submit">
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- content 끝-->
+        <!-- section 끝 -->
+        
+        <!-- footer -->
+		<th:block th:include="@{/layout/user/includes/footer.html}"></th:block>
+        <!-- footer 끝 -->
+    </div>
+    <!-- plugin -->
+    <th:block th:include="@{/layout/user/includes/plugin.html}"></th:block>
+    <script th:src="@{/js/includes.js}"></script>
+    <script th:src="@{/js/cart.js}"></script>
+    <!-- plugin 끝 -->
+</body>
+</html>
