@@ -43,9 +43,9 @@
 									<div class="border bg-light rounded p-2">[[${dto.id.name}]]</div>
 								</div>
 								<div class="mb-3 mt-3">
-									<label for="title">제목:</label> <input type="text"
-										class="form-control" id="subject" placeholder="제목을 입력하세요"
-										name="title" th:value="${dto.title }" readonly="readonly">
+									<label for="title">제목:</label> 
+									<input type="text" class="form-control" id="subject" placeholder="제목을 입력하세요" 
+									name="title" th:value="${dto.title }" readonly="readonly"/>
 								</div>
 								<div class="mb-3 mt-3">
 									<label for="content">내용:</label>
@@ -57,7 +57,9 @@
 									<div class="mb-3 mt-3">
 										<label class="view_lab"><a>첨부파일:</a></label>
 										<!--첨부파일 이름, 다운로드 링크 -->
-											<li class="list-group-item notice_view_tic"><img alt="">[[${session.inquiryimage.inquiryOrgin}]]</li>
+											<li class="list-group-item notice_view_tic">
+											<img alt="" th:src="@{/ckUpload/inquiryImages/inquiry/} + ${user_inquiry_imageview.inquirySave}" style="width: 600px;">
+											</li>
 									</div>
 								</div>
 
@@ -68,9 +70,9 @@
 										placeholder="내용을 입력하세요" name="answer">[[${dto.answer }]]</textarea>
 								</div>
 
+								<button type="submit" class="btn btn-outline-dark">답변달기</button>
 								<button type="button" class="btn btn-outline-dark"
 									onclick="location.href='inquiry_list'">목록</button>
-								<button type="submit" class="btn btn-outline-dark">답변달기</button>
 							</form>
 						</section>
 					</div>

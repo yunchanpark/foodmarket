@@ -1,9 +1,5 @@
-
 $(document).ready(function() {
-	const offset = new Date().getTimezoneOffset() * 60000;
-	const today = new Date(Date.now() - offset).toISOString().slice(0, 16);
-	const calendar = $('.discount-calendar')
-	calendar.attr("min", today);
+
 
 	/* 검색 날짜 */
 	$('.btn-date').on('click', function() {
@@ -22,6 +18,9 @@ $(document).ready(function() {
 			start.val(lastWeek());
 		} else if ($(this).hasClass('lastMonth')) {
 			start.val(lastMonth());
+		} else if ($(this).hasClass('todayAll')) {
+			start.val("");
+			end.val("");
 		}
 	});
 
@@ -59,71 +58,93 @@ $(document).ready(function() {
 		return (year + '-' + month + '-' + day);
 	}
 
-
-
 	/* 일괄 적용 버튼 */
 	$('.apply').on('click', function() {
 		var selName = $('select[name=batch]').val();
 		var checkedValue = [];
 
 		if (selName == 'batchDel') {
-			$('input:checkbox[name=notice_checkbox]:checked').each(function() {
+			$('input:checkbox[name=productarr]:checked').each(function() {
 				checkedValue.push($(this).val());
 			});
 			console.log(checkedValue)
 			$.ajax({
-				url: "notice_deleteOk",
+				url: "delete",
 				type: 'POST',
 				dataType: 'JSON',
 				traditional: true,
 				data: {
-					'noticeNoArr': checkedValue
+					'productNoArr': checkedValue
 				}, success: function() {
 				}
 			});
 		}
-		location.reload();
 	});
 
+
 	/* 전체 선택 */
-	let noticeCk = $('input:checkbox[name=notice_checkbox]');
-	let allCk = $('input:checkbox[name=notice_allcheckbox]');
+	let productCk = $('input:checkbox[name=productarr]');
+	let allCk = $('input:checkbox[name=allCk]');
 
 	allCk.on('change', function() {
 		if (allCk.is(':checked')) {
-			noticeCk.prop('checked', true);
+			productCk.prop('checked', true);
 		} else {
-			if ($('input:checkbox[name=notice_checkbox]:not(:checked)').length == 0) {
-				noticeCk.prop('checked', false);
+			if ($('input:checkbox[name=productarr]:not(:checked)').length == 0) {
+				productCk.prop('checked', false);
 			}
 		}
-		$('.ckCnt').text($('input:checkbox[name=notice_checkbox]:checked').length);
+		$('.ckCnt').text($('input:checkbox[name=productarr]:checked').length);
 	});
 
 	/* 선택 */
-	noticeCk.on('change', function() {
-		if ($('input:checkbox[name=notice_checkbox]:not(:checked)').length != 0) {
+	productCk.on('change', function() {
+		if ($('input:checkbox[name=productarr]:not(:checked)').length != 0) {
 			allCk.prop('checked', false);
 		} else {
 			allCk.prop('checked', true);
 		}
-		$('.ckCnt').text($('input:checkbox[name=notice_checkbox]:checked').length);
+		$('.ckCnt').text($('input:checkbox[name=productarr]:checked').length);
 	});
 
+	// 적립금 설정 
+	$('.pointConditionBtn').on('click', function() {
+		alert("저장되었습니다.");
+		$("form").submit();
+	});
 
+	$('#point_ck').on('click', function() {
+		var uid = $('input:checkbox[name=productarr]:checked').val();
+		if(uid == undefined) {
+			alert("선택된 회원이 없습니다.");
+			return;
+		}
+		$('#pointUid').val(uid);
+		$('.listDetailWrap-2').show();
+	});
+
+	$('#pointSavebtn').on('click', function() {
+		alert("저장되었습니다.");
+		$("form").submit();
+	});
+	
+	$('#operatorInsert').on('click', function() {
+		$('.listDetailWrap-3').show();
+	});
+
+	$('#operatorCor').on('click', function() {
+		$('.listDetailWrap-4').show();
+	});
 
 });
 
 
-// 문의 이미지 업로드
-let fileTarget = $(".product_image_orgin_name");
-fileTarget.on("change", function() {
-	var filename = "";
 
-	if (window.FileReader) {
-		filename = $(this)[0].files[0].name;
-	} else {
-		filename = $(this).val().split('/').pop().split('\\').pop();
-	}
-	$(this).siblings(".product_image_value").val(filename);
-});
+
+
+
+
+
+
+
+

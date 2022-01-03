@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<!-- head -->
+<th:block th:include="@{/layout/user/includes/head.html}"></th:block>
+<link rel="stylesheet" type="text/css" href="/css/user_board.css">
+
+<!-- head 끝 -->
+
+<body>
+	<div class="wrap">
+		<!-- header -->
+		<th:block th:include="@{/layout/user/includes/header.html}"></th:block>
+		<!-- header 끝 -->
+
+		<!-- section -->
+		<section>
+			<th:block th:include="@{/layout/admin/includes/menubar.html}"></th:block>
+
+
+			<!-- 내용 입력 -->
+			<div class="notice">
+				<div class="notice_title">
+					오시는 길 <a
+						th:href="@{https://map.kakao.com/link/to/푸드마켓,37.499450,127.035857}"
+						class="btn btn-primary btn-sm" role="button" th:target="_blank"
+						
+						style="font-size: 20px; text-align: center; left: 50%; margin-left: 450px; top: 270px">길찾기</a>
+				</div>
+				<script type="text/javascript"
+					th:src="@{//dapi.kakao.com/v2/maps/sdk.js?appkey=4f0cfff60321a81907fe7aa99d31d93d}"></script>
+
+				<div id="kakao_map" style="width: 820px; height: 450px;"></div>
+
+				<!-- 카카오 지도 -->
+				<script>
+					var kakao_mapContainer = document
+							.getElementById('kakao_map'), // 지도의 중심좌표
+
+					kakao_mapOption = {
+						center : new kakao.maps.LatLng(37.499450, 127.035857), // 지도의 중심좌표
+						level : 4
+					};
+
+					var kakao_map = new kakao.maps.Map(kakao_mapContainer,
+							kakao_mapOption); // 지도를 생성합니다
+					// 지도에 마커를 표시합니다
+					var marker = new kakao.maps.Marker({
+						map : kakao_map,
+						position : new kakao.maps.LatLng(37.499450, 127.035857)
+					});
+
+					// 마커를 중심으로 커스텀 오버레이를 표시하기위해 CSS를 이용해 위치를 설정했습니다
+					var overlay = new kakao.maps.CustomOverlay({
+						content : content,
+						map : kakao_map,
+						position : marker.getPosition()
+					});
+
+					// 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
+					kakao.maps.event.addListener(marker, 'click', function() {
+						overlay.setMap(kakao_map);
+					});
+
+					// 커스텀 오버레이를 닫기 위해 호출되는 함수입니다
+					function closeOverlay() {
+						overlay.setMap(null);
+					}
+				</script>
+			</div>
+
+			<!-- 내용 입력 끝 -->
+		</section>
+		<!-- section 끝 -->
+
+		<!-- footer -->
+		<th:block th:include="@{/layout/user/includes/footer.html}"></th:block>
+		<!-- footer 끝 -->
+	</div>
+	<!-- plugin -->
+	<th:block th:include="@{/layout/user/includes/plugin.html}"></th:block>
+	<!-- plugin 끝 -->
+</body>
+
+</html>

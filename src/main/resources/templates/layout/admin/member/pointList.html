@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<!-- head -->
+<th:block th:include="@{/layout/admin/includes/head.html}"></th:block>
+<!-- head 끝 -->
+<link th:href="@{/css/adminMember.css}" rel="stylesheet" />
+<title>FoodMarket-적립금관리</title>
+<body class="sb-nav-fixed">
+	<!--header menu-->
+	<th:block th:include="@{/layout/admin/includes/header.html}"></th:block>
+	<!--header menu 끝-->
+	<!-- 본문 -->
+	<div id="layoutSidenav">
+		<!--sidebar-->
+		<th:block th:include="@{/layout/admin/includes/sidebar.html}"></th:block>
+		<!--sidebar 끝-->
+		<!--content-->
+		<div id="layoutSidenav_content">
+			<main>
+				<!--내용 입력-->
+				<div class=" px-4">
+                    <div class="mt-4 fs-5 fw-bold align-self-center">• 적립금 관리</div>
+                   	<div class="tab-menu">
+	           		 	<ul>
+							<li class=""><a th:href="@{/layout/admin/member/point}">적립금 설정</a></li>
+	        			    <li class="now"><a th:href="@{/layout/admin/member/pointList}">적립금 내역</a></li>
+						</ul>
+					</div>
+                    <div class="list-wrap bg-white mt-4">
+                    	<form action="pointList" method="get">
+                    	<div class="list-container flex-center bd-b-gray">
+                    		<span class="txt">기간</span>
+                    		<ul class="date-select flex-center">
+								<li class="todayAll btn-date">전체</li>                    		
+								<li class="today btn-date">오늘</li>                    		
+								<li class="lastWeek btn-date">1주일</li>                    		
+								<li class="lastMonth btn-date">1개월</li>                    		
+                    		</ul>
+                    		<div class="ms-3">
+                    			<input type="date" name="selectStartDate" class="discount-calendar" id="selectStartDate">
+                    			<span class="sep">~</span>
+                    			<input type="date" name="selectEndDate" class="discount-calendar" id="selectEndDate">
+                    			<span class="err">[[${errSelectStartDate}]]</span>
+                    			<span class="err">[[${errSelectEndDate}]]</span>
+                    		</div>
+                    	</div>
+                    	<div class="list-container flex-center">
+                    		<span class="txt">구분</span>
+                    		<select name="division" class="arr-bg arr-size-small" id="division">
+                    			<option value="2">전체</option>
+                    			<option value="0">지급내역</option>
+                    			<option value="1">사용내역</option>
+                    		</select>
+                    	</div>
+                    	<div class="list-container flex-center">
+                    		<span class="txt">키워드</span>
+                    		<select name="keyword" class="arr-bg arr-size-small" id="keyword">
+                    			<option value="pointListId">아이디</option>
+                    			<option value="pointListName">회원명</option>
+                    			<option value="pointListReason">사유</option>
+                    		</select>
+                    		<input type="text" name="searchKeyword" class="arr-bg arr-size-nomal" >
+                    	</div>
+                    	<div class="btn-c">
+                    		<input type="submit" class="btn-h52-blue w180 mr-20 btn-add-notice search_btn" value="검색"/>
+                    	</div>
+                    	</form>
+                    </div>
+            	</div>
+            	<div class="px-4 mb-5 mt-4">
+            		<div class="bg-white bd-gray">
+            			<div class="result-title">
+            				검색 결과 
+            				<span class="title-option">
+            					( 전체건수 : 
+            					<span class="pil-so">
+            						<th:block th:if="${list != null}" th:text="${list.size}">0</th:block>
+            					</span>건 )
+            				</span>
+            			</div>
+            			<div class="mt-30 table-wrap">
+	            			<table class="product-table">
+	            				<thead>
+	            					<tr>
+	            						<td style="width: 3%;">No</td>
+	            						<td style="width: 10%;">날짜</td>
+	            						<td style="width: 7%;">아이디</td>
+	            						<td style="width: 7%;">회원명</td>
+	            						<td style="width: 10%;">이메일</td>
+	            						<td style="width: 15%;">사유</td>
+	            						<td style="width: 7%;">금액</td>
+	            					</tr>
+	            				</thead>
+	            				<tbody>
+		            				<th:block th:if="${list.size == 0}">
+		            					<tr>
+		            						<td colspan="7" style="color: gray">검색 조건을 확인 하신 후 검색 버튼을 클릭하세요.</td>
+		            					</tr>
+		            				</th:block>
+		            				<th:block th:unless="${list == null}">
+		            					<th:block th:each="dto : ${list}">
+				            				<tr>
+				            					<td><span th:text="${dto.pointNo}"></span></td>
+				            					<td><span th:text="${#temporals.format(dto.createdAt, 'yyyy-MM-dd HH:mm')}"></span></td>
+				            					<td><span th:text="${dto.uid.id}"></span></td>
+				            					<td><span th:text="${dto.uid.name}"></span></td>
+				            					<td><span th:text="${dto.uid.email}"></span></td>
+				            					<td><span th:text="${dto.name}"></span></td>
+				            					<td>
+				            						<div th:switch="${dto.status}" class="status">
+														<p th:case="0"><span style="color: red">+<span th:text="${dto.point}"></span></span></p>
+														<p th:case="1"><span style="color: blue">-<span th:text="${dto.point}"></span></span></p>
+													</div>
+												</td>
+				            				</tr>
+		            					</th:block>
+		            				</th:block>
+	            				</tbody>
+	            			</table>
+            			</div>
+            		</div>
+            	</div>
+				
+				<!--내용 입력 끝-->
+			</main>
+			<!--footer-->
+			<th:block th:include="@{/layout/admin/includes/footer.html}"></th:block>
+			<!--footer 끝-->
+		</div>
+		<!--content 끝-->
+	</div>
+	<!-- 본문 끝 -->
+	<!--plugin-->
+	<th:block th:include="@{/layout/admin/includes/plugin.html}"></th:block>
+	    <script th:src="@{/js/adminMember.js}"></script>
+	<!--plugin끝-->
+</body>
+</html>

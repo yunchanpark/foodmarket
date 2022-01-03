@@ -4,6 +4,32 @@
 <th:block th:include="@{/layout/admin/includes/head.html}"></th:block>
 <link rel="stylesheet" type="text/css" href="/css/board.css">
 
+
+<script>
+// form 검증(validation)
+function chkSubmit(){
+	
+	frm = document.forms['frm'];
+	
+	var content = frm['content'].value.trim();
+	var subject = frm['title'].value.trim();
+	
+	if(subject == ""){
+		alert("제목은 반드시 작성해야 합니다");
+		frm["title"].focus();
+		return false;
+	}
+	if(content == ""){
+		alert("내용은 반드시 입력해야 합니다");
+		frm['content'].focus();
+		return false;
+	}
+	
+
+	return true;	
+}
+</script>
+
 <!-- head 끝 -->
 <body class="sb-nav-fixed">
 	<!--header menu-->
@@ -27,24 +53,24 @@
 
 
 				<form name="frm" action="notice_writeOk" method="post" onsubmit="return chkSubmit()">
-					<div class="mb-3">
+					<div class="mb-3 pl-30 pr-50">
 						<label for="id">작성자:</label> <input type="text"
-							class="form-control" id="id" placeholder="작성자를 입력하세요" th:value="${member.uid }"
-							name="id">
+							class="form-control" id="id" placeholder="작성자를 입력하세요" th:value="${session.member.name }"
+							name="id" readonly="readonly">
 					</div>
-					<div class="mb-3 mt-3">
+					<div class="mb-3 mt-3 pl-30 pr-50">
 						<label for="title">제목:</label> <input type="text"
 							class="form-control" id="title" placeholder="제목을 입력하세요"
 							name="title">
 					</div>
-					<div class="mb-3 mt-3">
+					<div class="mb-3 mt-3 pl-30 pr-50">
 						<label for="content">내용:</label>
 						<textarea class="form-control" rows="5" id="content"
 							placeholder="내용을 입력하세요" name="content"></textarea>
 					</div>
 					
 
-					<button type="submit" class="btn btn-outline-dark">작성완료</button>
+					<button type="submit" class="btn btn-outline-dark ml-30">작성완료</button>
 					<button type="button" class="btn btn-outline-dark"
 						onclick="location.href='/layout/admin/board/notice_list'">돌아가기</button>
 				</form>

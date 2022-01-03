@@ -6,4 +6,5 @@ import com.lec.foodmarket.domain.PointCondition;
 
 public interface PointConditionRepository extends JpaRepository<PointCondition, Long> {
 
+
 }

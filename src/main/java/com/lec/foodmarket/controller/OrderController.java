@@ -2,6 +2,7 @@
 //
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.stereotype.Controller;
+//import org.springframework.ui.Model;
 //import org.springframework.web.bind.annotation.RequestMapping;
 //
 //import com.lec.foodmarket.service.OrderService;
@@ -19,6 +20,11 @@
 //	
 //	public OrderController() {;}
 //	
+//	
+//	@RequestMapping("/order")
+//	public void order_list(Model model) {
+//		model.addAttribute("order", orderService.order_list());
+//	}
 //	/******************************************
 //	 * 사용자
 //	 *   주문 목록, 상세 조회

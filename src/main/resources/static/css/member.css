@@ -120,3 +120,212 @@
 	font-size: 16px;
 	margin-bottom: 30px;
 }
+
+#memberform {
+	width: 100%;
+	margin-top: 150px;
+}
+
+.ico {
+	color: red;
+}
+
+#section {
+	width: 660px;
+	margin: 0 auto;
+	position: relative;
+}
+
+#first {
+	position: relative;
+	height: 100px;
+	width: 100%;
+	border-bottom: 2px solid black;
+}
+
+#second {
+	border-bottom: 2px solid #000;
+}
+
+#register_title {
+	position: relative;
+	text-align: center;
+	font-size: 22px;
+	font-weight: 700;
+	margin-top: 75px;
+}
+
+#pilsu {
+	position: absolute;
+	right: 10px;
+	bottom: 10px;
+	font-size: 8px;
+}
+
+#pw_icon, #pw_msg, #pw_icon_two, #pw_msg_two, #pw_ck_icon, #pw_ck_msg {
+	display: none;
+	font-size: 12px;
+}
+
+.member_table tr th {
+	text-align: left;
+	padding: 0 25px 0 20px;
+	font-size: 15px;
+}
+
+.longText {
+	width: 330px;
+	height: 44px;
+	padding: 0 14px;
+	border-radius: 5px;
+	border: 1px solid gray;
+}
+
+button {
+	border-radius: 5px;
+}
+
+.bnt_color {
+	background-color: white;
+	color: #5f0080;
+	border: 1px solid #5f0080;
+}
+
+.bnt_size {
+	margin-left: 10px;
+	width: 120px;
+	height: 46px;
+}
+
+.member_table tr td:nth-child(2) {
+	padding: 10px 0;
+}
+
+.member_table tr:nth-child(1) td:nth-child(2) {
+	padding-top: 19px;
+}
+
+.member_table tr:nth-child(1) td:nth-child(3) {
+	padding-top: 11px;
+}
+
+.submit {
+	position: absolute;
+	height: 56px;
+	width: 240px;
+	font-size: 15px;
+}
+
+#register_input, #update_input {
+	margin: 40px 210px;
+}
+
+#register_btn {
+	height: 200px;
+}
+
+.addr2 {
+	display: none;
+	border-radius: 5px;
+}
+
+#addr {
+	width: 330px;
+	height: 44px;
+	border-radius: 5px;
+}
+
+body {
+	font-family: Verdana, sans-serif;
+}
+
+#terms_detail_msg {
+	font-size: 12px;
+	margin-left: 15px;
+}
+
+#terms_all_msg {
+	height: 35px;
+	font-size: 22px;
+	font-weight: 700;
+	margin-left: 5px;
+}
+
+#terms_msg {
+	font-size: 15px;
+	margin-bottom: 10px;
+}
+
+#third .checkbox {
+	display: none !important;
+}
+
+#third .checkbox+label {
+	display: inline-block;
+	background: url("../images/cart_check_box.svg");
+	width: 27px;
+	height: 27px;
+	background-size: cover;
+	cursor: pointer;
+	margin-right: 5px;
+}
+
+#third .checkbox:checked+label {
+	background: url("../images/cart_checked_box.svg");
+	background-size: cover;
+}
+
+#terms_select, #terms_essential {
+	color: gray;
+	font-size: 12px;
+}
+
+#del_id {
+	background: #ffffff;
+	border: none;
+	float: right;
+	padding: 15px 5px 0;
+	cursor: pointer;
+	font-weight: 800;
+	font-size: 13px;
+}
+
+#del_id:hover {
+	color: red;
+}
+
+#email_check_auth, #email_check_auth_btn {
+	display: none;
+}
+
+#update_email_auth, #update_email_auth_btn {
+	display: none;
+}
+
+.terms_preview {
+	text-align: right;
+	font-size: 14px;
+	color: hotpink;
+	border: none;
+	background: none;
+}
+
+.terms_preview:hover {
+	color: black;
+}
+
+#pilsu-2 {
+	position: absolute;
+	right: 10px;
+	bottom: 10px;
+	font-size: 16px;
+}
+
+.longText-2 {
+	width: 100px;
+	height: 44px;
+	padding: 0 14px;
+	border-radius: 5px;
+	border: 1px solid gray;
+	text-align: center;
+}

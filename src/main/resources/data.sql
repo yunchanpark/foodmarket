@@ -5,9 +5,12 @@ INSERT INTO product_category (category_name) VALUES ('육류');
 INSERT INTO product_category (category_name) VALUES ('건강식품');
 
 -- 회원
-INSERT INTO member VALUES(1, now(), now(), "충북 청주시 청원구 내수읍 마산길 72", "진흥아파트 103동 507호", "sangho821@naver.com",'kdnews77', "김상호", "ㅁㄴㅇㄹ", "010-8923-7325", "$2a$10$pG2Q3DrIIdJlmhdsOEAq5OcwTseGRqszChN9nJli//S4JI8SDFbHu","안녕", "MEMBER","안녕", 12);
-INSERT INTO member VALUES(2, now(), now(), "충북 청주시 청원구 내수읍 마산길 72", "진흥아파트 103동 507호", "sangho821@naver.com",'yongp99', "박윤찬", "ㅁㄴㅇㄹ", "010-8923-7325", "$2a$10$pG2Q3DrIIdJlmhdsOEAq5OcwTseGRqszChN9nJli//S4JI8SDFbHu","안녕", "MEMBER","안녕", 12);
-INSERT INTO member VALUES(3, now(), now(), "충북 청주시 청원구 내수읍 마산길 72", "진흥아파트 103동 507호", "sangho821@naver.com",'yongp9', "김지헌", "ㅁㄴㅇㄹ", "010-8923-7325", "$2a$10$pG2Q3DrIIdJlmhdsOEAq5OcwTseGRqszChN9nJli//S4JI8SDFbHu","안녕", "MEMBER","안녕", 12);
+INSERT INTO member VALUES(1, now(), now(), "충북 청주시 청원구 내수읍 마산길 72", "진흥아파트 103동 507호", "123",'kdnews77', "김상호", "010-8923-7325", "$2a$10$pG2Q3DrIIdJlmhdsOEAq5OcwTseGRqszChN9nJli//S4JI8SDFbHu","안녕", "MEMBER", 12);
+INSERT INTO member VALUES(2, now(), now(), "충북 청주시 청원구 내수읍 마산길 72", "진흥아파트 103동 507호", "123",'yongp99', "박윤찬",  "010-8923-7325", "$2a$10$pG2Q3DrIIdJlmhdsOEAq5OcwTseGRqszChN9nJli//S4JI8SDFbHu","안녕", "MEMBER", 12);
+INSERT INTO member VALUES(3, now(), now(), ".", ".", ".",'yongp9', "관리자",  ".", "$2a$10$pG2Q3DrIIdJlmhdsOEAq5OcwTseGRqszChN9nJli//S4JI8SDFbHu",".", "ADMIN", 0);
+
+-- 포인트설정
+insert into point_condition values(1, 2000, 5, 1000, 1000, 10000);
 
 -- 상품
 INSERT INTO product
