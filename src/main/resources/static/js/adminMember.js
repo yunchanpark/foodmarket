@@ -115,7 +115,7 @@ $(document).ready(function() {
 
 	$('#point_ck').on('click', function() {
 		var uid = $('input:checkbox[name=productarr]:checked').val();
-		if(uid == undefined) {
+		if (uid == undefined) {
 			alert("선택된 회원이 없습니다.");
 			return;
 		}
@@ -127,17 +127,89 @@ $(document).ready(function() {
 		alert("저장되었습니다.");
 		$("form").submit();
 	});
-	
+
 	$('#operatorInsert').on('click', function() {
 		$('.listDetailWrap-3').show();
 	});
 
-	$('#operatorCor').on('click', function() {
-		$('.listDetailWrap-4').show();
-	});
-	
-	$('.operatorInsBtn').on('click', function(){
-		console.log(1)
+	$('.operatorInsBtn').on('click', function() {
+		var getnameCheck = RegExp(/^[가-힣]{2,8}$/);
+		var id = $("[name = 'operatorId']").val();
+		var name = $("[name = 'operatorName']").val();
+		var pw = $("[name = 'operatorPw']").val();
+
+		console.log(id.length)
+
+		if (name.length == 0) {
+			alert("이름을 입력해주세요");
+			$("[name = 'operatorName']").focus();
+			return;
+		}
+
+		if (!getnameCheck.test(name)) {
+			alert("이름은 한글만 입력해주세요");
+			$("[name = 'operatorName']").focus();
+			return;
+		}
+
+		if (id.length == 0) {
+			alert("아이디를 입력해주세요");
+			$("[name = 'operatorId']").focus();
+			return;
+		}
+
+		if (id.length > 6) {
+			alert("아이디는 5글자 이하로 입력해주세요");
+			$("[name = 'operatorId']").focus();
+			return;
+		}
+
+		if (pw.length == 0) {
+			alert("비밀번호를 입력해주세요");
+			$("[name = 'operatorPw']").focus();
+			return;
+		}
+
+
+		$("form").submit();
+	})
+
+	$('.operatorCorBtn').on('click', function() {
+		var getnameCheck = RegExp(/^[가-힣]{2,8}$/);
+		var id = $("[name = 'CorOperatorId']").val();
+		var name = $("[name = 'CorOperatorName']").val();
+		var pw = $("[name = 'CorOperatorPw']").val();
+
+		if (name.length == 0) {
+			alert("이름을 입력해주세요");
+			$("[name = 'CorOperatorName']").focus();
+			return;
+		}
+
+		if (!getnameCheck.test(name)) {
+			alert("이름은 한글만 입력해주세요");
+			$("[name = 'CorOperatorName']").focus();
+			return;
+		}
+
+		if (id.length == 0) {
+			alert("아이디를 입력해주세요");
+			$("[name = 'CorOperatorId']").focus();
+			return;
+		}
+
+		if (id.length > 6) {
+			alert("아이디는 5글자 이하로 입력해주세요");
+			$("[name = 'CorOperatorId']").focus();
+			return;
+		}
+
+		if (pw.length == 0) {
+			alert("비밀번호를 입력해주세요");
+			$("[name = 'CorOperatorPw']").focus();
+			return;
+		}
+
 		$("form").submit();
 	})
 

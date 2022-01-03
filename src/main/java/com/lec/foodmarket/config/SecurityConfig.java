@@ -50,7 +50,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { // 등록할 
 			
 			.antMatchers("/layout/user/member/update").authenticated()
 			.antMatchers("/layout/user/board/user_inquiry**").authenticated()
-//			.antMatchers("/layout/admin/**").access("hasRole('ADMIN')")
+			.antMatchers("/layout/user/product/cartList").authenticated()
+			.antMatchers("/layout/admin/**").access("hasRole('ROLE_ADMIN')")
 			
 			.anyRequest().permitAll()
 		

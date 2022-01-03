@@ -13,9 +13,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
-import org.springframework.stereotype.Service;
-
-import com.lec.foodmarket.service.MemberService;
 
 public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
@@ -38,6 +35,15 @@ public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSu
 		authentication.getAuthorities().forEach(authority -> {
 			roleNames.add(authority.getAuthority());
 		});
+		
+		if(roleNames.get(0).equals("ROLE_ADMIN")) {
+			new CustomLoginSuccessHandler("/layout/admin/product/write");
+			setDefaultTargetUrl("/layout/admin/product/write");
+		} else {
+			new CustomLoginSuccessHandler("/layout/admin/product/write");
+			setDefaultTargetUrl("/layout/user/index");
+		}
+		
 		System.out.println("authorities: " + roleNames); // 권한이름들
 
 		// 로그인 시간을 세션에 저장하기
@@ -62,6 +68,7 @@ public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSu
 			super.onAuthenticationSuccess(request, response, authentication);
 		}
 	}
+
 
 	// request 를 한 client ip 가져오기
 	public static String getClientIp(HttpServletRequest request) {

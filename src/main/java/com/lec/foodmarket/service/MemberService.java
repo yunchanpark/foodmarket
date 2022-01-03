@@ -114,6 +114,7 @@ public class MemberService {
 		memberRepository.saveAndFlush(member);
 	}
 	
+	
 	@Transactional
 	public void pointDeleteByMember(Member member) {
 		pointRepository.deleteByUid(member);
@@ -127,7 +128,7 @@ public class MemberService {
 	/******************************************
 	 * 관리자
 	 ******************************************/
-	String role = "MEMBER";
+	String role = "ROLE_MEMBER";
 	// 모든 회원 검색
 	public List<Member> memberAllSelect() {
 		return memberRepository.findByRole(role);
@@ -324,7 +325,6 @@ public class MemberService {
 	public List<Member> findByRole(String admin) {
 		return memberRepository.findByRole(admin);
 	}
-
 	
 
 }
